@@ -9,11 +9,9 @@ const port = 3000
 app.use(morgan('combined'))
 
 // express-handlebars
-app.engine('hbs', exphbs({extname: '.hbs'}));
+app.engine('hbs', exphbs({extname: '.hbs'}))
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
-// app.set('views', path.join(__dirname, 'resources/views/layouts'));
-
+app.set('views', path.join(__dirname, 'resources/views'))
 
 // app
 app.use(express.static(path.join(__dirname, 'public')))
@@ -22,6 +20,9 @@ app.get('/', (req, res) => {
   res.render('home')
 })
 
+app.get('/news', (req, res) => {
+  res.render('news')
+})
 
 app.listen(port, () => {
 
