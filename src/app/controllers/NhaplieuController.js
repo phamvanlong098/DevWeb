@@ -11,9 +11,10 @@ class NhaplieuController {
     post(req, res) {
         // res.render('nhaplieu')
         let human = req.body;
+        human['ngaySinh'] = 'nothing';
         human['queQuan'] = human.tinh;
 
-        mysqlModel.postDancu(human)
+        mysqlModel.insertDancu(human)
         res.redirect('/thongke')
     
     }
@@ -29,6 +30,7 @@ class NhaplieuController {
     //[PUT] nhaplieu/:id
     update(req, res) {
         let human = req.body;
+        human['ngaySinh'] = 'nothing';
         human['queQuan'] = human.tinh;
 
         mysqlModel.updateDancu(human)

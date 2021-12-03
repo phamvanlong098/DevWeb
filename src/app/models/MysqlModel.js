@@ -9,8 +9,8 @@ class Query {
         });
     }
 
-    postDancu(human) {
-        let sql = `INSERT INTO dancu(cccd, hoTen, ngaySinh, gioiTinh, ketHon, queQuan) VALUES ('${human.cccd}', '${human.hoTen}', ${human.ngaySinh}, '${human.gioiTinh}', '${human.ketHon}', '${human.queQuan}' )`
+    insertDancu(human) {
+        let sql = `INSERT INTO dancu(cccd, hoTen, ngaySinh, gioiTinh, ketHon, queQuan) VALUES ('${human.cccd}', '${human.hoTen}', '${human.ngaySinh}', '${human.gioiTinh}', '${human.ketHon}', '${human.queQuan}' )`
         db.query(sql, (err) => {
             if (err) throw err;
         });
