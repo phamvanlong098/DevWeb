@@ -15,8 +15,31 @@ function route(app, db) {
     app.use('/nhaplieu', nhaplieuRouter)
 
     // dangnhap
-    app.get('/dangnhap', (req, res) => {
-        res.render('others/dangnhap')
+    app.get('/taikhoan/dangnhap', (req, res) => {
+        res.render('special/dangnhap')
+    })
+
+    // doiMatKhau
+    app.get('/taikhoan/doiMatKhau', (req, res) => {
+        res.render('special/doiMatKhau')
+    })
+
+    // dangxuat
+    app.get('/taikhoan/dangXuat', (req, res) => {
+        res.redirect('/')
+    })
+
+    // quanlycapcon
+    app.get('/taikhoan/capcon', (req, res) => {
+        mysqlModel.getTaiKhoan((result) => {
+            res.render('special/capcon', {result})
+        })
+    })
+
+    app.get('/xa', (req, res) => {
+       mysqlModel.getXa((result) => {
+            res.json(result)
+       })
     })
 }
 

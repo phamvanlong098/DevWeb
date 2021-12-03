@@ -38,6 +38,23 @@ class Query {
         });
     }
 
+    getTaiKhoan(callback) {
+        let sql = `SELECT * FROM taiKhoan`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+
+    getXa(callback) {
+        let sql = `SELECT * FROM xa`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     doSomething(sql, callback) {
         db.query(sql, (err, results) => {
             if (err) throw err;
