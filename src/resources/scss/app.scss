@@ -1,4 +1,14 @@
 @import 'variables';
 h1 {
-    color: $pink-color;
+    color: $text-color;
+}
+
+// header
+nav ul .dropdown {
+
+}
+
+.main-container {
+    min-height: 100vh;
+
 }

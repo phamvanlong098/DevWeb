@@ -1,0 +1,99 @@
+<div class="container">
+  <h1 class="mt-4">Thêm dân cư vào cơ sở dữ liệu</h1>
+    <form class="khaibao-form row g-3 mt-4" method="POST">
+      <div class="col-md-6">
+        <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
+        <input type="text" class="form-control" id="CCCD" placeholder="036200001111" value="03620000000" name="cccd">
+      </div>
+      <div class="col-md-12">
+        <label for="fullname" class="form-label">Họ và tên</label>
+        <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="Nguyễn Văn A" name="hoTen">
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <label for="birthDay" class="form-label">Ngày sinh</label>
+        <input type="date" class="form-control" id="birthDay" name="ngaySinh">
+      </div>
+      <div class="col-md-6 col-lg-2">
+        <fieldset class="row mb-3 mt-4 ms-auto">
+          <legend class="col-form-label col-sm-6 pt-0">Giới tính</legend>
+          <div class="col-sm-6">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gioiTinh" id="gender1" value="Nam" checked>
+              <label class="form-check-label" for="gender1">
+                Nam
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gioiTinh" id="gender2" value="Nữ">
+              <label class="form-check-label" for="gender2">
+                Nữ
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <fieldset class="row mb-3 mt-4">
+          <legend class="col-form-label col-sm-6 pt-0">Tình trạng hôn nhân</legend>
+          <div class="col-sm-6">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ketHon" id="honnhan1" value="Chưa kết hôn" checked>
+              <label class="form-check-label" for="honnhan1">
+                Chưa kết hôn
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ketHon" id="honnhan2" value="Đã kết hôn">
+              <label class="form-check-label" for="honnhan2">
+                Đã kết hôn
+              </label>
+            </div>
+            <div class="form-check disabled">
+              <input class="form-check-input" type="radio" name="ketHon" id="honnhan3" value="Ly hôn">
+              <label class="form-check-label" for="honnhan3">
+                Ly hôn
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="row">
+        <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
+        
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
+          <select id="inputState" class="form-select" name="tinh">
+            <option selected>Choose...</option>
+            <option>...</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Huyện - Quận</label>
+          <select id="inputState" class="form-select" name="huyen">
+            <option selected>Choose...</option>
+            <option>...</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Xã - Phường</label>
+          <select id="inputState" class="form-select" name="xa">
+            <option selected>Choose...</option>
+            <option>...</option>
+          </select>
+        </div>
+      </div>
+    
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100">Thêm dân cư</button>
+      </div>
+    </form>
+</div>
+
+
+<script>
+  var khaibaoForm = document.querySelector('.khaibao-form')
+  khaibaoForm.onsubmit = function(event) {
+    
+    // event.preventDefault()
+  }
+</script>

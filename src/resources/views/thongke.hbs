@@ -1,0 +1,32 @@
+<div class="container">
+    <table class="table table-hover mt-4">
+        <thead class="table-primary">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">cccd</th>
+            <th scope="col">hoTen</th>
+            <th scope="col">ngaySinh</th>
+            <th scope="col">gioiTinh</th>
+            <th scope="col">ketHon</th>
+            <th scope="col">queQuan</th>
+            <th scope="col">sửa</th>
+            <th scope="col">xóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each result}}
+            <tr>
+              <th scope="row">{{this.id}}</th>
+              <td>{{this.cccd}}</td>
+              <td>{{this.hoTen}}</td>
+              <td>{{this.ngaySinh}}</td>
+              <td>{{this.gioiTinh}}</td>
+              <td>{{this.ketHon}}</td>
+              <td>{{this.queQuan}}</td>
+              <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
+              <td><a href=""><i class="far fa-trash-alt"></i></a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+    </table>
+</div>
