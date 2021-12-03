@@ -36,6 +36,13 @@ class NhaplieuController {
     
     }
 
+    //[DELETE] nhaplieu/:id
+    delete(req, res) {
+        mysqlModel.deleteDancuByID(req.params.id)
+        res.redirect('/thongke')
+    
+    }
+
 }
 
 module.exports = new NhaplieuController

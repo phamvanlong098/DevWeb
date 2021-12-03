@@ -1,4 +1,5 @@
 <div class="container">
+  <h1 class="mt-4">Thống kê toàn quốc</h1>
     <table class="table table-hover mt-4">
         <thead class="table-primary">
           <tr>
@@ -24,9 +25,51 @@
               <td>{{this.ketHon}}</td>
               <td>{{this.queQuan}}</td>
               <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-              <td><a href=""><i class="far fa-trash-alt"></i></a></td>
+              <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
             </tr>
           {{/each}}
         </tbody>
     </table>
 </div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa bản ghi này?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Một khi đã xóa, dữ liệu của bạn sẽ không thể khôi phục!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="submit-btn">Xóa</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    let modelSubmitBtn = document.getElementById('submit-btn')
+    let deleteForm = document.getElementById('delete-form')
+    let id;
+    let exampleModal = document.getElementById('delete-human')
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      id = button.getAttribute('data-id')
+    })
+    modelSubmitBtn.onclick = function() {
+      deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
+      deleteForm.submit();
+    }
+  });
+</script>

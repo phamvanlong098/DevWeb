@@ -31,6 +31,13 @@ class Query {
         });
     }
 
+    deleteDancuByID(id) {
+        let sql = `DELETE FROM dancu WHERE id= ${id}`
+        db.query(sql, (err) => {
+            if (err) throw err;
+        });
+    }
+
     doSomething(sql, callback) {
         db.query(sql, (err, results) => {
             if (err) throw err;

@@ -13,6 +13,7 @@ function route(app, db) {
 
     // nhaplieu
     app.put('/nhaplieu/:id', nhaplieuController.update)
+    app.delete('/nhaplieu/:id', nhaplieuController.delete)
     app.get('/nhaplieu/:id/edit', nhaplieuController.edit)
     app.post('/nhaplieu', nhaplieuController.post)
     app.get('/nhaplieu', nhaplieuController.index)
