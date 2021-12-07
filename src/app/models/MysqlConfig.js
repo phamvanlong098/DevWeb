@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const config = {
     host: "localhost",
     user: "root",
-    password: "",
+    password: "depmaitenanh24",
     database: "devWeb_population",
     timezone: "T00:00:00.000Z"
 }

@@ -1,18 +1,23 @@
-<div class="container">
-  <h1 class="mt-4">Đổi mật khẩu</h1>
-  <form class="mt-4">
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Mật khẩu cũ</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Mật khẩu mới</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Nhập lại mật khẩu mới</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Đổi mật khẩu</button>
-  </form>
+<head>
+    <link rel="stylesheet" href="http://localhost:3000/css/ChangePassword.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <title>Đổi mật khẩu</title>
+</head>
+
+<body>
+<div class="main">
+    <div class="logo"></div>
+    <p class="sign" align="center">Đổi mật khẩu</p>
+    <form class="form1">
+        <input class="pass" type="password" align="center" id="pass1" placeholder="Mật khẩu cũ">
+        <input class="pass" type="password" align="center" id="pass2" placeholder="Mật khẩu mới">
+        <input class="pass" type="password" align="center" id="pass3" placeholder="Nhập lại mật khẩu mới">
+        <p class="sign" align="center" id="error">Vui lòng điền đủ thông tin</p>
+        <a class="submit" align="center" href="https://www.facebook.com/" onclick="return error()">Xác nhận</a>
+
+</form>
 </div>
+<script type="text/javascript" src="http://localhost:3000/javascript/ChangePassword.js"></script>
+</body>
