@@ -1,5 +1,9 @@
 1: ok
 2: i am switch to mama right now
  : i will commit mama
+<<<<<<< HEAD
 3: i dont know has any modify conflic
  : i will commit right now
+=======
+3: i will edit to create conflic
+>>>>>>> 33c64b8e40e8d329852d2e7cb5af4c61be49a501
