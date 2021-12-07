@@ -1,16 +1,20 @@
 <link rel="stylesheet" href="http://localhost:3000/css/loginscreen.css">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<title>Đăng nhập</title>
 
 <body>
 <div class="main">
     <div class="logo"></div>
     <p class="sign" align="center">Đăng nhập</p>
     <form class="form1">
-        <input class="un " type="text" align="center" placeholder="Tài khoản">
-        <input class="pass" type="password" align="center" placeholder="Mật khẩu">
-        <a class="submit" align="center" href="#">Đăng nhập</a>
+        <input class="un" type="text" name="username" id="un" align="center" placeholder="Tài khoản">
+        <input class="pass" type="password" name="password" id="pass" align="center" placeholder="Mật khẩu">
+        <p class="sign" align="center" id="error">Vui lòng điền đủ thông tin</p>
+        <a class="submit" align="center" href="https://www.facebook.com/" onclick="return error()">Đăng nhập</a>
         <p class="forgot" align="center"><a href="#">Quên mật khẩu?</a></p>
-
+        <script type="text/javascript" src="http://localhost:3000/javascript/loginscreen.js"></script>
 </form>
 </div>
 
