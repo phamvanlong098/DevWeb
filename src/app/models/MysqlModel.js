@@ -1,5 +1,13 @@
 const db = require('./MysqlConfig')
 
+db.connect(function(err) {
+    if (err) {
+        console.log("Can't connect to MySQL!!!")
+        throw err;
+    }
+    console.log("Connected to MySQL!!!")
+});
+
 class Query {
     getDancuAll(callback) {
         let sql = "SELECT * FROM dancu;"
