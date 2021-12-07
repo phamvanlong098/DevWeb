@@ -16,6 +16,7 @@ function route(app, db) {
 
     // dangnhap
     app.get('/taikhoan/dangnhap', (req, res) => {
+        res.send('abc')
         res.render('special/dangnhap')
     })
 
