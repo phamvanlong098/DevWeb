@@ -16,12 +16,12 @@ function route(app, db) {
 
     // dangnhap
     app.get('/taikhoan/dangnhap', (req, res) => {
-        res.render('special/dangnhap')
+        res.render('special/dangnhap', {layout: 'onlybody'})
     })
 
     // doiMatKhau
     app.get('/taikhoan/doiMatKhau', (req, res) => {
-        res.render('special/doiMatKhau')
+        res.render('special/doiMatKhau', {layout: 'onlybody'})
     })
 
     // dangxuat
