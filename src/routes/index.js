@@ -36,6 +36,11 @@ function route(app, db) {
         })
     })
 
+    // quanlycapcon
+    app.get('/sidebar', (req, res) => {
+        res.render('test/sidebar', {})
+    })
+
     app.get('/xa', (req, res) => {
        mysqlModel.getXa((result) => {
             res.json(result)
