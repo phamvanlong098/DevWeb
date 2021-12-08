@@ -71,6 +71,8 @@
 <form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
 
 <script>
+ let clientResult = JSON.parse('{{{ json result }}}');
+ console.log(clientResult);
   document.addEventListener("DOMContentLoaded", function(){
     let modelSubmitBtn = document.getElementById('submit-btn')
     let deleteForm = document.getElementById('delete-form')

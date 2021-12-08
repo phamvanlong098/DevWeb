@@ -6,3 +6,9 @@
 4: i am editting in main branch, 
  : do the mama branch also modify?
 5: new branch testDeleteBranch
+
+thôi t đề mô cho m xem branch để làm việc nhóm luôn
+t cơm đã tí r làm
+editting
+
+ờ bye
