@@ -10,7 +10,7 @@ function route(app, db) {
 
     // thongke
     app.get('/thongke', thongkeController.index)
-
+    app.get('/thongke/Tinh', thongkeController.gettinh)
     // nhaplieu
     app.use('/nhaplieu', nhaplieuRouter)
 
