@@ -41,6 +41,12 @@ function route(app, db) {
         res.render('test/sidebar', {})
     })
 
+    app.get('/thongke/dancu', (req, res) => {
+        mysqlModel.getDancuAll((result) => {
+             res.json(result)
+        })
+     })
+
     app.get('/xa', (req, res) => {
        mysqlModel.getXa((result) => {
             res.json(result)
