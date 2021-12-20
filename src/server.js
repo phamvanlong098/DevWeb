@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const db = require('./app/models/MysqlConfig')
 const methodOverride = require('method-override')
 const route = require('./routes')
+const { json } = require('express')
 const app = express()
 const port = 3000
 
@@ -22,7 +23,10 @@ app.use(express.json())
 const hbs = exphbs.create({
     extname: '.hbs',
     helpers: {
-      sum: (a,b) => (a + b)
+      sum: (a,b) => (a + b),
+      json: (context) => {
+        return JSON.stringify(context);
+      }
   }
 })
 app.engine('hbs', hbs.engine)
