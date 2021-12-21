@@ -2,10 +2,6 @@ const express = require('express')
 const router = express.Router()
 const mysqlModel = require('../app/models/MysqlModel')
 
-// dangnhap
-router.get('/dangnhap', (req, res) => {
-    res.render('special/dangnhap', {layout: 'onlybody'})
-})
 
 // doiMatKhau
 router.get('/doiMatKhau', (req, res) => {
@@ -14,6 +10,7 @@ router.get('/doiMatKhau', (req, res) => {
 
 // dangxuat
 router.get('/dangXuat', (req, res) => {
+    req.session.destroy()
     res.redirect('/')
 })
 
@@ -23,47 +20,6 @@ router.get('/capcon', (req, res) => {
         res.render('special/capcon', {result})
     })
 })
-
-
-// session
-router.get('/', (req, res, next) => {
-    res.redirect('/taikhoan/login')
-})
-
-router.get('/login', (req, res, next) => {
-    res.render('special/login')
-})
-
-router.post('/login', (req, res, next) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    mysqlModel.checkUP(username, password, (result) => {
-        result = result[0];
-        if(result) {
-            req.session.user = result;
-            res.redirect('/')
-        }
-        else {
-            res.send('username or password is incorrect')
-        }
-    })
-})
-
-
-// router.post('/logout', (req, res, next) => {
-//     req.session.destroy()
-//     res.status(300).redirect('/')
-// })
-
-
-// function checklogin(req, res, next) {
-//     if(req.session.data) {
-//         next()
-//     }
-//     else {
-//         res.status(300).redirect('/login')
-//     }
-// }
 
 // function checkStudent(req, res, next) {
 //     const role = req.session.data.role;
