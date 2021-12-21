@@ -6,15 +6,32 @@ const db = require('./app/models/MysqlConfig')
 const methodOverride = require('method-override')
 const route = require('./routes')
 const { json } = require('express')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const app = express()
 const port = 3000
 
 // overide method to use put patch delete 
 app.use(methodOverride('_method'))
 
+// cookie parse
+app.use(cookieParser())
+
 // middleware cho req.body
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
+
+// session
+app.use(session({
+  secret: 'mk',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { 
+      secure: false,
+      maxAge: 30*60*1000,
+      expire: 30*60*1000 + Date.now(),
+  }
+}))
 
 // http log
 // app.use(morgan('combined'))
