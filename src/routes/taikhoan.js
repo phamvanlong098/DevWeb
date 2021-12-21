@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mysqlModel = require('../app/models/MysqlModel')
 
 // dangnhap
 router.get('/dangnhap', (req, res) => {
