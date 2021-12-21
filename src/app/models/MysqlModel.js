@@ -74,8 +74,7 @@ class Query {
 
     getHuyenByTinhID(id, callback) {
         let sql = `SELECT * FROM huyen_quan 
-        JOIN tinh_thanhPho ON huyen_quan.parent_id = tinh_thanhPho.id
-        WHERE tinh_thanhPho.id = ${id}`
+        WHERE parent_id = ${id}`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -83,8 +82,7 @@ class Query {
     }
     getXaByHuyenID(id, callback) {
         let sql = `SELECT * FROM xa_phuong 
-        JOIN huyen_quan ON xa_phuong.parent_id = huyen_quan.id
-        WHERE huyen_quan.id = ${id}`
+        WHERE parent_id = ${id}`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
