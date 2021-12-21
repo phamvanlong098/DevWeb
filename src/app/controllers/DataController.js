@@ -30,6 +30,14 @@ class DataController {
         })
     }
 
+    // data/xom/:idXa
+    getXomByXaID(req, res) {
+        let id = req.params.idXa;
+        mysqlModel.getXomByXaID(id , (result) =>{
+            res.json(result)
+        })
+    }
+
 }
 
 module.exports = new DataController

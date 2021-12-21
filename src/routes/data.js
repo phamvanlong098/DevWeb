@@ -10,6 +10,7 @@ router.get('/', dataController.index)
 router.get('/tinh', dataController.getTinh)
 router.get('/huyen/:idTinh', dataController.getHuyenByTinhID)
 router.get('/xa/:idHuyen', dataController.getXaByHuyenID)
+router.get('/xom/:idXa', dataController.getXomByXaID)
 
 
 module.exports = router

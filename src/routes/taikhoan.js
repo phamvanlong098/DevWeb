@@ -37,8 +37,15 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    mysqlModel.getTaiKhoan((result) => {
-        res.json(result)
+    mysqlModel.checkUP(username, password, (result) => {
+        result = result[0];
+        if(result) {
+            req.session.user = result;
+            res.redirect('/')
+        }
+        else {
+            res.send('username or password is incorrect')
+        }
     })
 })
 
