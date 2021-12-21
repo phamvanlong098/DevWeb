@@ -37,7 +37,9 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    
+    mysqlModel.getTaiKhoan((result) => {
+        res.json(result)
+    })
 })
 
 
