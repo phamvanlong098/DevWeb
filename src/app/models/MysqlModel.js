@@ -73,6 +73,14 @@ class Query {
         });
     }
 
+    getQuyen(role, callback) {
+        let sql = `SELECT quyen FROM phanQuyen WHERE cap ='${role}' `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     // khu vuc
     getTinh(callback) {
         let sql = `SELECT * FROM tinh_thanhPho`

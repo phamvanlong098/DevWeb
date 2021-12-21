@@ -1,18 +1,6 @@
+const e = require("express");
 
 class AuthenAuthor{
-    addview(req, res, next) {
-        if (req.session.views) {
-			req.session.views++
-			res.setHeader('Content-Type', 'text/html')
-			res.write('<p>views: ' + req.session.views + '</p>')
-			res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-			res.end()
-			} else {
-			req.session.views = 1
-			res.end('welcome to the session demo. refresh!')
-        }
-    }
-
 	checklogin(req, res, next) {
 		if(req.session.user) {
 			next()
@@ -21,6 +9,51 @@ class AuthenAuthor{
 			res.redirect('/dangnhap')
 		}
 	}
+
+	checkCreate(req, res, next) {
+		let roles = req.session.roles;
+		if(roles){
+			if(roles.includes('Create') || roles.includes('Full')) next()
+			else res.render('error/403', {layout: 'onlybody'})
+		}
+		else {
+			res.redirect('/dangnhap')
+		}
+	}
+
+	checkEdit(req, res, next) {
+		let roles = req.session.roles;
+		if(roles){
+			if(roles.includes('Edit') || roles.includes('Full')) next()
+			else res.render('error/403', {layout: 'onlybody'})
+		}
+		else {
+			res.redirect('/dangnhap')
+		}
+	}
+
+	checkDelete(req, res, next) {
+		let roles = req.session.roles;
+		if(roles){
+			if(roles.includes('Delete') || roles.includes('Full')) next()
+			else res.render('error/403', {layout: 'onlybody'})
+		}
+		else {
+			res.redirect('/dangnhap')
+		}
+	}
+
+	checkManager(req, res, next) {
+		let roles = req.session.roles;
+		if(roles){
+			if(roles.includes('Manager') || roles.includes('Full')) next()
+			else res.render('error/403', {layout: 'onlybody'})
+		}
+		else {
+			res.redirect('/dangnhap')
+		}
+	}
+	
 }
 
 

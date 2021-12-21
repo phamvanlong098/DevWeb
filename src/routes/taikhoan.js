@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mysqlModel = require('../app/models/MysqlModel')
-
+const authenAuthor = require('./authenAuthor')
 
 // doiMatKhau
 router.get('/doiMatKhau', (req, res) => {
@@ -15,7 +15,7 @@ router.get('/dangXuat', (req, res) => {
 })
 
 // quanlycapcon
-router.get('/capcon', (req, res) => {
+router.get('/capcon', authenAuthor.checkManager, (req, res) => {
     mysqlModel.getTaiKhoan((result) => {
         res.render('special/capcon', {user: req.session.user, result})
     })
