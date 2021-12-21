@@ -1,99 +1,158 @@
+<link rel="stylesheet" href="http://localhost:3000/css/nhap_lieu.css">
+
 <h1 class="mt-4">Thêm dân cư vào cơ sở dữ liệu</h1>
- <div class="container">
+<div class="container">
     <form class="khaibao-form row g-3 mt-4" method="POST">
-      <div class="col-md-6">
-        <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
-        <input type="text" class="form-control" id="CCCD" placeholder="036200001111" value="03620000000" name="cccd">
-      </div>
-      <div class="col-md-12">
-        <label for="fullname" class="form-label">Họ và tên</label>
-        <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="Nguyễn Văn A" name="hoTen">
-      </div>
-      <div class="col-lg-6 col-md-12">
-        <label for="birthDay" class="form-label">Ngày sinh</label>
-        <input type="date" class="form-control" id="birthDay" name="ngaySinh">
-      </div>
-      <div class="col-md-6 col-lg-2">
-        <fieldset class="row mb-3 mt-4 ms-auto">
-          <legend class="col-form-label col-sm-6 pt-0">Giới tính</legend>
-          <div class="col-sm-6">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gioiTinh" id="gender1" value="Nam" checked>
-              <label class="form-check-label" for="gender1">
-                Nam
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gioiTinh" id="gender2" value="Nữ">
-              <label class="form-check-label" for="gender2">
-                Nữ
-              </label>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <fieldset class="row mb-3 mt-4">
-          <legend class="col-form-label col-sm-6 pt-0">Tình trạng hôn nhân</legend>
-          <div class="col-sm-6">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="ketHon" id="honnhan1" value="Chưa kết hôn" checked>
-              <label class="form-check-label" for="honnhan1">
-                Chưa kết hôn
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="ketHon" id="honnhan2" value="Đã kết hôn">
-              <label class="form-check-label" for="honnhan2">
-                Đã kết hôn
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <input class="form-check-input" type="radio" name="ketHon" id="honnhan3" value="Ly hôn">
-              <label class="form-check-label" for="honnhan3">
-                Ly hôn
-              </label>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-      <div class="row">
-        <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
-        
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
-          <select id="inputState" class="form-select" name="tinh">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
+        <div class="col-md-6">
+            <label for="fullname" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="fullname" name="hoTen">
+            <span class="error" id="errname"></span>
         </div>
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">Huyện - Quận</label>
-          <select id="inputState" class="form-select" name="huyen">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
+        <div class="col-md-6">
+            <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
+            <input type="text" class="form-control" id="CCCD" name="cccd">
+            <span class="error" id="errcccd"></span>
         </div>
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">Xã - Phường</label>
-          <select id="inputState" class="form-select" name="xa">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
+
+        <div class="col-lg-3 col-md-12" style="margin-right: 180px">
+            <label for="birthDay" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="birthDay" name="ngaySinh" placeholder="dd/mm/yyyy">
+            <span class="error" id="errdob"></span>
         </div>
-      </div>
-    
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary w-100">Thêm dân cư</button>
-      </div>
+        <div class="col-md-6 col-lg-2" style="margin-right: 200px">
+            <fieldset class="row mb-3 mt-4">
+                <legend class="col-form-label col-sm-6 pt-0">Giới tính</legend>
+                <div class="col-sm-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gioiTinh" id="gender1" value="Nam" checked>
+                        <label class="form-check-label" for="gender1">
+                            Nam
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gioiTinh" id="gender2" value="Nữ">
+                        <label class="form-check-label" for="gender2">
+                            Nữ
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <fieldset class="row mb-3 mt-4">
+                <legend class="col-form-label col-sm-6 pt-0">Tình trạng hôn nhân</legend>
+                <div class="col-sm-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ketHon" id="honnhan1" value="Chưa kết hôn" checked>
+                        <label class="form-check-label" for="honnhan1">
+                            Chưa kết hôn
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ketHon" id="honnhan2" value="Đã kết hôn">
+                        <label class="form-check-label" for="honnhan2">
+                            Đã kết hôn
+                        </label>
+                    </div>
+                    <div class="form-check disabled">
+                        <input class="form-check-input" type="radio" name="ketHon" id="honnhan3" value="Ly hôn">
+                        <label class="form-check-label" for="honnhan3">
+                            Ly hôn
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-4" style="width: 425px;margin-right: 10px">
+            <label for="nationality" class="form-label">Quốc tịch</label>
+            <input class="form-control" id="nationality" name="nationality">
+            <span class="error" id="errnation"></span>
+        </div>
+        <div class="col-md-4" style="width: 420px;margin-right: 10px">
+            <label for="bloodType" class="form-label">Nhóm máu</label>
+            <input class="form-control" id="bloodType" name="bloodType">
+            <span class="error" id="errbloodtype"></span>
+        </div>
+        <div class="col-md-4" style="width: 420px">
+            <label for="inputBirthPlace" class="form-label">Nơi đăng ký khai sinh</label>
+            <select id="inputBirthPlace" class="form-select" name="tinh">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+            <span class="error" id="errBP"></span>
+        </div>
+        <div class="col-md-4" style="width: 425px;margin-right: 10px">
+            <label for="fatherID" class="form-label">ID cha</label>
+            <input class="form-control" id="fatherID" name="fatherID">
+            <span class="error" id="errfid"></span>
+        </div>
+        <div class="col-md-4" style="width: 420px;margin-right: 10px">
+            <label for="motherID" class="form-label">ID mẹ</label>
+            <input class="form-control" id="motherID" name="motherID">
+            <span class="error" id="errmid"></span>
+        </div>
+        <div class="row">
+            <label class="form-label" style="font-size: 17px;font-weight: bold">Hộ khẩu thường trú</label>
+
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Tỉnh - Thành phố</label>
+                <select id="inputCity" class="form-select" name="tinh">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errcity"></span>
+            </div>
+            <div class="col-md-4">
+                <label for="inputDistrict" class="form-label">Huyện - Quận</label>
+                <select id="inputDistrict" class="form-select" name="huyen">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errdistrict"></span>
+            </div>
+            <div class="col-md-4">
+                <label for="inputVillage" class="form-label">Xã - Phường</label>
+                <select id="inputVillage" class="form-select" name="xa">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errvillage"></span>
+            </div>
+
+        </div>
+        <div class="row">
+            <label class="form-label" style="font-size: 17px;font-weight: bold">Nơi ở hiện tại</label>
+            <div class="col-md-4">
+                <label for="inputCity1" class="form-label">Tỉnh - Thành phố</label>
+                <select id="inputCity1" class="form-select" name="tinh">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errcity1"></span>
+            </div>
+            <div class="col-md-4">
+                <label for="inputDistrict1" class="form-label">Huyện - Quận</label>
+                <select id="inputDistrict1" class="form-select" name="huyen">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errdistrict1"></span>
+            </div>
+            <div class="col-md-4">
+                <label for="inputVillage1" class="form-label">Xã - Phường</label>
+                <select id="inputVillage1" class="form-select" name="xa">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                <span class="error" id="errvillage1"></span>
+            </div>
+
+        </div>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-primary w-100" id="submitButton" onclick="submitForm()">Thêm dân cư</button>
+        </div>
     </form>
 </div>
 
-
-<script>
-  var khaibaoForm = document.querySelector('.khaibao-form')
-  khaibaoForm.onsubmit = function(event) {
-    
-    event.preventDefault()
-  }
-</script> 
+<script type="text/javascript" src="http://localhost:3000/js/nhap_lieu.js"></script>
