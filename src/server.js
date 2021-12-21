@@ -33,7 +33,7 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resources/views'))
 
-// app
+// public
 app.use(express.static(path.join(__dirname, 'public')))
 
 // route direct
