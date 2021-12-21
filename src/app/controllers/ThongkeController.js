@@ -5,7 +5,7 @@ class ThongkeController {
     //[GET] thongke
     index(req, res) {
         mysqlModel.getDancuAll((result) =>{
-            res.render('thongke', {result})
+            res.render('thongke', {user: req.session.user, result})
         })
     }
 

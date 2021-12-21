@@ -5,11 +5,10 @@ const thongkeRouter = require('./thongke')
 const taikhoanRoute = require('./taikhoan')
 const mysqlModel = require('../app/models/MysqlModel')
 
-
-function route(app, db) {
+function route(app) {
     // home
     app.get('/', (req, res) => {
-        res.render('home')
+        res.render('home', {user: req.session.user})
     })
 
     // dangnhap
@@ -32,7 +31,7 @@ function route(app, db) {
         })
     })
 
-    app.use('/', authenAuthor.checklogin)
+    // app.use('/', authenAuthor.checklogin)
 
     // data
     app.use('/data', dataRouter)

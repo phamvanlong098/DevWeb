@@ -18,22 +18,30 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/taikhoan/dangnhap">Đăng nhập</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Tài khoản
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/taikhoan/capcon">Quản lý cấp con</a></li>
-              <li><a class="dropdown-item" href="/taikhoan/doimatkhau">Đổi mật khẩu</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="/taikhoan/dangxuat">Đăng xuất</a></li>
-            </ul>
-          </li>
+			{{#if user}}
+				<li class="nav-item dropdown" id="taikhoanLI">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						{{user.tai_khoan}}
+					</a>
+					<ul class="dropdown-menu dropdown-menu-sm-end dropdown-menu-xl-start" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="/taikhoan/capcon">Quản lý cấp con</a></li>
+						<li><a class="dropdown-item" href="/taikhoan/doimatkhau">Đổi mật khẩu</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="/taikhoan/dangxuat">Đăng xuất</a></li>
+					</ul>
+				</li>
+			{{else}}
+				<li class="nav-item" id="dangnhapLI">
+					<a class="nav-link" aria-current="page" href="/dangnhap">Đăng nhập</a>
+				</li>
+			{{/if}}
         </ul>
       </div>
     </div>
   </nav>
 </header>
+
+
+<script>
+
+</script>

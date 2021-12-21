@@ -4,7 +4,7 @@ class DataController {
 
     //[GET] thongke
     index(req, res) {
-       res.render('data')
+       res.render('data', {user: req.session.user})
     }
 
     // data/tinh

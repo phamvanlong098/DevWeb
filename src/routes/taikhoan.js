@@ -17,7 +17,7 @@ router.get('/dangXuat', (req, res) => {
 // quanlycapcon
 router.get('/capcon', (req, res) => {
     mysqlModel.getTaiKhoan((result) => {
-        res.render('special/capcon', {result})
+        res.render('special/capcon', {user: req.session.user, result})
     })
 })
 
