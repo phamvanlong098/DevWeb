@@ -1,8 +1,55 @@
-1: ok
-2: i am switch to mama right now
- : i will commit mama
-3: i dont know has any modify conflic
- : i will commit right now
-4: i am editting in main branch, 
- : do the mama branch also modify?
-5: new branch testDeleteBranch
+Mô hình:
+Data -> controller -> view
+Mysql -> controller -> html
+
+Luồng đi:
+1: localhost:3000/thongke
+2: tìm trong router/index.js xem có /thongke hay ko?
+3: à có thấy app.get('/thongke', thongkeController.index) => chuyển nhiệm vụ cho thongkeController.index
+ : thongkeController.index là thằng nào? 
+4: index(req, res) {
+        mysqlModel.getDancuAll((result) =>{
+            res.render('thongke', {result})
+        })
+    }
+5: thongkeController.index gọi đến thằng getDancuAll để lấy dữ liệu
+6: getDancuAll trả về dữ liệu qua biến result (json) 
+7: result được truyền vào 'thongKe'.html  và trả về cho người dùng
+
+
+Phương thức:
+mysql.getDancuAll(callback) {
+        let sql = "SELECT * FROM dan_cu;"
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+thongkecontroller.index(req, res) {
+        mysqlModel.getDancuAll((result) =>{
+            res.render('thongke', {result})
+        })
+    }
+
+thongke.html {{#each result}}
+            <tr>
+              <th scope="row">{{sum @index 1}}</th>
+              <td>{{this.id}}</td>
+              <td>{{this.ho_ten}}</td>
+              <td>{{this.ngay_sinh}}</td>
+              <td>{{this.gioi_tinh}}</td>
+              <td>{{this.nhom_mau}}</td>
+              <td>{{this.tinh_trang_hon_nhan}}</td>
+              <td>{{this.noi_dang_ky_khai_sinh}}</td>
+              <td>{{this.ho_khau_thuong_tru}}</td>
+              <td>{{this.noi_dang_ky_tam_tru}}</td>
+              <td>{{this.ton_giao}}</td>
+              <td>{{this.quoc_tich}}</td>
+              <td>{{this.id_cha}}</td>
+              <td>{{this.id_me}}</td>
+              <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
+              <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+            </tr>
+{{/each}}
+

@@ -1,51 +1,88 @@
-<div class="container">
-  <h1 class="mt-4">Thống kê toàn quốc</h1>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<style>
+  @media only screen  and (max-width: 700px){
+  #ok tbody,#ok tr,#ok td{
+    display: block;
+
+  }
+  #ok thead tr{
+   display: none;
+  }
+  #ok tbody td{
+    position: relative;
+   padding-left: 200px;
+  }
+  #ok tbody td:before{
+    content: attr(data-title);
+    position: absolute;
+   left: 5px;
+   font-weight: bold;
+  }
+  #ok tbody tr{
+border: 1px solid black;
+  }
+  #ok tbody td.ok1{
+    background-color: #121922;
+   color: white;
+  }
+  /* #ok tbody button{ position: absolute;
+    top:2px;
+    right:5px;} */
+/* #ok tbody td.ok1:hover{
+background-color: red;
+} */
+}
+</style>
+<div class="container fuild">
   <div class="table-responsive">
-    <table class="table table-hover mt-4">
-        <thead class="table-primary">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">CCCD</th>
-            <th scope="col">Họ và tên</th>
-            <th scope="col">Ngày sinh</th>
-            <th scope="col">Giới tính</th>
-            <th scope="col">Nhóm máu</th>
-            <th scope="col">Tình trạng hôn nhân</th>
-            <th scope="col">Nơi đăng ký khai sinh</th>
-            <th scope="col">Hộ khẩu thường trú</th>
-            <th scope="col">Nơi đăng ký tạm trú</th>
-            <th scope="col">Tôn giáo</th>
-            <th scope="col">Quốc tịch</th>
-            <th scope="col">CCCD Cha</th>
-            <th scope="col">CCCD Mẹ</th>
-            <th scope="col" colspan="2"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each result}}
+    <h1 class="mt-4">Thống kê toàn quốc</h1>
+      <table class="table bg-white" id="ok" style="width: 100%;text-align: center;">
+          <thead class="bg-primary text-black">
             <tr>
-              <th scope="row">{{sum @index 1}}</th>
-              <td>{{this.id}}</td>
-              <td>{{this.ho_ten}}</td>
-              <td>{{this.ngay_sinh}}</td>
-              <td>{{this.gioi_tinh}}</td>
-              <td>{{this.nhom_mau}}</td>
-              <td>{{this.tinh_trang_hon_nhan}}</td>
-              <td>{{this.noi_dang_ky_khai_sinh}}</td>
-              <td>{{this.ho_khau_thuong_tru}}</td>
-              <td>{{this.noi_dang_ky_tam_tru}}</td>
-              <td>{{this.ton_giao}}</td>
-              <td>{{this.quoc_tich}}</td>
-              <td>{{this.id_cha}}</td>
-              <td>{{this.id_me}}</td>
-              <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-              <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+              <!-- <th scope="col">#</th> -->
+              <th scope="col">CCCD</th>
+              <th scope="col">Họ và tên</th>
+              <th scope="col">Ngày sinh</th>
+              <th scope="col">Giới tính</th>
+              <th scope="col">Nhóm máu</th>
+              <th scope="col">Tình trạng hôn nhân</th>
+              <th scope="col">Nơi đăng ký khai sinh</th>
+              <th scope="col">Hộ khẩu thường trú</th>
+              <th scope="col">Nơi đăng ký tạm trú</th>
+              <th scope="col">Tôn giáo</th>
+              <th scope="col">Quốc tịch</th>
+              <th scope="col">CCCD Cha</th>
+              <th scope="col">CCCD Mẹ</th>
+              <th scope="col">sửa</th>
+              <th scope="col">xóa</th>
             </tr>
-          {{/each}}
-        </tbody>
-    </table>
+          </thead>
+          <tbody>
+            <!-- {{#each result}}
+              <tr>
+               <td>{{sum @index 1}}</td> -->
+                <!-- <td data-title="CCCD" class="ok1">s{{this.id}}</td>
+                <td data-title="Họ và tên">{{this.ho_ten}}</td>
+                <td data-title="Ngày sinh">{{this.ngay_sinh}}</td>
+                <td data-title="Giới tính">{{this.gioi_tinh}}</td>
+                <td data-title="Nhóm máu">{{this.nhom_mau}}</td>
+                <td data-title="Tình trạng hôn nhân">{{this.tinh_trang_hon_nhan}}</td>
+                <td data-title="Nơi đăng ký khai sinh">{{this.noi_dang_ky_khai_sinh}}</td>
+                <td data-title="Hộ khẩu thường trú">{{this.ho_khau_thuong_tru}}</td>
+                <td data-title="Nơi đăng ký tạm trú">{{this.noi_dang_ky_tam_tru}}</td>
+                <td data-title="Tôn giáo">{{this.ton_giao}}</td>
+                <td data-title="Quốc tịch">{{this.quoc_tich}}</td>
+                <td data-title="CCCD Cha">{{this.id_cha}}</td>
+                <td data-title="CCCD Mẹ">{{this.id_me}}</td>
+                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
+                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+              </tr>
+            {{/each}} --> -->
+          </tbody>
+      </table>
   </div>
 </div>
+
 
 <!-- Modal -->
 <div class="container">
@@ -69,22 +106,98 @@
 </div>
 
 <form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function(){
-    let modelSubmitBtn = document.getElementById('submit-btn')
-    let deleteForm = document.getElementById('delete-form')
-    let id;
-    let exampleModal = document.getElementById('delete-human')
-      exampleModal.addEventListener('show.bs.modal', function (event) {
-      // Button that triggered the modal
-      var button = event.relatedTarget
-      // Extract info from data-bs-* attributes
-      id = button.getAttribute('data-id')
-    })
-    modelSubmitBtn.onclick = function() {
-      deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
-      deleteForm.submit();
-    }
-  });
+  $(document).ready(function(){
+    let data=JSON.parse('{{{json result}}}')
+    var content1=``
+    data.forEach(element => {
+      content1+=`<tr>
+                <td data-title="CCCD" class="ok1">${element.id}</td>
+                <td data-title="Họ và tên">${element.ho_ten}</td>
+                <td data-title="Ngày sinh">${element.ngay_sinh}</td>
+                <td data-title="Giới tính">${element.gioi_tinh}</td>
+                <td data-title="Nhóm máu">${element.nhom_mau}</td>
+                <td data-title="Tình trạng hôn nhân">${element.tinh_trang_hon_nhan}</td>
+                <td data-title="Nơi đăng ký khai sinh">${element.noi_dang_ky_khai_sinh}</td>
+                <td data-title="Hộ khẩu thường trú">${element.ho_khau_thuong_tru}</td>
+                <td data-title="Nơi đăng ký tạm trú">${element.noi_dang_ky_tam_tru}</td>
+                <td data-title="Tôn giáo">${element.ton_giao}</td>
+                <td data-title="Quốc tịch">${element.quoc_tich}</td>
+                <td data-title="CCCD Cha">${element.id_cha}</td>
+                <td data-title="CCCD Mẹ">${element.id_me}</td>
+                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
+                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+        </tr>`
+    });
+    $("#ok tbody").html(content1)
+    $(window).on('resize', function(){
+    if($(this).width()<700 ){
+  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
+    $(`td:nth-child(${j})`).css("display","none");
+  }
+  for(let k=0;k<Object.keys(data).length;k++){
+   $(`tr:nth-child(${k+1}) td:eq(1)`).click(function(){
+//     if ($(`tr:nth-child(${k+1}) td:eq(5)`).css("visibility") == "hidden"||$(`tr:nth-child(${k+1}) td:eq(5)`).css("display")=="none" ){
+//       for(var i=2;i<Object.keys(data[0]).length+3;i++){   
+//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
+// }
+//     }
+       
+          
+       
+          for(var i=2;i<Object.keys(data[0]).length+3;i++){
+          $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
+         }
+
+     })
+  }
+}
+else if($(this).width()>700){
+  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
+    $(`td:nth-child(${j})`).css({"display":"","transform":""}); 
+  }
+}
+  })
+   $('#ok').DataTable();
+  })
+
+  //console.log(Object.keys(data[0]).length)
+ //var idtable=document.getElementById('ok').getElementsByTagName(
+       // "tbody")[0];
+        //console.log(idtable.rows[0].cells.length)
+// $(document).ready(function(){
+//   if($(this).width()<700 ){
+//   for(var j=4;j<=Object.keys(data[0]).length+3;j++){
+//     $(`td:nth-child(${j})`).css("display","none");
+//   }
+//   for(let k=0;k<Object.keys(data).length;k++){
+//    $(`tr:nth-child(${k+1}) td:eq(2)`).click(function(){
+//         for(var i=3;i<Object.keys(data[0]).length+3;i++){
+//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
+// }
+//      })
+//   }
+// }
+
+// });
+
+ //
+  // document.addEventListener("DOMContentLoaded", function(){
+  //   let modelSubmitBtn = document.getElementById('submit-btn')
+  //   let deleteForm = document.getElementById('delete-form')
+  //   let id;
+  //   let exampleModal = document.getElementById('delete-human')
+  //     exampleModal.addEventListener('show.bs.modal', function (event) {
+  //     // Button that triggered the modal
+  //     var button = event.relatedTarget
+  //     // Extract info from data-bs-* attributes
+  //     id = button.getAttribute('data-id')
+  //   })
+  //   modelSubmitBtn.onclick = function() {
+  //     deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
+  //     deleteForm.submit();
+  //   }
+  // });
 </script>
