@@ -31,7 +31,8 @@ function route(app) {
         })
     })
 
-    // app.use('/', authenAuthor.checklogin)
+    // dangnhap = on/off
+    app.use('/', authenAuthor.checklogin)
 
     // data
     app.use('/data', dataRouter)
