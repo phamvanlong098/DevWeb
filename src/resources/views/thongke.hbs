@@ -35,7 +35,32 @@ background-color: red;
 </style>
 <div class="container fuild">
   <div class="table-responsive">
-    <h1 class="mt-4">Thống kê toàn quốc</h1>
+    <div class="row">
+      <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
+      
+      <div class="col-md-4">
+        <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
+        <select id="inputState" class="form-select" name="tinh">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="inputState" class="form-label">Huyện - Quận</label>
+        <select id="inputState" class="form-select" name="huyen">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="inputState" class="form-label">Xã - Phường</label>
+        <select id="inputState" class="form-select" name="xa">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+    </div>
+  
       <table class="table bg-white" id="ok" style="width: 100%;text-align: center;">
           <thead class="bg-primary text-black">
             <tr>
@@ -112,6 +137,7 @@ background-color: red;
 <script>
   $(document).ready(function(){
     let data=JSON.parse('{{{json result}}}')
+    console.log(data)
     var content1=``
     data.forEach(element => {
       content1+=`<tr>
@@ -162,7 +188,11 @@ else if($(this).width()>700){
 }
   })
    $('#ok').DataTable();
+   let data1=JSON.parse('{{{json result1}}}')
+    console.log(data1)
+  // console.log(data)
   })
+  //let datatinh=JSON.parse('{{{json result}}}')
 
   //console.log(Object.keys(data[0]).length)
  //var idtable=document.getElementById('ok').getElementsByTagName(
@@ -185,20 +215,20 @@ else if($(this).width()>700){
 // });
 
  //
-  // document.addEventListener("DOMContentLoaded", function(){
-  //   let modelSubmitBtn = document.getElementById('submit-btn')
-  //   let deleteForm = document.getElementById('delete-form')
-  //   let id;
-  //   let exampleModal = document.getElementById('delete-human')
-  //     exampleModal.addEventListener('show.bs.modal', function (event) {
-  //     // Button that triggered the modal
-  //     var button = event.relatedTarget
-  //     // Extract info from data-bs-* attributes
-  //     id = button.getAttribute('data-id')
-  //   })
-  //   modelSubmitBtn.onclick = function() {
-  //     deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
-  //     deleteForm.submit();
-  //   }
-  // });
+  document.addEventListener("DOMContentLoaded", function(){
+    let modelSubmitBtn = document.getElementById('submit-btn')
+    let deleteForm = document.getElementById('delete-form')
+    let id;
+    let exampleModal = document.getElementById('delete-human')
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      id = button.getAttribute('data-id')
+    })
+    modelSubmitBtn.onclick = function() {
+      deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
+      deleteForm.submit();
+    }
+  });
 </script>

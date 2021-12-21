@@ -7,19 +7,20 @@ class ThongkeController {
         mysqlModel.getDancuAll((result) =>{
             res.render('thongke', {result})
         })
+        
     }
 
     gettinh(req, res) {
-        mysqlModel.getTinh((result) =>{
-            res.render('thongke', {result})
+        mysqlModel.getTinh((result1) =>{
+            res.render('thongke', {result1})
         })
     }
 
-    // /thongke/huyen/idHuyen
+    // /thongke/idTinh
     huyen(req, res) {
-        let id = req.params.idHuyen;
+        let id = req.params.idTinh;
         mysqlModel.getHuyenByTinhID( id , (result) =>{
-            res.render('thongke',{result})
+            res.json(result)
         })
     }
 
