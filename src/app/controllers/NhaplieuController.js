@@ -4,12 +4,12 @@ class NhaplieuController {
 
     //[GET] nhaplieu
     index(req, res) {
-        res.render('nhaplieu/taoMoi')
+        res.render('nhaplieu/taoMoi', {user: req.session.user})
     }
 
     //[POST] nhaplieu
     post(req, res) {
-        // res.render('nhaplieu')
+        // res.render('nhaplieu', {user: req.session.user})
         let human = req.body;
         human['ngaySinh'] = 'nothing';
         human['queQuan'] = human.tinh;
@@ -23,7 +23,7 @@ class NhaplieuController {
      edit(req, res) {
         let human = mysqlModel.getDancuByID(req.params.id, (result => {
             result = result[0]
-            res.render('nhaplieu/capNhat', {result})
+            res.render('nhaplieu/capNhat', {result}, {user: req.session.user})
         }))
     }
 

@@ -1,0 +1,39 @@
+<style>
+    .main {
+        position: relative;
+        width: 100vw; height: 100vh;
+        background: rgb(251,116,63);
+        background: linear-gradient(90deg, rgba(251,116,63,1) 0%, rgba(238,70,252,1) 68%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h1 {
+        font-size: 140px;
+        color: #001122;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    button {
+        margin-top: 40px;
+        width: 200px;
+        font-weight: 500 !important;
+    }
+</style>
+
+<div class="main">
+    <h1>404</h1>
+    <h2>Trang này không tồn tại.</h2>
+    <button class="btn btn-dark">Quay lại</button>
+</div>
+
+<script>
+    document.querySelector('button').onclick = function() {
+        window.history.back();
+    }
+</script>

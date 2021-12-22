@@ -17,7 +17,7 @@ class Query {
         });
     }
 
-    getDancuByDiaPhuongID(diaPhuongID, callback) {
+    getDancuByTinh(diaPhuongID, callback) {
         let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
         db.query(sql, (err, results) => {
             if (err) throw err;
@@ -56,6 +56,7 @@ class Query {
         });
     }
 
+    // tai khoan
     getTaiKhoan(callback) {
         let sql = `SELECT * FROM taiKhoan`
         db.query(sql, (err, results) => {
@@ -64,6 +65,31 @@ class Query {
         });
     }
 
+    getTaiKhoanCon(pid, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${pid}__';`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    checkUP(username, password, callback) {
+        let sql = `SELECT * FROM taiKhoan WHERE tai_khoan='${username}' AND mat_khau='${password}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getQuyen(role, callback) {
+        let sql = `SELECT quyen FROM phanQuyen WHERE cap ='${role}' `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    // khu vuc
     getTinh(callback) {
         let sql = `SELECT * FROM tinh_thanhPho`
         db.query(sql, (err, results) => {
@@ -90,13 +116,15 @@ class Query {
     }
     getXomByXaID(id, callback) {
         let sql = `SELECT * FROM xom_thonTo 
-        JOIN xa_phuong ON xom_thonTo.parent_id = xa_phuong.id
-        WHERE xa_phuong.id = ${id}`
+        WHERE parent_id = ${id}`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
         });
     }
+
+    // khac
+    
 }
 
 
