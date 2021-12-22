@@ -38,6 +38,14 @@ class DataController {
         })
     }
 
+    // data/xom/:idXa
+    getDancuByTinh(req, res) {
+        let id = req.params.idTinh;
+        mysqlModel.getDancuByTinh(id , (result) =>{
+            res.json(result)
+        })
+    }
+
 }
 
 module.exports = new DataController

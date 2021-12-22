@@ -17,7 +17,7 @@ class Query {
         });
     }
 
-    getDancuByDiaPhuongID(diaPhuongID, callback) {
+    getDancuByTinh(diaPhuongID, callback) {
         let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
         db.query(sql, (err, results) => {
             if (err) throw err;
@@ -59,6 +59,14 @@ class Query {
     // tai khoan
     getTaiKhoan(callback) {
         let sql = `SELECT * FROM taiKhoan`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getTaiKhoanCon(pid, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${pid}__';`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
