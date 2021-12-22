@@ -1,9 +1,17 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 <style>
+  
+  #ok tbody tr:hover{
+    background-color: cadetblue;
+  }
+  table,th, td {
+  border-style:solid;
+  border-color: #96D4D4;
+}
+  
   @media only screen  and (max-width: 700px){
   #ok tbody,#ok tr,#ok td{
     display: block;
-
   }
   #ok thead tr{
    display: none;
@@ -25,12 +33,6 @@ border: 1px solid black;
     background-color: #121922;
    color: white;
   }
-  /* #ok tbody button{ position: absolute;
-    top:2px;
-    right:5px;} */
-/* #ok tbody td.ok1:hover{
-background-color: red;
-} */
 }
 </style>
 <div class="container fuild">
@@ -38,33 +40,27 @@ background-color: red;
     <div class="row">
       <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
       
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
-        <select id="inputState" class="form-select" name="tinh">
-          <option selected>Choose...</option>
-          <option>...</option>
+        <select id="tinh" class="form-select">
+          <option>Choose...</option>
         </select>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="inputState" class="form-label">Huyện - Quận</label>
-        <select id="inputState" class="form-select" name="huyen">
-          <option selected>Choose...</option>
-          <option>...</option>
+        <select id="huyen" class="form-select" name="huyen">
+          <!-- <option selected>Choose...</option> -->
         </select>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="inputState" class="form-label">Xã - Phường</label>
-        <select id="inputState" class="form-select" name="xa">
-          <option selected>Choose...</option>
-          <option>...</option>
+        <select id="xa" class="form-select" >
         </select>
       </div>
     </div>
-  
-      <table class="table bg-white" id="ok" style="width: 100%;text-align: center;">
-          <thead class="bg-primary text-black">
+      <table class="table  mt-5" id="ok" style="width: 100%;text-align: center;">
+          <thead class="bg-blue text-danger">
             <tr>
-              <!-- <th scope="col">#</th> -->
               <th scope="col">CCCD</th>
               <th scope="col">Họ và tên</th>
               <th scope="col">Ngày sinh</th>
@@ -84,32 +80,10 @@ background-color: red;
             </tr>
           </thead>
           <tbody>
-            <!-- {{#each result}}
-              <tr>
-               <td>{{sum @index 1}}</td> -->
-                <!-- <td data-title="CCCD" class="ok1">s{{this.id}}</td>
-                <td data-title="Họ và tên">{{this.ho_ten}}</td>
-                <td data-title="Ngày sinh">{{this.ngay_sinh}}</td>
-                <td data-title="Giới tính">{{this.gioi_tinh}}</td>
-                <td data-title="Nhóm máu">{{this.nhom_mau}}</td>
-                <td data-title="Tình trạng hôn nhân">{{this.tinh_trang_hon_nhan}}</td>
-                <td data-title="Nơi đăng ký khai sinh">{{this.noi_dang_ky_khai_sinh}}</td>
-                <td data-title="Hộ khẩu thường trú">{{this.ho_khau_thuong_tru}}</td>
-                <td data-title="Nơi đăng ký tạm trú">{{this.noi_dang_ky_tam_tru}}</td>
-                <td data-title="Tôn giáo">{{this.ton_giao}}</td>
-                <td data-title="Quốc tịch">{{this.quoc_tich}}</td>
-                <td data-title="CCCD Cha">{{this.id_cha}}</td>
-                <td data-title="CCCD Mẹ">{{this.id_me}}</td>
-                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
-              </tr>
-            {{/each}} --> -->
           </tbody>
       </table>
   </div>
 </div>
-
-
 <!-- Modal -->
 <div class="container">
   <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,14 +104,13 @@ background-color: red;
     </div>
   </div>
 </div>
-
+<p id="vl">abc</p>
 <form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script>
-  $(document).ready(function(){
+  <script >
+    $(document).ready(function(){
     let data=JSON.parse('{{{json result}}}')
-    console.log(data)
     var content1=``
     data.forEach(element => {
       content1+=`<tr>
@@ -158,63 +131,82 @@ background-color: red;
                 <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
         </tr>`
     });
-    $("#ok tbody").html(content1)
-    $(window).on('resize', function(){
-    if($(this).width()<700 ){
-  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
-    $(`td:nth-child(${j})`).css("display","none");
-  }
-  for(let k=0;k<Object.keys(data).length;k++){
-   $(`tr:nth-child(${k+1}) td:eq(1)`).click(function(){
-//     if ($(`tr:nth-child(${k+1}) td:eq(5)`).css("visibility") == "hidden"||$(`tr:nth-child(${k+1}) td:eq(5)`).css("display")=="none" ){
-//       for(var i=2;i<Object.keys(data[0]).length+3;i++){   
-//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-// }
-//     }
-       
-          
-       
-          for(var i=2;i<Object.keys(data[0]).length+3;i++){
-          $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-         }
-
-     })
-  }
-}
-else if($(this).width()>700){
-  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
-    $(`td:nth-child(${j})`).css({"display":"","transform":""}); 
-  }
-}
+    $("#ok tbody").html(content1) 
+  //  chọn tỉnh quận huyện,xã
+  fetch("http://localhost:3000/data/tinh").then(respon=> respon.json()).then(data =>{
+    data.forEach(item=>{
+      $("#tinh").append(`<option data-id="${item.id}">${item.ten}</option>`)
+    })
   })
-   $('#ok').DataTable();
-   let data1=JSON.parse('{{{json result1}}}')
-    console.log(data1)
-  // console.log(data)
+  var arr=[]
+  // chọn tỉnh
+$("#tinh").change(function(){
+  var b=$("#tinh option:selected").first().data("id")
+  for(let i=0;i<data.length;i++){ 
+     $(`tbody tr:nth-child(${i+1})`).css("display","")
+ }
+ for(let i=0;i<data.length;i++){
+   var idnguoi=data[i]["ho_khau_thuong_tru"].substr(0,2)
+   if(Number(idnguoi)!=Number(b)){
+     $(`tbody tr:nth-child(${i+1})`).css("display","none")
+   }
+   else{
+    arr.push(i+1)
+   }
+ }
+  $("#xa").html("")
+  fetch(`http://localhost:3000/data/huyen/${b}`).then(respon=>respon.json()).then(data =>{
+    var content=``
+    data.forEach(item=>{
+     content+=`<option data-id="${item.id}">${item.ten}</option>`  
+    })
+    $("#huyen").html(content)
   })
-  //let datatinh=JSON.parse('{{{json result}}}')
+})
+//chọn huyện
+$("#huyen").change(function(){
+  var arrhuyen=[]
+  var arrxa=[]
+  arrhuyen=arr
+  arrhuyen.forEach(item=>{
+    $(`tr:nth-child(${item})`).css("display","")
+  })
+   var c = $("#huyen option:selected").first().data("id")
+ arrhuyen.forEach(item=>{
+  var idnguoi=data[item-1]["ho_khau_thuong_tru"].substr(0,4)
+  if(Number(idnguoi)!=Number(c)){
+    $(`tr:nth-child(${item})`).css("display","none")
+  }
+  else{
+    arrxa.push(item)
+  }
+ })
+  fetch(`http://localhost:3000/data/xa/${c}`)
+  .then(Response=>Response.json())
+  .then(data=>{
+    var content=``
+    data.forEach(item=>{
+      content+=`<option data-id="${item.id}">${item.ten}</option>`
+    })
+    $("#xa").html(content)
+  })
+  //chọn xa
+  $("#xa").change(function(){
+    arrxa.forEach(item=>{
+    $(`tr:nth-child(${item})`).css("display","")
+  })
+    var d = $("#xa option:selected").first().data("id")
+    arrxa.forEach(item=>{
+      var idnguoi=data[item-1]["ho_khau_thuong_tru"].substr(0,6)
+      if(Number(idnguoi)!=Number(d)){
+        $(`tr:nth-child(${item})`).css("display","none")
+      }
+    })
+  })
+})
 
-  //console.log(Object.keys(data[0]).length)
- //var idtable=document.getElementById('ok').getElementsByTagName(
-       // "tbody")[0];
-        //console.log(idtable.rows[0].cells.length)
-// $(document).ready(function(){
-//   if($(this).width()<700 ){
-//   for(var j=4;j<=Object.keys(data[0]).length+3;j++){
-//     $(`td:nth-child(${j})`).css("display","none");
-//   }
-//   for(let k=0;k<Object.keys(data).length;k++){
-//    $(`tr:nth-child(${k+1}) td:eq(2)`).click(function(){
-//         for(var i=3;i<Object.keys(data[0]).length+3;i++){
-//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-// }
-//      })
-//   }
-// }
-
-// });
-
- //
+$('#ok').DataTable();
+  })
   document.addEventListener("DOMContentLoaded", function(){
     let modelSubmitBtn = document.getElementById('submit-btn')
     let deleteForm = document.getElementById('delete-form')
@@ -231,4 +223,4 @@ else if($(this).width()>700){
       deleteForm.submit();
     }
   });
-</script>
+  </script>

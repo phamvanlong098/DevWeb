@@ -6,8 +6,7 @@ class ThongkeController {
     index(req, res) {
         mysqlModel.getDancuAll((result) =>{
             res.render('thongke', {result})
-        })
-        
+        }) 
     }
 
     // // thongke/:idTinh/:idHuyen/:idXa/:idXom
