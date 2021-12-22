@@ -8,6 +8,14 @@ const mysqlModel = require('../app/models/MysqlModel')
 function route(app) {
     // home
     app.get('/', (req, res) => {
+        let user = {
+            tai_khoan: "admin",
+            mat_khau: "admin",
+            cap: "admin"
+        }
+        let roles = ["Full"]
+        req.session.user = user
+        req.session.roles = roles
         res.render('home', {user: req.session.user})
     })
 
@@ -61,7 +69,8 @@ app.use('/', authenAuthor.checklogin)
     
     // 404
     app.use('/', (req, res, next) => {
-        res.render('error/404', {layout: 'onlybody'})
+        res.render('error/error', 
+        {errCode: 404, errMsg: "Trang này không tồn tại.", layout: 'onlybody'})
     })
 }
 
