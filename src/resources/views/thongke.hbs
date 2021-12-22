@@ -80,6 +80,7 @@ border: 1px solid black;
             </tr>
           </thead>
           <tbody>
+            {(each result)}
           </tbody>
       </table>
   </div>
@@ -127,8 +128,8 @@ border: 1px solid black;
                 <td data-title="Quốc tịch">${element.quoc_tich}</td>
                 <td data-title="CCCD Cha">${element.id_cha}</td>
                 <td data-title="CCCD Mẹ">${element.id_me}</td>
-                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+                <td ><a href="/nhaplieu/{${element.id}}/edit"><i class="far fa-edit"></i></a></td>
+                <td><a href="#" data-id="{${element.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
         </tr>`
     });
     $("#ok tbody").html(content1) 
