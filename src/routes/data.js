@@ -12,6 +12,7 @@ router.get('/huyen/:idTinh', dataController.getHuyenByTinhID)
 router.get('/xa/:idHuyen', dataController.getXaByHuyenID)
 router.get('/xom/:idXa', dataController.getXomByXaID)
 router.get('/dancu/:idTinh', dataController.getDancuByTinh)
+router.get('/search', dataController.searchDancu)
 
 
 

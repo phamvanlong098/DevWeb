@@ -46,6 +46,16 @@ class DataController {
         })
     }
 
+    // data/xom/:idXa
+    searchDancu(req, res) {
+        let key = req.query.key;
+        mysqlModel.searchDancu(key, (result) =>{
+            res.json(result)
+        })
+    }
+
+
+
 }
 
 module.exports = new DataController

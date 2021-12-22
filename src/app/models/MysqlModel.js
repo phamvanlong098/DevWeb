@@ -33,6 +33,14 @@ class Query {
         });
     }
 
+    searchDancu(key, callback) {
+        let sql = `SELECT * FROM dan_cu WHERE MATCH (ho_ten) AGAINST('${key}');`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     // notwork ultil update nhaplieu
     insertDancu(human) {
         let sql = `INSERT INTO dancu(cccd, hoTen, ngaySinh, gioiTinh, ketHon, queQuan) VALUES ('${human.cccd}', '${human.hoTen}', '${human.ngaySinh}', '${human.gioiTinh}', '${human.ketHon}', '${human.queQuan}' )`
