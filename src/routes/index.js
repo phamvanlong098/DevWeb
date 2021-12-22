@@ -1,53 +1,30 @@
-
-const thongkeController = require('../app/controllers/ThongkeController')
-const mysqlModel = require('../app/models/MysqlModel')
+const authenAuthor = require('./authenAuthor')
 const nhaplieuRouter = require('./nhaplieu')
+const dataRouter = require('./data')
+const thongkeRouter = require('./thongke')
+const taikhoanRoute = require('./taikhoan')
 
 function route(app, db) {
+    // home
     app.get('/', (req, res) => {
         res.render('home')
     })
 
-    // thongke
-    app.get('/thongke', thongkeController.index)
-    app.get('/thongke', thongkeController.gettinh)
-    app.get('/thongke/:idTinh', thongkeController.huyen)
+    // data
+    app.use('/data', dataRouter)
     
+    // thongke
+    app.use('/thongke', thongkeRouter)
+   
     // nhaplieu
     app.use('/nhaplieu', nhaplieuRouter)
 
-    // dangnhap
-    app.get('/taikhoan/dangnhap', (req, res) => {
-        res.render('special/dangnhap', {layout: 'onlybody'})
-    })
+    // taikhoan
+    app.use('/taikhoan/', taikhoanRoute)
 
-    // doiMatKhau
-    app.get('/taikhoan/doiMatKhau', (req, res) => {
-        res.render('special/doiMatKhau', {layout: 'onlybody'})
-    })
-
-    // dangxuat
-    app.get('/taikhoan/dangXuat', (req, res) => {
-        res.redirect('/')
-    })
-
-    // quanlycapcon
-    app.get('/taikhoan/capcon', (req, res) => {
-        mysqlModel.getTaiKhoan((result) => {
-            res.render('special/capcon', {result})
-        })
-    })
-
-    // quanlycapcon
-    app.get('/sidebar', (req, res) => {
-        res.render('test/sidebar', {})
-    })
-
-    app.get('/xa', (req, res) => {
-       mysqlModel.getXa((result) => {
-            res.json(result)
-       })
-    })
+    // test
+    app.get('/abc', authenAuthor.addview)
+    
 }
 
 module.exports = route;
