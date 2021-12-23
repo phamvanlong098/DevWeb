@@ -155,6 +155,14 @@ class Query {
     }
 
     // bieu do
+    tongSoDan(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so_dan FROM dan_cu;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     tyLeGioiTinh(callback) {
         let sql = `SELECT gioi_tinh, COUNT(*) as so_luong FROM dan_cu GROUP BY gioi_tinh;`
         db.query(sql, (err, results) => {
@@ -175,7 +183,24 @@ class Query {
         });
     }
 
-    
+    soDanTheoDoTuoi(callback){
+        let sql = `SELECT "<15" AS do_tuoi, COUNT(*) as so_luong FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) < 15
+        UNION 
+        SELECT "15-35", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) BETWEEN  15 AND 35
+        UNION 
+        SELECT "36-64", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) BETWEEN  36 AND 64
+        UNION 
+        SELECT ">64", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) > 64;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+   
 }
 
 

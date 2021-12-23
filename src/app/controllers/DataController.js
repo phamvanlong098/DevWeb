@@ -69,6 +69,18 @@ class DataController {
             res.json(result)
         })
     }
+    // /bieudo/tongSoDan
+    tongSoDan(req, res) {
+        mysqlModel.tongSoDan( (result) =>{
+            res.json(result)
+        })
+    }
+    // /bieudo/soDanTheoDoTuoi
+    soDanTheoDoTuoi(req, res) {
+        mysqlModel.soDanTheoDoTuoi( (result) =>{
+            res.json(result)
+        })
+    }
 
 
 }
