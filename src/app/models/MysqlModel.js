@@ -156,7 +156,7 @@ class Query {
 
     // bieu do
     tyLeGioiTinh(callback) {
-        let sql = `SELECT gioi_tinh, COUNT(*) FROM dan_cu GROUP BY gioi_tinh;`
+        let sql = `SELECT gioi_tinh, COUNT(*) as so_luong FROM dan_cu GROUP BY gioi_tinh;`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
