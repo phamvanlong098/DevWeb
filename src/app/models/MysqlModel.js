@@ -73,8 +73,23 @@ class Query {
         });
     }
 
-    getTaiKhoanCon(pid, callback) {
-        let sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${pid}__';`
+    getTaiKhoanCon(user, callback) {
+        let sql = `SELECT * FROM taiKhoan`
+        switch(user.cap) {
+            case "Admin" : {
+                sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
+                break;
+            }
+            case "A1" : {
+                sql = `SELECT * FROM taikhoan WHERE cap = 'A2';`
+                break;
+            }
+            default: {
+                sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${user.tai_khoan}__';`
+                break;
+            }
+        }
+
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -91,6 +106,14 @@ class Query {
 
     getQuyen(role, callback) {
         let sql = `SELECT quyen FROM phanQuyen WHERE cap ='${role}' `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    changePassword(username, password, callback) {
+        let sql = `UPDATE taiKhoan SET mat_khau='${password}' WHERE tai_khoan='${username}'`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)

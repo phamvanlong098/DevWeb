@@ -8,14 +8,14 @@ const mysqlModel = require('../app/models/MysqlModel')
 function route(app) {
     // home
     app.get('/', (req, res) => {
-        let user = {
-            tai_khoan: "admin",
-            mat_khau: "admin",
-            cap: "admin"
-        }
-        let roles = ["Full"]
-        req.session.user = user
-        req.session.roles = roles
+        // let user = {
+        //     tai_khoan: "admin",
+        //     mat_khau: "admin",
+        //     cap: "admin"
+        // }
+        // let roles = ["Full"]
+        // req.session.user = user
+        // req.session.roles = roles
         res.render('home', {user: req.session.user})
     })
 
@@ -53,7 +53,7 @@ function route(app) {
     )
 
 // check dangNhap = on/off
-app.use('/', authenAuthor.checklogin)
+// app.use('/', authenAuthor.checklogin)
 
     // data
     app.use('/data', dataRouter)
