@@ -55,6 +55,21 @@ class DataController {
     }
 
 
+    // /bieudo/soDanTheoTinh/:soLuong
+    soDanTheoTinh(req, res) {
+        let soLuong = req.params.soLuong;
+        mysqlModel.soDanTheoTinh(soLuong , (result) =>{
+            res.json(result)
+        })
+    }
+
+    // /bieudo/tyLeGioiTinh
+    tyLeGioiTinh(req, res) {
+        mysqlModel.tyLeGioiTinh( (result) =>{
+            res.json(result)
+        })
+    }
+
 
 }
 

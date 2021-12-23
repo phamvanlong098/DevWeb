@@ -13,6 +13,8 @@ router.get('/xa/:idHuyen', dataController.getXaByHuyenID)
 router.get('/xom/:idXa', dataController.getXomByXaID)
 router.get('/dancu/:idTinh', dataController.getDancuByTinh)
 router.get('/search', dataController.searchDancu)
+router.get('/bieudo/soDanTheoTinh/:soLuong', dataController.soDanTheoTinh)
+router.get('/bieudo/tyLeGioiTinh', dataController.tyLeGioiTinh)
 
 
 

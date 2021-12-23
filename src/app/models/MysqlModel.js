@@ -154,7 +154,27 @@ class Query {
         });
     }
 
-    // khac
+    // bieu do
+    tyLeGioiTinh(callback) {
+        let sql = `SELECT gioi_tinh, COUNT(*) FROM dan_cu GROUP BY gioi_tinh;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    soDanTheoTinh(soLuong, callback) {
+        let sql = `SELECT tinh_thanhpho.ten, COUNT(*) as so_dan FROM dan_cu
+        JOIN tinh_thanhpho ON tinh_thanhpho.id = LEFT(ho_khau_thuong_tru, 2)
+        GROUP BY LEFT(ho_khau_thuong_tru, 2)
+        ORDER BY so_dan DESC
+        LIMIT ${soLuong};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     
 }
 
