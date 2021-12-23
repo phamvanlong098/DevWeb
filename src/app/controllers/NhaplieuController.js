@@ -23,7 +23,7 @@ class NhaplieuController {
      edit(req, res) {
         let human = mysqlModel.getDancuByID(req.params.id, (result => {
             result = result[0]
-            res.render('nhaplieu/capNhat', {result}, {user: req.session.user})
+            res.render('nhaplieu/capNhat', {user: req.session.user, result})
         }))
     }
 

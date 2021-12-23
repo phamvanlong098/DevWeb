@@ -53,7 +53,7 @@ function route(app) {
     )
 
 // check dangNhap = on/off
-app.use('/', authenAuthor.checklogin)
+// app.use('/', authenAuthor.checklogin)
 
     // data
     app.use('/data', dataRouter)
