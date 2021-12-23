@@ -38,10 +38,10 @@ class DataController {
         })
     }
 
-    // data/dancu/:idDiaPhuong
+    // data/dancu/:idDiaPhuong?page=
     getDancuByDiaPhuong(req, res) {
         let id = req.params.idDiaPhuong;
-        let page = req.query.page;
+        let page = parseInt(req.query.page);
         if(!page || page < 1) page = 1;
         mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
             res.json(result)
