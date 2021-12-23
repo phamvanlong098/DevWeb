@@ -18,19 +18,19 @@ app.use(methodOverride('_method'))
 app.use(cookieParser())
 
 // middleware cho req.body
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // session
 app.use(session({
-  secret: 'mk',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { 
-      secure: false,
-      maxAge: 30*60*1000,
-      expire: 30*60*1000 + Date.now(),
-  }
+	secret: 'mk',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		secure: false,
+		maxAge: 30 * 60 * 1000,
+		expire: 30 * 60 * 1000 + Date.now(),
+	}
 }))
 
 // http log
@@ -38,13 +38,13 @@ app.use(session({
 
 // express-handlebars
 const hbs = exphbs.create({
-    extname: '.hbs',
-    helpers: {
-      sum: (a,b) => (a + b),
-      json: (context) => {
-        return JSON.stringify(context);
-      }
-  }
+	extname: '.hbs',
+	helpers: {
+		sum: (a, b) => (a + b),
+		json: (context) => {
+			return JSON.stringify(context);
+		}
+	}
 })
 app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
@@ -58,6 +58,6 @@ route(app, db)
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+	console.log(`Example app listening at http://localhost:${port}`)
 
 })

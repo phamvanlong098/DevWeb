@@ -17,7 +17,7 @@ class Query {
         });
     }
 
-    getDancuByDiaPhuongID(diaPhuongID, callback) {
+    getDancuByTinh(diaPhuongID, callback) {
         let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
         db.query(sql, (err, results) => {
             if (err) throw err;
@@ -27,6 +27,14 @@ class Query {
 
     getDancuByID(id, callback) {
         let sql = `SELECT * FROM dan_cu where id = ${id};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    searchDancu(key, callback) {
+        let sql = `SELECT * FROM dan_cu WHERE MATCH (ho_ten) AGAINST('${key}');`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -56,6 +64,7 @@ class Query {
         });
     }
 
+    // tai khoan
     getTaiKhoan(callback) {
         let sql = `SELECT * FROM taiKhoan`
         db.query(sql, (err, results) => {
@@ -64,6 +73,54 @@ class Query {
         });
     }
 
+    getTaiKhoanCon(user, callback) {
+        let sql = `SELECT * FROM taiKhoan`
+        switch(user.cap) {
+            case "Admin" : {
+                sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
+                break;
+            }
+            case "A1" : {
+                sql = `SELECT * FROM taikhoan WHERE cap = 'A2';`
+                break;
+            }
+            default: {
+                sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${user.tai_khoan}__';`
+                break;
+            }
+        }
+
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    checkUP(username, password, callback) {
+        let sql = `SELECT * FROM taiKhoan WHERE tai_khoan='${username}' AND mat_khau='${password}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getQuyen(role, callback) {
+        let sql = `SELECT quyen FROM phanQuyen WHERE cap ='${role}' `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    changePassword(username, password, callback) {
+        let sql = `UPDATE taiKhoan SET mat_khau='${password}' WHERE tai_khoan='${username}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    // khu vuc
     getTinh(callback) {
         let sql = `SELECT * FROM tinh_thanhPho`
         db.query(sql, (err, results) => {
@@ -90,13 +147,60 @@ class Query {
     }
     getXomByXaID(id, callback) {
         let sql = `SELECT * FROM xom_thonTo 
-        JOIN xa_phuong ON xom_thonTo.parent_id = xa_phuong.id
-        WHERE xa_phuong.id = ${id}`
+        WHERE parent_id = ${id}`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
         });
     }
+
+    // bieu do
+    tongSoDan(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so_dan FROM dan_cu;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    tyLeGioiTinh(callback) {
+        let sql = `SELECT gioi_tinh, COUNT(*) as so_luong FROM dan_cu GROUP BY gioi_tinh;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    soDanTheoTinh(soLuong, callback) {
+        let sql = `SELECT tinh_thanhpho.ten, COUNT(*) as so_dan FROM dan_cu
+        JOIN tinh_thanhpho ON tinh_thanhpho.id = LEFT(ho_khau_thuong_tru, 2)
+        GROUP BY LEFT(ho_khau_thuong_tru, 2)
+        ORDER BY so_dan DESC
+        LIMIT ${soLuong};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    soDanTheoDoTuoi(callback){
+        let sql = `SELECT "<15" AS do_tuoi, COUNT(*) as so_luong FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) < 15
+        UNION 
+        SELECT "15-35", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) BETWEEN  15 AND 35
+        UNION 
+        SELECT "36-64", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) BETWEEN  36 AND 64
+        UNION 
+        SELECT ">64", COUNT(*) FROM dan_cu
+        WHERE (year(now()) - year(ngay_sinh)) > 64;`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+   
 }
 
 

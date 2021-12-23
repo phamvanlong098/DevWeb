@@ -8,17 +8,22 @@
 
 <div class="main">
     <div class="logo-area">
-        <a class="backward" href="/"><i class="fas fa-chevron-left"></i> Quay lại</a>
+        <a class="backward" href="#"><i class="fas fa-chevron-left"></i> Quay lại</a>
         <div class="logo"></div>
     </div>
     <p class="sign" align="center">Đổi mật khẩu</p>
-    <form class="form1">
-        <input class="pass" type="password" align="center" id="pass1" placeholder="Mật khẩu cũ">
-        <input class="pass" type="password" align="center" id="pass2" placeholder="Mật khẩu mới">
-        <input class="pass" type="password" align="center" id="pass3" placeholder="Nhập lại mật khẩu mới">
+    <form class="form1" method="POST">
+        <input class="pass" name="old_password" type="password" align="center" id="pass1" placeholder="Mật khẩu cũ">
+        <input class="pass" name="new_password" type="password" align="center" id="pass2" placeholder="Mật khẩu mới">
+        <input class="pass" name="renew_password" type="password" align="center" id="pass3" placeholder="Nhập lại mật khẩu mới">
         <p class="sign" align="center" id="error">Vui lòng điền đủ thông tin</p>
-        <a class="submit" align="center" href="/" onclick="return error()">Xác nhận</a>
+        <button class="submit" align="center" href="/" onclick="return error()">Xác nhận</button>
 
 </form>
 </div>
 <script type="text/javascript" src="http://localhost:3000/js/ChangePassword.js"></script>
+<script>
+    document.querySelector('a.backward').onclick = function() {
+        window.history.back();
+    }
+</script>
