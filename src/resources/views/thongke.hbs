@@ -104,7 +104,7 @@
             // reset page ve trang đầu
             page = 1;
             // reset cac du lieu địa chỉ
-            resetSelectOptions();
+            resetSelectOptions(idTinh);
             // Load dât huyen cua tinh
             loadHuyen()
             // Load data dan cu
@@ -115,7 +115,7 @@
         selectHuyen.change(function () {
             idHuyen = $(this).val();
             page = 1;
-            resetSelectOptions();
+            resetSelectOptions(idHuyen);
             loadXa()
             loadDataDanCu();
         })
@@ -124,7 +124,7 @@
         selectXa.change(function () {
             idXa = $(this).val();
             page = 1;
-            resetSelectOptions();
+            resetSelectOptions(idXa);
             loadXom()
             loadDataDanCu();
         })
@@ -132,7 +132,7 @@
         selectXom.change(function () {
             idXom = $(this).val();
             page = 1;
-            resetSelectOptions();
+            resetSelectOptions(idXom);
             loadDataDanCu();
         })
         // Event click trang
@@ -207,18 +207,18 @@
         })
     }
 
-    function resetSelectOptions() {
-        if (idTinh === 'all') {
+    function resetSelectOptions(id) {
+        if (idTinh === id) {
             idHuyen = 'all'
-            selectHuyen.html('')
-        }
-        if (idHuyen === 'all') {
             idXa = 'all'
-            selectXa.html('')
-        }
-        if (idXa === 'all') {
             idXom = 'all'
-            selectXom.html('')
+        }
+        if (idHuyen === id) {
+            idXa = 'all'
+            idXom = 'all'
+        }
+        if (idXa === id) {
+            idXom = 'all'
         }
     }
 
