@@ -97,19 +97,20 @@
     })
 
     fetch("http://localhost:3000/data/dancu/all?page=1").then(respon => respon.json()).then(data => {
-      showtable1(1, data)
+      showtable1(data)
     })
     $("#phantrang").on("click", "button", function () {
       let page = Number($(this).text())
+      console.log(page)
       fetch(`http://localhost:3000/data/dancu/all?page=${page}`).then(respon => respon.json()).then(data => {
-        showtable1(page, data)
+        showtable1(data)
       })
     })
   }
   // hàm showtable cho tỉnh,huyện,xã,xóm
-  function showtable1(key, data1) {
-
-    var content = ``
+  function showtable1(url) {
+    fetch(url).then(respon=>respon.json()).then(data1=>{
+      var content = ``
     data1.forEach(item => {
       content += `<tr>
              <td>${item.id}</td>
@@ -131,6 +132,8 @@
     })
     // $("#ok tbody").html("")
     $("#ok tbody").html(content)
+    })
+   
   }
   
   // hàm chọn chung :ham 
@@ -165,18 +168,6 @@
         fetch(`http://localhost:3000/data/${choose}/${a}`).then(respon => respon.json()).then(data => {
           var content = ``
           content += `<option data-id="${a}">all</option>`
-          //   if(choose=="huyen" && a.length==2){
-          //     content+=`<option data-id="${a}">all</option>`
-          //   }
-          //  else if(choose=="xa" && a.length==4){
-          //     content+=`<option data-id="${a}">all</option>`
-          //   }
-          //   else if(choose=="xom" && a.length==6){
-          //     content+=`<option data-id="${a}">all</option>`
-          //   }
-          //   else{
-          //     content=``
-          //   }
           data.forEach(item => {
             content += `<option data-id="${item.id}">${item.ten}</option>`
           })
@@ -205,17 +196,17 @@
       fetch(`http://localhost:3000/data/dancu/${a}?page=1`)
         .then(respon => respon.json())
         .then(data => {
-          showtable1(1, data)
+          showtable1(data)
         })
       $("#phantrang").on("click", "button", function () {
         let page = Number($(this).text())
-
-        fetch(`http://localhost:3000/data/dancu/${a}?page=${page}`)
-          .then(respon => respon.json())
-          .then(data => {
-            showtable1(page, data)
+        var url=`http://localhost:3000/data/dancu/${a}?page=${page}`
+      
+          
+            showtable1(data)
+           
           })
-      })
+      
     }
   }
 
@@ -228,13 +219,13 @@
 
   //  chọn tỉnh-thành phố
   $("#tinh").change(function () {
-    var a = $("#tinh option:selected").first().data("id")
-    console.log(a)
+    let a = $("#tinh option:selected").first().data("id")
+    // console.log(a)
     sotrang('#tinh', a)
 
   })
 
-
+  showtabletoanquoc()
   //chọn huyện-quận
   $("#huyen").change(function () {
     var a = $("#huyen option:selected").first().data("id")
@@ -258,7 +249,7 @@
 
 
 
-  $(document).ready(function () {
-    showtabletoanquoc()
-  })
+  // $(document).ready(function () {
+
+  // })
 </script>
