@@ -1,0 +1,267 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<div class="container fuild">
+    <div class="table-responsive">
+        <div class="row">
+            <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
+
+            <div class="col-md-3">
+                <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
+                <select id="tinh" class="form-select">
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="inputState" class="form-label">Huyện - Quận</label>
+                <select id="huyen" class="form-select" name="huyen"></select>
+            </div>
+            <div class="col-md-3">
+                <label for="inputState" class="form-label">Xã - Phường</label>
+                <select id="xa" class="form-select"></select>
+            </div>
+            <div class="col-md-3">
+                <label for="inputState" class="form-label">Xóm - Tổ</label>
+                <select id="xom" class="form-select"></select>
+            </div>
+        </div>
+        <table class="table mt-5" id="ok" style="width: 100%;text-align: center;">
+            <thead class="bg-blue text-danger">
+            <tr>
+                <th scope="col">CCCD</th>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Ngày sinh</th>
+                <th scope="col">Giới tính</th>
+                <th scope="col">Nhóm máu</th>
+                <th scope="col">Tình trạng hôn nhân</th>
+                <th scope="col">Nơi đăng ký khai sinh</th>
+                <th scope="col">Hộ khẩu thường trú</th>
+                <th scope="col">Nơi đăng ký tạm trú</th>
+                <th scope="col">Tôn giáo</th>
+                <th scope="col">Quốc tịch</th>
+                <th scope="col">CCCD Cha</th>
+                <th scope="col">CCCD Mẹ</th>
+
+                <th scope="col">sửa</th>
+                <th scope="col">xóa</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id="phantrang">
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="container">
+    <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa bản ghi này?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Dữ liệu của bạn sẽ <strong>không</strong> thể khôi phục!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="submit-btn">Xóa</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+
+    function showtabletoanquoc() {
+        $("#huyen").html("")
+        $("#xa").html("")
+        $("#xom").html("")
+
+        fetch("http://localhost:3000/data/dancu/all/len").then(respon => respon.json()).then(data => {
+            let a = data[0].tong_so % 20
+            let sotrangtinh
+            if (a == 0) {
+                sotrangtinh = Math.round(data[0].tong_so / 20)
+            }
+            else {
+                sotrangtinh = Math.floor(data[0].tong_so / 20) + 1
+            }
+            console.log(sotrangtinh)
+            $("#phantrang").html("")
+            for (let i = 1; i <= sotrangtinh; i++) {
+                $("#phantrang").append(`<button>${i}</button>`)
+            }
+        })
+
+        fetch("http://localhost:3000/data/dancu/all?page=1").then(respon => respon.json()).then(data => {
+            showtable1(1, data)
+        })
+        $("#phantrang").on("click", "button", function () {
+            let page = Number($(this).text())
+            fetch(`http://localhost:3000/data/dancu/all?page=${page}`).then(respon => respon.json()).then(data => {
+                showtable1(page, data)
+            })
+        })
+    }
+    // hàm showtable cho tỉnh,huyện,xã,xóm
+    function showtable1(key, data1) {
+
+        var content = ``
+        data1.forEach(item => {
+            content += `<tr>
+             <td>${item.id}</td>
+             <td>${item.ho_ten}</td>
+             <td>${item.ngay_sinh}</td>
+             <td>${item.gioi_tinh}</td>
+             <td>${item.nhom_mau}</td>
+             <td>${item.tinh_trang_hon_nhan}</td>
+             <td>${item.noi_dang_ky_khai_sinh}</td>
+             <td>${item.ho_khau_thuong_tru}</td>
+             <td>${item.noi_dang_ky_tam_tru}</td>
+             <td>${item.ton_giao}</td>
+             <td>${item.quoc_tich}</td>
+             <td>${item.id_cha}</td>
+             <td>${item.id_me}</td>
+             <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
+             <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+           </tr>`
+        })
+        // $("#ok tbody").html("")
+        $("#ok tbody").html(content)
+    }
+
+    // hàm chọn chung :ham
+    function sotrang(key, a) {
+        if (a == "all") {
+            showtabletoanquoc()
+        }
+        else {
+            var choose = ""
+            var id = ""
+            if (key == "#tinh") {
+                choose = "huyen"
+                id = "#huyen"
+                $("#xa").html("")
+                $("#xom").html("")
+            }
+            else if (key == "#huyen") {
+                choose = "xa"
+                id = "#xa"
+                $("#xom").html("")
+            }
+            else if (key == "#xa") {
+                id = "#xom"
+                choose = "xom"
+            }
+            else {
+                id = ""
+                choose = ""
+            }
+            console.log(choose)
+            if (choose == "huyen" || choose == "xa" || choose == "xom") {
+                fetch(`http://localhost:3000/data/${choose}/${a}`).then(respon => respon.json()).then(data => {
+                    var content = ``
+                    content += `<option data-id="${a}">all</option>`
+                    //   if(choose=="huyen" && a.length==2){
+                    //     content+=`<option data-id="${a}">all</option>`
+                    //   }
+                    //  else if(choose=="xa" && a.length==4){
+                    //     content+=`<option data-id="${a}">all</option>`
+                    //   }
+                    //   else if(choose=="xom" && a.length==6){
+                    //     content+=`<option data-id="${a}">all</option>`
+                    //   }
+                    //   else{
+                    //     content=``
+                    //   }
+                    data.forEach(item => {
+                        content += `<option data-id="${item.id}">${item.ten}</option>`
+                    })
+                    $(id).html(content)
+                })
+            }
+
+            fetch(`http://localhost:3000/data/dancu/${a}/len`).then(respon => respon.json()).then(data1 => {
+                // tính số trang
+                let a = data1[0].tong_so % 20
+                let sotrangtinh
+                if (a == 0) {
+                    sotrangtinh = Math.round(data1[0].tong_so / 20)
+                }
+                else {
+                    sotrangtinh = Math.floor(data1[0].tong_so / 20) + 1
+                }
+                console.log(sotrangtinh)
+                $("#phantrang").html("")
+                for (let i = 1; i <= sotrangtinh; i++) {
+
+                    $("#phantrang").append(`<button>${i}</button>`)
+                }
+            })
+
+            fetch(`http://localhost:3000/data/dancu/${a}?page=1`)
+                    .then(respon => respon.json())
+                    .then(data => {
+                        showtable1(1, data)
+                    })
+            $("#phantrang").on("click", "button", function () {
+                let page = Number($(this).text())
+
+                fetch(`http://localhost:3000/data/dancu/${a}?page=${page}`)
+                        .then(respon => respon.json())
+                        .then(data => {
+                            showtable1(page, data)
+                        })
+            })
+        }
+    }
+
+    fetch("http://localhost:3000/data/tinh").then(respon => respon.json()).then(data => {
+        $("#tinh").append(`<option data-id="all">Toàn quốc</option>`)
+        data.forEach(item => {
+            $("#tinh").append(`<option data-id="${item.id}">${item.ten}</option>`)
+        })
+    })
+
+    //  chọn tỉnh-thành phố
+    $("#tinh").change(function () {
+        var a = $("#tinh option:selected").first().data("id")
+        console.log(a)
+        sotrang('#tinh', a)
+
+    })
+
+
+    //chọn huyện-quận
+    $("#huyen").change(function () {
+        var a = $("#huyen option:selected").first().data("id")
+        console.log(a)
+        sotrang('#huyen', a)
+
+    })
+
+    //chọn xã-phường
+    $("#xa").change(function () {
+        var a = $("#xa option:selected").first().data("id")
+        sotrang('#xa', a)
+
+    })
+
+    // chọn xóm-tổ
+    $("#xom").change(function () {
+        var a = $("#xom option:selected").first().data("id")
+        sotrang('#xom', a)
+    })
+
+
+
+    $(document).ready(function () {
+        showtabletoanquoc()
+    })
+</script>
+<script>
+
+</script>
