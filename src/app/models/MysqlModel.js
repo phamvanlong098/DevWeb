@@ -83,19 +83,69 @@ class Query {
         });
     }
 
+     // thoi han
+     getThoiHan(user, callback) {
+        let sql = ''
+        let username = user.tai_khoan
+        switch(user.cap) {
+            case "Admin" : {
+                sql = `SELECT * FROM taiKhoan`
+                break;
+            }
+            case "A1" : {
+                sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = taikhoan.tai_khoan WHERE cap = 'A2';`
+                break;
+            }
+            case "A2" : {
+                sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = taikhoan.tai_khoan WHERE cap = 'A3' AND taikhoan.tai_khoan LIKE '${username}%';`
+                break;
+            }
+            case "A3" : {
+                sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = taikhoan.tai_khoan WHERE cap = 'B1' AND taikhoan.tai_khoan LIKE '${username}%';`
+                break;
+            }
+            case "B1" : {
+                sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = taikhoan.tai_khoan WHERE cap = 'B2' AND taikhoan.tai_khoan LIKE '${username}%';`
+                break;
+            }
+            default: {
+                sql = ``
+                break;
+            }
+        }
+
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     getTaiKhoanCon(user, callback) {
-        let sql = `SELECT * FROM taiKhoan`
+        let sql = ``
+        let username = user.tai_khoan
         switch(user.cap) {
             case "Admin" : {
                 sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
                 break;
             }
             case "A1" : {
-                sql = `SELECT * FROM taikhoan WHERE cap = 'A2';`
+                sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = tai_khoan WHERE cap = 'A2';`
+                break;
+            }
+            case "A2" : {
+                sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = tai_khoan WHERE cap = 'A3' AND tai_khoan LIKE '${username}%';`
+                break;
+            }
+            case "A3" : {
+                sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = tai_khoan WHERE cap = 'B1' AND tai_khoan LIKE '${username}%';`
+                break;
+            }
+            case "B1" : {
+                sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = tai_khoan WHERE cap = 'B2' AND tai_khoan LIKE '${username}%';`
                 break;
             }
             default: {
-                sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${user.tai_khoan}__';`
+                sql = ``
                 break;
             }
         }
@@ -129,6 +179,8 @@ class Query {
             callback(results)
         });
     }
+
+
 
     // khu vuc
     getTinh(callback) {

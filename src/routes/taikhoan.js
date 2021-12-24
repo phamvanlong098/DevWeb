@@ -38,4 +38,20 @@ router.get('/capcon', authenAuthor.checkManager, (req, res, next) => {
     })
 })
 
+// quanlycapcon/acount
+router.get('/capcon/account', authenAuthor.checkManager, (req, res, next) => {
+    let user = req.session.user
+    mysqlModel.getTaiKhoanCon(user, (result) => {
+        res.json(result)
+    })
+})
+
+// quanlycapcon/deathline
+router.get('/capcon/deathline', authenAuthor.checkManager, (req, res, next) => {
+    let user = req.session.user
+    mysqlModel.getThoiHan(user, (result) => {
+        res.json(result)
+    })
+})
+
 module.exports = router
