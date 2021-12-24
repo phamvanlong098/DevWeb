@@ -38,10 +38,26 @@ class DataController {
         })
     }
 
+    // data/dancu/all?page=
+    getDancuToanQuoc(req, res) {
+        let page = parseInt( req.query.page);
+        if(!page || page < 1) page = 1;
+        mysqlModel.getDancuToanQuoc(page, (result) =>{
+            res.json(result)
+        })
+    }
+
+    // data/dancu/all/len
+    getDancuToanQuocLen(req, res) {
+        mysqlModel.getDancuToanQuocLen( (result) =>{
+            res.json(result)
+        })
+    }
+
     // data/dancu/:idDiaPhuong
     getDancuByDiaPhuong(req, res) {
         let id = req.params.idDiaPhuong;
-        let page = req.query.page;
+        let page = parseInt(req.query.page);
         if(!page || page < 1) page = 1;
         mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
             res.json(result)

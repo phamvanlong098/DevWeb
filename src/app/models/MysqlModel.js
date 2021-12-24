@@ -17,6 +17,24 @@ class Query {
         });
     }
 
+    getDancuToanQuocLen(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so FROM dan_cu `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getDancuToanQuoc(page, callback) {
+        let pagesize = 20
+        let start = (page - 1) * pagesize
+        let sql = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     getDancuByDiaPhuong(diaPhuongID, page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
