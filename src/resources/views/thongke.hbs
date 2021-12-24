@@ -46,7 +46,12 @@
         <tbody>
         </tbody>
     </table>
-    <div id="phantrang">
+    <div id="phantrang"></div>
+
+    <div id="loading" class="position-fixed d-none justify-content-center align-items-center" style="top:0;bottom: 0; left: 0; right: 0;background-color: rgba(0,0,0,0.5)">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
 </div>
 <!-- Modal -->
@@ -86,13 +91,16 @@
     const perPage = 20;
     var totalDanCu = 0;
 
+    var loading = 0;
+
     // Các dom element jquery, lưu vào biến tránh phải tìm lại nhiều lần
     var selectTinh = $('#selectTinh');
     var selectHuyen = $('#selectHuyen');
     var selectXa = $('#selectXa');
     var selectXom = $('#selectXom');
-    var tableDataDanCu = $('#ok');
+    var tableDataDanCu = $('#ok tbody');
     var phanTrang = $('#phantrang');
+    var loadingView = $('#loading');
 
     $(function () {
         // xử lý các event, load data sau khi trang đã load xong.
@@ -137,8 +145,11 @@
         })
         // Event click trang
         phanTrang.on('click', 'button', function () {
-            page = parseInt($(this).text())
-            loadDataDanCu();
+            let newPage = parseInt($(this).text())
+            if (newPage !== page) {
+                page = newPage
+                loadDataDanCu();
+            }
         })
 
         // Load các dữ liệu ban đầu
@@ -194,16 +205,23 @@
         else if (idTinh !== 'all') idThuongTru = idTinh
         else idThuongTru = 'all'
 
+        loading = 0
+        updateLoadingView()
+
         // Load du lieu dan cu
         fetch(`http://localhost:3000/data/dancu/${idThuongTru}?page=${page}`).then(respon => respon.json()).then(data => {
             dataDanCu = data
             renderHtmlTableDataDanCu();
+            loading += 1
+            updateLoadingView()
         })
 
         // Load ton so dan cu de tinh phan trang
         fetch(`http://localhost:3000/data/dancu/${idThuongTru}/len`).then(respon => respon.json()).then(data1 => {
             totalDanCu = data1[0].tong_so
             renderHtmlPhanTrang();
+            loading += 1
+            updateLoadingView();
         })
     }
 
@@ -280,7 +298,16 @@
 
         phanTrang.html('')
         for (let i = 1; i <= totalPage; i++) {
-            phanTrang.append(`<button>${i}</button>`)
+            let activeClass = i === page ? 'btn-primary' : 'btn-secondary';
+            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1">${i}</button>`)
+        }
+    }
+
+    function updateLoadingView() {
+        if(loading === 2) {
+            loadingView.removeClass('d-flex').addClass('d-none')
+        } else {
+            loadingView.removeClass('d-none').addClass('d-flex')
         }
     }
 </script>
