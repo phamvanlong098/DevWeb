@@ -7,27 +7,23 @@
       <div class="col-md-3">
         <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
         <select id="tinh" class="form-select">
-          <option>Choose...</option>
+          <option data-id="all">Toàn Quốc</option>
         </select>
       </div>
       <div class="col-md-3">
         <label for="inputState" class="form-label">Huyện - Quận</label>
-        <select id="huyen" class="form-select" name="huyen">
-          <!-- <option selected>Choose...</option> -->
-        </select>
+        <select id="huyen" class="form-select" name="huyen"></select>
       </div>
       <div class="col-md-3">
         <label for="inputState" class="form-label">Xã - Phường</label>
-        <select id="xa" class="form-select" >
-        </select>
+        <select id="xa" class="form-select" ></select>
       </div>
       <div class="col-md-3">
         <label for="inputState" class="form-label">Xóm - Tổ</label>
-        <select id="xom" class="form-select" >
-        </select>
+        <select id="xom" class="form-select" ></select>
       </div>
     </div>
-      <table class="table  mt-5" id="ok" style="width: 100%;text-align: center;">
+      <table class="table mt-5" id="ok" style="width: 100%;text-align: center;">
           <thead class="bg-blue text-danger">
             <tr>
               <th scope="col">CCCD</th>
@@ -49,25 +45,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- {{#each result}}
-            <tr>      
-              <td>{{this.id}}</td>
-              <td>{{this.ho_ten}}</td>
-              <td>{{this.ngay_sinh}}</td>
-              <td>{{this.gioi_tinh}}</td>
-              <td>{{this.nhom_mau}}</td>
-              <td>{{this.tinh_trang_hon_nhan}}</td>
-              <td>{{this.noi_dang_ky_khai_sinh}}</td>
-              <td>{{this.ho_khau_thuong_tru}}</td>
-              <td>{{this.noi_dang_ky_tam_tru}}</td>
-              <td>{{this.ton_giao}}</td>
-              <td>{{this.quoc_tich}}</td>
-              <td>{{this.id_cha}}</td>
-              <td>{{this.id_me}}</td>
-              <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-              <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
-            </tr>
-          {{/each}} -->
           </tbody>
       </table>
       <div id="phantrang">
@@ -99,10 +76,12 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script >
     // set page
-       let data = JSON.parse('{{{json result}}}')
+      // cái này bỏ đi
+       let data2 = JSON.parse('{{{json result}}}')
        let phantutrang=20
-      let sotrangALl=Math.round(data.length/phantutrang)
-      // hàm show table
+      let sotrangALl=Math.round(data2.length/phantutrang)
+    
+      // hàm show table toàn quốc
     function showtable(key) {
         var content=``
         var start=(key-1)*20
@@ -114,68 +93,140 @@
         }
       for(let i=start;i<end;i++){
         content+=`<tr>
-             <td>${data[i].id}</td>
-             <td>${data[i].ho_ten}</td>
-             <td>${data[i].ngay_sinh}</td>
-             <td>${data[i].gioi_tinh}</td>
-             <td>${data[i].nhom_mau}</td>
-             <td>${data[i].tinh_trang_hon_nhan}</td>
-             <td>${data[i].noi_dang_ky_khai_sinh}</td>
-             <td>${data[i].ho_khau_thuong_tru}</td>
-             <td>${data[i].noi_dang_ky_tam_tru}</td>
-             <td>${data[i].ton_giao}</td>
-             <td>${data[i].quoc_tich}</td>
-             <td>${data[i].id_cha}</td>
-             <td>${data[i].id_me}</td>
-             <td><a href="/nhaplieu/${data[i].id}/edit"><i class="far fa-edit"></i></a></td>
-             <td><a href="#" data-id="${data[i].id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+             <td>${data2[i].id}</td>
+             <td>${data2[i].ho_ten}</td>
+             <td>${data2[i].ngay_sinh}</td>
+             <td>${data2[i].gioi_tinh}</td>
+             <td>${data2[i].nhom_mau}</td>
+             <td>${data2[i].tinh_trang_hon_nhan}</td>
+             <td>${data2[i].noi_dang_ky_khai_sinh}</td>
+             <td>${data2[i].ho_khau_thuong_tru}</td>
+             <td>${data2[i].noi_dang_ky_tam_tru}</td>
+             <td>${data2[i].ton_giao}</td>
+             <td>${data2[i].quoc_tich}</td>
+             <td>${data2[i].id_cha}</td>
+             <td>${data2[i].id_me}</td>
+             <td><a href="/nhaplieu/${data2[i].id}/edit"><i class="far fa-edit"></i></a></td>
+             <td><a href="#" data-id="${data2[i].id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
            </tr>`
       }
        $("#ok tbody").html(content)
       }
-        // update tỉnh
+      // hàm showtable cho tỉnh,huyện,xã
+      function showtable1(key,data1){
+        var content=``
+        data1.forEach(item=>{
+          content+=`<tr>
+             <td>${item.id}</td>
+             <td>${item.ho_ten}</td>
+             <td>${item.ngay_sinh}</td>
+             <td>${item.gioi_tinh}</td>
+             <td>${item.nhom_mau}</td>
+             <td>${item.tinh_trang_hon_nhan}</td>
+             <td>${item.noi_dang_ky_khai_sinh}</td>
+             <td>${item.ho_khau_thuong_tru}</td>
+             <td>${item.noi_dang_ky_tam_tru}</td>
+             <td>${item.ton_giao}</td>
+             <td>${item.quoc_tich}</td>
+             <td>${item.id_cha}</td>
+             <td>${item.id_me}</td>
+             <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
+             <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+           </tr>`
+        })
+        $("#ok tbody").html("")
+        $("#ok tbody").html(content)
+      }
+      // hàm chọn chung :ham 
+      function sotrang(key,a){
+        var choose=""
+        var id=""
+      if(key=="#tinh"){
+        choose="huyen"
+        id="#huyen"
+        $("#xa").html("")
+          $("#xom").html("")
+      }
+      else if(key=="#huyen"){
+        choose="xa"
+        id="#xa"
+        $("#xom").html("")
+      }
+      else if(key=="#xa"){
+        id="#xom"
+        choose="xom"
+      }
+      else{
+        id=""
+        choose=""
+      }
+      console.log(choose)
+      if(choose=="huyen"||choose=="xa"||choose=="xom"){
+        fetch(`http://localhost:3000/data/${choose}/${a}`).then(respon=>respon.json()).then(data =>{
+            var content=``
+            content+=`<option data-id="${a}">all</option>`
+            data.forEach(item=>{
+            content+=`<option data-id="${item.id}">${item.ten}</option>`  
+            })
+            $(id).html(content)
+          })
+      }
+    
+        fetch(`http://localhost:3000/data/dancu/${a}/len`).then(respon=>respon.json()).then(data1=>{
+            // tính số trang
+            let a=data1[0].tong_so % 20
+            let sotrangtinh
+            if(a==0){
+              sotrangtinh=Math.round(data1[0].tong_so/20)
+            }
+            else{
+              sotrangtinh=Math.floor(data1[0].tong_so/20)+1
+            }        
+            console.log(sotrangtinh)
+            
+            $("#phantrang").html("")
+            for(let i=1;i<=sotrangtinh;i++){
+        $("#phantrang").append(`<button>${i}</button>`)
+      }
+      })
+      fetch(`http://localhost:3000/data/dancu/${a}?page=1`).then(respon=>respon.json()).then(data=>{       
+                  showtable1(1,data)
+             })
+             $("#phantrang").on("click", "button", function(){
+                let page = Number($(this).text())
+                fetch(`http://localhost:3000/data/dancu/${a}?page=${page}`).then(respon=>respon.json()).then(data=>{   
+                  showtable1(page,data)      
+              })
+                })
+    }
         fetch("http://localhost:3000/data/tinh").then(respon=> respon.json()).then(data =>{
           data.forEach(item=>{
             $("#tinh").append(`<option data-id="${item.id}">${item.ten}</option>`)
           })
         })
          //  chọn tỉnh-thành phố
-        $("#tinh").change(function(){
-          var b=$("#tinh option:selected").first().data("id")
-          $("#xa").html("")
-          $("#xom").html("")
-          fetch(`http://localhost:3000/data/huyen/${b}`).then(respon=>respon.json()).then(data =>{
-            var content=``
-            data.forEach(item=>{
-            content+=`<option data-id="${item.id}">${item.ten}</option>`  
-            })
-            $("#huyen").html(content)
-          })
+         $("#tinh").change(function(){
+          var a=$("#tinh option:selected").first().data("id")
+          console.log(a)
+      sotrang('#tinh',a)
         })
         //chọn huyện-quận
-      $("#huyen").change(function(){
-        $("#xom").html("")
-            var c = $("#huyen option:selected").first().data("id")
-          fetch(`http://localhost:3000/data/xa/${c}`)
-          .then(Response=>Response.json())
-          .then(data=>{
-            var content=``
-            data.forEach(item=>{
-              content+=`<option data-id="${item.id}">${item.ten}</option>`
-            })
-            $("#xa").html(content)
-          })
+        $("#huyen").change(function(){
+          var a=$("#huyen option:selected").first().data("id")
+      //    console.log(a)
+      sotrang('#huyen',a)
         })
-        //chọn xã-tổ
+        //chọn xã-phường
         $("#xa").change(function(){
-          var d=$("#xa option:selected").first().data("id")
-          fetch(`http://localhost:3000/data/xom/${d}`).then(respon=>respon.json()).then(data=>{
-            var content=``
-            data.forEach(item=>{
-              content+=`<option data-id="${item.id}">${item.ten}</option>`
-            })
-            $("#xom").html(content)
-          })
+          var a=$("#xa option:selected").first().data("id")
+          console.log(a)
+      sotrang('#xa',a)
+        })
+        // chọn xóm-tổ
+        $("#xom").change(function(){
+          var a=$("#xom option:selected").first().data("id")
+          console.log(a)
+      sotrang('#xom',a)
         })
 // xử lí click page
     $(document).ready(function(){ 
@@ -190,6 +241,4 @@ showtable(page)
 })
 
     })
-    
   </script>
-  

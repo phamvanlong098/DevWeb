@@ -4,7 +4,7 @@
 
 <div class="main">
     <div class="logo-area">
-        <a class="backward" href="/"><i class="fas fa-chevron-left"></i> Quay lại</a>
+        <a class="backward" href="#"><i class="fas fa-chevron-left"></i> Quay lại</a>
         <div class="logo"></div>
     </div>
     <p class="sign" align="center">Đăng nhập</p>
@@ -17,4 +17,8 @@
     </form>
 </div>
 <script type="text/javascript" src="http://localhost:3000/js/loginscreen.js"></script>
-
+<script>
+    document.querySelector('a.backward').onclick = function() {
+        window.history.back();
+    }
+</script>

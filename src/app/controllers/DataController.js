@@ -38,13 +38,60 @@ class DataController {
         })
     }
 
-    // data/xom/:idXa
-    getDancuByTinh(req, res) {
-        let id = req.params.idTinh;
-        mysqlModel.getDancuByTinh(id , (result) =>{
+    // data/dancu/:idDiaPhuong
+    getDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        let page = req.query.page;
+        if(!page || page < 1) page = 1;
+        mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
             res.json(result)
         })
     }
+
+    // data/dancu/:idDiaPhuong/len
+    getLengthDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
+            res.json(result)
+        })
+    }
+    
+    // data/search?key=
+    searchDancu(req, res) {
+        let key = req.query.key;
+        mysqlModel.searchDancu(key, (result) =>{
+            res.json(result)
+        })
+    }
+
+
+    // /bieudo/soDanTheoTinh/:soLuong
+    soDanTheoTinh(req, res) {
+        let soLuong = req.params.soLuong;
+        mysqlModel.soDanTheoTinh(soLuong , (result) =>{
+            res.json(result)
+        })
+    }
+
+    // /bieudo/tyLeGioiTinh
+    tyLeGioiTinh(req, res) {
+        mysqlModel.tyLeGioiTinh( (result) =>{
+            res.json(result)
+        })
+    }
+    // /bieudo/tongSoDan
+    tongSoDan(req, res) {
+        mysqlModel.tongSoDan( (result) =>{
+            res.json(result)
+        })
+    }
+    // /bieudo/soDanTheoDoTuoi
+    soDanTheoDoTuoi(req, res) {
+        mysqlModel.soDanTheoDoTuoi( (result) =>{
+            res.json(result)
+        })
+    }
+
 
 }
 
