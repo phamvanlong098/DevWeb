@@ -73,7 +73,6 @@ $("#huyen").change(function(){
     $("#xa").html(content)
   })
 })
-// $('#ok').DataTable();
   })
   document.addEventListener("DOMContentLoaded", function(){
     let modelSubmitBtn = document.getElementById('submit-btn')
