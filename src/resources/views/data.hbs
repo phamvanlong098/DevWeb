@@ -9,3 +9,13 @@
 <a href="/data/bieudo/soDanTheoTinh/5">/datbieudo/soDanTheoTinh/limit?</a> <br> 
 <a href="/data/bieudo/tyLeGioiTinh">/data/bieudo/tyLeGioiTinh </a> <br> 
 <a href="/data/bieudo/soDanTheoDoTuoi">/data/bieudo/soDanTheoDoTuoi </a> <br> 
+<script>
+    let ok
+    fetch("http://localhost:3000/data/bieudo/soDanTheoTinh/5").then(respon=>respon.json()).then(data=>{
+        console.log(data)
+        console.log(data.length)
+        console.log(Object.keys(data[1]).length)
+        ok=data[0].ten
+       
+    })
+</script>

@@ -1,4 +1,4 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <div class="slider mx-4 mt-2"> 
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
@@ -62,19 +62,28 @@
   </div>
 </div>
 <div class="container1" style="position: relative; height: 40vh; width: 60vw; margin-bottom: 200px">
-    <canvas id="myChart"></canvas>
+    <canvas id="barChart"></canvas>
+</div>
+
+<div class="container1" style="position: relative; height: 30vh; width: 50vw; margin-bottom: 250px">
+    <canvas id="pieChart"></canvas>
+</div>
+<div class="container1" style="position: relative; height: 30vh; width: 50vw; margin-bottom: 250px">
+    <canvas id="pieChart1"></canvas>
 </div>
 <script>
-    let myChart = document.getElementById('myChart').getContext('2d');
+    let barChart = document.getElementById('barChart').getContext('2d');
+    let pieChart = document.getElementById('pieChart').getContext('2d');
+    let pieChart1 = document.getElementById('pieChart1').getContext('2d');
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor = '#777';
 
-    let massPopChart = new Chart(myChart, {
+    let massPopChart = new Chart(barChart, {
       type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data:{
-        labels:['Hà Nội', 'TPHCM', 'Hưng Yên', 'Hải Dương'],
+        labels:[],
         datasets:[{
           label:'Người',
           data:[
@@ -124,8 +133,8 @@
                         display: true,
                         ticks: {
                           min: 0,
-                          max: 2000,
-                          stepSize: 400
+                          max: 50,
+                          stepSize: 10
                           }
                         }]
                 },
@@ -142,4 +151,128 @@
         }
       }
     });
+    fetch("http://localhost:3000/data/bieudo/soDanTheoTinh/5").then(respon=>respon.json()).then(data=>{
+        var i;
+        for (i = 0; i < data.length; i++) {
+          massPopChart.data.datasets[0].data[i] = data[i].so_dan;
+          massPopChart.data.labels[i] = data[i].ten;
+        }
+        massPopChart.update();
+       
+    })
+
+    let massPopChart1 = new Chart(pieChart, {
+      type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:['Nam', 'Nữ'],
+        datasets:[{
+          data:[
+            0,
+            300
+          ],
+          //backgroundColor:'green',
+          backgroundColor:[
+            
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Tỷ lệ nam/nữ',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+    fetch("http://localhost:3000/data/bieudo/tyLeGioiTinh").then(respon=>respon.json()).then(data=>{
+        var i;
+        for (i = 0; i < data.length; i++) {
+          massPopChart1.data.datasets[0].data[i] = data[i].so_luong;
+          massPopChart1.data.labels[i] = data[i].gioi_tinh;
+        }
+        massPopChart1.update();
+       
+    })
+    let massPopChart2 = new Chart(pieChart1, {
+      type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:[],
+        datasets:[{
+          data:[
+            0,
+            300
+          ],
+          //backgroundColor:'green',
+          backgroundColor:[
+            
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Số dân theo độ tuổi',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+    fetch("http://localhost:3000/data/bieudo/soDanTheoDoTuoi").then(respon=>respon.json()).then(data=>{
+        var i;
+        for (i = 0; i < data.length; i++) {
+          massPopChart2.data.datasets[0].data[i] = data[i].so_luong;
+          massPopChart2.data.labels[i] = data[i].do_tuoi;
+        }
+        massPopChart2.update();
+       
+    })
   </script>
