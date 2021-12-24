@@ -38,20 +38,21 @@ class DataController {
         })
     }
 
-    // data/dancu/:idDiaPhuong?page=
+    // data/dancu/all?page=
+    getDancuToanQuoc(req, res) {
+        let page = parseInt( req.query.page);
+        if(!page || page < 1) page = 1;
+        mysqlModel.getDancuToanQuoc(page, (result) =>{
+            res.json(result)
+        })
+    }
+
+    // data/dancu/:idDiaPhuong
     getDancuByDiaPhuong(req, res) {
         let id = req.params.idDiaPhuong;
         let page = parseInt(req.query.page);
         if(!page || page < 1) page = 1;
         mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
-            res.json(result)
-        })
-    }
-
-    // data/dancu/:idDiaPhuong/len
-    getLengthDancuByDiaPhuong(req, res) {
-        let id = req.params.idDiaPhuong;
-        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
             res.json(result)
         })
     }
@@ -92,7 +93,16 @@ class DataController {
         })
     }
 
+    // /pagination/:table?page=
+    phanTrang(req, res) {
+        let table = req.params.table;
+        let page = parseInt(req.query.page);
+        if(!page || page < 1) page = 1;
 
+        mysqlModel.phanTrang({table, page, where: 1}, (result) =>{
+            res.json(result)
+        })
+    }
 }
 
 module.exports = new DataController

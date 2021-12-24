@@ -17,6 +17,31 @@ class Query {
         });
     }
 
+    phanTrang(condition, callback) {
+        let pagesize = 20
+        let start = (condition.page - 1) * pagesize
+        let sql1 = `SELECT COUNT(*) AS tong_so FROM ${condition.table};`
+        let sql2 = `SELECT * FROM ${condition.table} WHERE ${condition.where} LIMIT ${start}, ${pagesize};`
+        let sql = sql1 + sql2
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            results[0] = results[0][0]
+            callback(results)
+        });
+    }
+
+    getDancuToanQuoc(page, callback) {
+        let pagesize = 20
+        let start = (page - 1) * pagesize
+        let sql1 = `SELECT COUNT(*) AS tong_so FROM dan_cu;`
+        let sql2 = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
+        let sql = sql1 + sql2
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
     getDancuByDiaPhuong(diaPhuongID, page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
