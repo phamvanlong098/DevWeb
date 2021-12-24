@@ -212,13 +212,20 @@
             idHuyen = 'all'
             idXa = 'all'
             idXom = 'all'
+            // reset html
+            selectHuyen.html('')
+            selectXa.html('')
+            selectXom.html('')
         }
         if (idHuyen === id) {
             idXa = 'all'
             idXom = 'all'
+            selectXa.html('')
+            selectXom.html('')
         }
         if (idXa === id) {
             idXom = 'all'
+            selectXom.html('')
         }
     }
 
