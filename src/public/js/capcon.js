@@ -68,7 +68,7 @@ timeManager.onclick = function () {
 	this.classList.add('active')
 
 	
-	fetch('./capcon/deathline')
+	fetch('./capcon/account')
 	.then(response => response.json())
 	.then(data => {
 		let html = `<table class="table table-hover mt-4">

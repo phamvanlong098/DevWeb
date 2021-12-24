@@ -20,15 +20,9 @@ class Query {
     getDancuByDiaPhuong(diaPhuongID, page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
-        let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            callback(results)
-        });
-    }
-
-    getLengthDancuByDiaPhuong(diaPhuongID, callback){
-        let sql = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
+        let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
+        let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
+        let sql = sql1 + sql2
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -85,35 +79,9 @@ class Query {
 
      // thoi han
      getThoiHan(user, callback) {
-        let sql = ''
-        let username = user.tai_khoan
-        switch(user.cap) {
-            case "Admin" : {
-                sql = `SELECT * FROM taiKhoan`
-                break;
-            }
-            case "A1" : {
-                sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = taikhoan.tai_khoan WHERE cap = 'A2';`
-                break;
-            }
-            case "A2" : {
-                sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = taikhoan.tai_khoan WHERE cap = 'A3' AND taikhoan.tai_khoan LIKE '${username}%';`
-                break;
-            }
-            case "A3" : {
-                sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = taikhoan.tai_khoan WHERE cap = 'B1' AND taikhoan.tai_khoan LIKE '${username}%';`
-                break;
-            }
-            case "B1" : {
-                sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = taikhoan.tai_khoan WHERE cap = 'B2' AND taikhoan.tai_khoan LIKE '${username}%';`
-                break;
-            }
-            default: {
-                sql = ``
-                break;
-            }
-        }
-
+        let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+        let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+        let sql = sql1 + sql2
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
