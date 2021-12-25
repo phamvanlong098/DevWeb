@@ -17,8 +17,36 @@ class Query {
         });
     }
 
-    getDancuByTinh(diaPhuongID, callback) {
-        let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
+    getDancuToanQuocLen(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so FROM dan_cu `
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getDancuToanQuoc(page, callback) {
+        let pagesize = 20
+        let start = (page - 1) * pagesize
+        let sql = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getDancuByDiaPhuong(diaPhuongID, page, callback) {
+        let pagesize = 20
+        let start = (page - 1) * pagesize
+        let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getLengthDancuByDiaPhuong(diaPhuongID, callback){
+        let sql = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)

@@ -38,15 +38,41 @@ class DataController {
         })
     }
 
-    // data/xom/:idXa
-    getDancuByTinh(req, res) {
-        let id = req.params.idTinh;
-        mysqlModel.getDancuByTinh(id , (result) =>{
+    // data/dancu/all?page=
+    getDancuToanQuoc(req, res) {
+        let page = parseInt( req.query.page);
+        if(!page || page < 1) page = 1;
+        mysqlModel.getDancuToanQuoc(page, (result) =>{
             res.json(result)
         })
     }
 
-    // data/xom/:idXa
+    // data/dancu/all/len
+    getDancuToanQuocLen(req, res) {
+        mysqlModel.getDancuToanQuocLen( (result) =>{
+            res.json(result)
+        })
+    }
+
+    // data/dancu/:idDiaPhuong
+    getDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        let page = parseInt(req.query.page);
+        if(!page || page < 1) page = 1;
+        mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
+            res.json(result)
+        })
+    }
+
+    // data/dancu/:idDiaPhuong/len
+    getLengthDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
+            res.json(result)
+        })
+    }
+    
+    // data/search?key=
     searchDancu(req, res) {
         let key = req.query.key;
         mysqlModel.searchDancu(key, (result) =>{
