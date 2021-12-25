@@ -47,11 +47,12 @@
         </tbody>
     </table>
     <div id="phantrang"></div>
-
+    
     <div id="loading" class="position-fixed d-none justify-content-center align-items-center" style="top:0;bottom: 0; left: 0; right: 0;background-color: rgba(0,0,0,0.5)">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
+    
     </div>
 </div>
 <!-- Modal -->
@@ -86,7 +87,7 @@
     var search = '';
 
     // Các biến lưu dữ liệu dân cư, phân trang
-    var dataDanCu = [];
+    var dataDanCu = []; // set là mảng trống
     var page = 1;
     const perPage = 20;
     var totalDanCu = 0;
@@ -101,7 +102,7 @@
     var tableDataDanCu = $('#ok tbody');
     var phanTrang = $('#phantrang');
     var loadingView = $('#loading');
-
+    var phanTrangTest=$('#phantrangtest')
     $(function () {
         // xử lý các event, load data sau khi trang đã load xong.
 
@@ -145,11 +146,26 @@
         })
         // Event click trang
         phanTrang.on('click', 'button', function () {
-            let newPage = parseInt($(this).text())
-            if (newPage !== page) {
+            let newPage = $(this).data('page')
+            console.log(newPage)
+            // kiem tra page click vào có phải page hiện tại ko, nếu != page hiện tại thì mới load data
+            if(newPage=="next"||newPage=="come"){
+                if(newPage=="next"){
+                    page++
+                loadDataDanCu()
+                }
+                else{
+                    page--
+                    loadDataDanCu()
+                }
+            }
+            else{
+                if (newPage !== page){
                 page = newPage
                 loadDataDanCu();
+                }
             }
+           
         })
 
         // Load các dữ liệu ban đầu
@@ -159,7 +175,6 @@
 </script>
 <script>
     // Define các function
-
     function loadTinh() {
         fetch("http://localhost:3000/data/tinh").then(respon => respon.json()).then(data => {
             renderHtmlSelectOptions(selectTinh, data)
@@ -205,6 +220,7 @@
         else if (idTinh !== 'all') idThuongTru = idTinh
         else idThuongTru = 'all'
 
+        // set loading = 0 sẽ hiển thị loading view
         loading = 0
         updateLoadingView()
 
@@ -212,6 +228,8 @@
         fetch(`http://localhost:3000/data/dancu/${idThuongTru}?page=${page}`).then(respon => respon.json()).then(data => {
             dataDanCu = data
             renderHtmlTableDataDanCu();
+            // Load xong 1 api sẽ + 1 vào loading, update lai trạng thái loading view, 
+            // nếu loading = 2 thì ẩn loaddingview
             loading += 1
             updateLoadingView()
         })
@@ -259,6 +277,15 @@
     function renderHtmlTableDataDanCu() {
         console.log('renderTableDataDanCu', dataDanCu)
         var content = ``
+        //con day k anh
+        //chỗ này sao phải if anh
+        // kiểm tra trước dữ liệu có hợp lệ ko, phòng trường hợp api trả về data ko đúng
+        // dataDancu để k tức nó là true đúng k anh
+        // thế ở đây anh để nguyên nó nghĩa là gì
+        // à, đúng nếu đặt trong if thì nó là true
+        // tất cả các biến khi kiểm tra trong if, nó sẽ đc convert về true / false
+        // nếu = underfied / null / 0 / '' => false
+        //ok anh để e đọc cái load,cái đấy anh dùng gì nhỉ
         if (dataDanCu && dataDanCu.length > 0) {
             dataDanCu.forEach(item => {
                 content += `
@@ -297,16 +324,22 @@
         }
 
         phanTrang.html('')
-        for (let i = 1; i <= totalPage; i++) {
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="come">Previous</button>`)
+        for (let i = 1; i <=totalPage; i++) {
+            // đoạn code này để phân biệt page nào đang đc chọn
             let activeClass = i === page ? 'btn-primary' : 'btn-secondary';
-            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1">${i}</button>`)
+            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1" data-page="${i}">${i}</button>`)
         }
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="next">next</button>`)
     }
-
     function updateLoadingView() {
+        // đoạn code để show loading view khi load / ẩn khi đã load xong
         if(loading === 2) {
+            // biến loading = 2 tức là đã load xong cả 2 api: load data dân cư và load tổng số dân cư ok anh
+            // ẩn loading đi, thì xóa cái class 'd-flex' trong div đi, thêm cái class 'd-none' vào
             loadingView.removeClass('d-flex').addClass('d-none')
         } else {
+            // hiện loading: xóa cái class d-none đi, thêm class d-flex vào
             loadingView.removeClass('d-none').addClass('d-flex')
         }
     }
