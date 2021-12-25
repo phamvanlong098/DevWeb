@@ -1,5 +1,55 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <style>
+   #div_barchart {
+    margin: 0 auto;
+   }
+  @media only screen and (max-width: 350px) {
+     .container1 {
+      height: 170px!important;
+      width: 310px!important;
+    }
+
+    #div_piechart {
+      position: relative!important;
+      margin-bottom: 0!important;
+    }
+
+    #div_piechart1 {
+      margin-bottom: 0!important;
+    }
+
+    #div_barchart {
+    margin: unset!important;
+    left: 0!important;
+   }
+   }
+  @media only screen and (max-width: 480px) and (min-width: 350px) {
+    .container1 {
+      height: 200px!important;
+      width: 350px!important;
+    }
+
+    #div_piechart {
+      position: relative!important;
+      margin-bottom: 0!important;
+    }
+
+    #div_piechart1 {
+      margin-bottom: 0!important;
+    }
+  }
+  @media only screen and (max-width: 1050px) and (min-width: 480px) {
+    #div_piechart {
+      
+      margin-bottom: 0!important;
+    }
+
+    #div_piechart1 {
+      margin-bottom: 0!important;
+    }
+  }
+</style>
 <div class="slider mx-4 mt-2"> 
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -23,52 +73,15 @@
         </button>
     </div>
 </div>
-<div class="container">
-  <div class="table-responsive">
-    <table class="table table-hover table-bordered caption-top">
-        <caption><h3>Tỉnh Nam Định</h3></caption>
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-    </table>
-  </div>
-</div>
-<div class="container1" style="position: relative; height: 40vh; width: 60vw; margin-bottom: 200px">
+
+<div class="container1" id="div_barchart" style="position: relative; height: 50vw; width: 80vw; margin-top: 50px">
     <canvas id="barChart"></canvas>
 </div>
 
-<div class="container1" style="position: relative; height: 30vh; width: 50vw; margin-bottom: 250px">
+<div class="container1" id="div_piechart" style="position: absolute; height: 30vh; width: 55vw; margin-bottom: 250px; right: 0">
     <canvas id="pieChart"></canvas>
 </div>
-<div class="container1" style="position: relative; height: 30vh; width: 50vw; margin-bottom: 250px">
+<div class="container1" id="div_piechart1" style="position: relative; height: 30vh; width: 55vw; margin-bottom: 250px">
     <canvas id="pieChart1"></canvas>
 </div>
 <script>
@@ -77,7 +90,7 @@
     let pieChart1 = document.getElementById('pieChart1').getContext('2d');
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontSize = 14;
     Chart.defaults.global.defaultFontColor = '#777';
 
     let massPopChart = new Chart(barChart, {
@@ -229,9 +242,10 @@
           ],
           //backgroundColor:'green',
           backgroundColor:[
-            
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 99, 132, 0.6)'
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(54, 162, 235, 0.6)'
           ],
           borderWidth:1,
           borderColor:'#777',
@@ -275,4 +289,13 @@
         massPopChart2.update();
        
     })
+    if (window.innerWidth < 480) {
+      Chart.defaults.global.defaultFontSize = 10;
+      massPopChart.options.title.fontSize = 14;
+      massPopChart.update();
+      massPopChart1.options.title.fontSize = 14;
+      massPopChart1.update();
+      massPopChart2.options.title.fontSize = 14;
+      massPopChart2.update();
+    }
   </script>
