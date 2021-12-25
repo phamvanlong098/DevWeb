@@ -93,16 +93,6 @@ class DataController {
         })
     }
 
-    // /pagination/:table?page=
-    phanTrang(req, res) {
-        let table = req.params.table;
-        let page = parseInt(req.query.page);
-        if(!page || page < 1) page = 1;
-
-        mysqlModel.phanTrang({table, page, where: 1}, (result) =>{
-            res.json(result)
-        })
-    }
 }
 
 module.exports = new DataController

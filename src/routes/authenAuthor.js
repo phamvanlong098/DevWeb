@@ -1,7 +1,6 @@
-const e = require("express");
 
 class AuthenAuthor{
-	checklogin(req, res, next) {
+	checkLogin(req, res, next) {
 		if(req.session.user) {
 			next()
 		}

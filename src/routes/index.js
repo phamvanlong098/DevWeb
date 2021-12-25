@@ -51,12 +51,12 @@ function route(app) {
         })
     }
     )
-
-// check dangNhap = on/off
-// app.use('/', authenAuthor.checklogin)
-
     // data
     app.use('/data', dataRouter)
+
+    // check dangNhap = on/off
+    app.use('/', authenAuthor.checkLogin)
+
     
     // thongke
     app.use('/thongke', thongkeRouter)

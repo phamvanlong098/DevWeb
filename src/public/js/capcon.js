@@ -1,62 +1,90 @@
-
 var areaManager = document.querySelector('.areaManager')
 var accountManager = document.querySelector('.accountManager')
 var timeManager = document.querySelector('.timeManager')
 var tableContainer = document.querySelector('.table-container')
 var table = document.querySelector('.table')
+var inputs;
+var currentPage = 1;
+var tong_so_page = 1;
+let isAdmin = false;
 
-areaManager.onclick = function () {
+areaManager.onclick = function() {
 	document.querySelector('.active').classList.remove('active')
 	this.classList.add('active')
+	render(1)
+	setPaging()
 
-	fetch('./capcon/area?page=1')
-	.then(response => response.json())
-	.then(data => {
-		data = data[1]
-		let html = `<table class="table table-hover mt-4">
-		<thead class="table-primary">
-		  <tr>
-			<th scope="col">#</th>
-			<th scope="col">Khu vực</th>
-			<th scope="col">Mã khu vực</th>
-		  </tr>
-		</thead>
-		<tbody>`
-		html += data.reduce((result, item, index) => {
-			return result += `
-				<tr>
-					<th scope="row">${index + 1}</th>
-					<td>${item.ten}</td>
-					<td>${item.id}</td>
-				</tr>`
-		}, "")
-		html += `</tbody>
-		</table>`
-		tableContainer.innerHTML = html;
-	})
 }
 
-accountManager.onclick = function () {
+accountManager.onclick = function() {
 	document.querySelector('.active').classList.remove('active')
 	this.classList.add('active')
+	render(1)
+	setPaging()
+}
 
-	fetch('./capcon/account?page=1')
+timeManager.onclick = function() {
+	document.querySelector('.active').classList.remove('active')
+	this.classList.add('active')
+	render(1)
+	setPaging()
+}
+
+function render(pageNumber) {
+	let api = getAPI()
+	fetch(api + '?page=' + pageNumber)
 	.then(response => response.json())
-	.then(data => {
-		console.log(data)
-		data = data[1]
-		let html = `<table class="table table-hover mt-4">
-		<thead class="table-primary">
-		  <tr>
-			<th scope="col">#</th>
-			<th scope="col">Khu vực</th>
-			<th scope="col">Tài khoản</th>
-			<th scope="col">Mật khẩu</th>
-		  </tr>
-		</thead>
-		<tbody>`
-		if(!data[0].ten) {
-			html = `<table class="table table-hover mt-4">
+	.then(res => {
+		if(res.cap == 'Admin') isAdmin = true
+		html = getHTML(res)
+		tableContainer.innerHTML = html;
+
+		inputs = document.querySelectorAll('input')
+		Array.from(inputs).forEach((input) => {
+			input.onchange = function() {
+				putChange(this)
+			}
+		})
+	})
+
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth'
+	});
+}
+
+function getAPI() {
+	let api = "";
+	let active = document.querySelector('.active').getAttribute('module')
+	switch (active) {
+		case 'areaManager': {
+			api = "./capcon/area"
+			break;
+		}
+		case 'accountManager': {
+			api = "./capcon/account"
+			break;
+		}
+		case 'timeManager': {
+			api = "./capcon/account"
+			break;
+		}
+		default: {
+			return;
+		}
+	}
+	return api;
+}
+
+function getHTML(res) {
+	let html = "";
+	let cap = res.cap
+	res = res.data
+	let active = document.querySelector('.active').getAttribute('module')
+	switch (active) {
+		case 'areaManager': {
+			if(cap == 'Admin') {
+				html = `<table class="table table-hover mt-4">
 				<thead class="table-primary">
 				<tr>
 					<th scope="col">#</th>
@@ -65,97 +93,196 @@ accountManager.onclick = function () {
 				</tr>
 				</thead>
 				<tbody>`
-		}
-		html += data.reduce((result, item, index) => {
-			if(item.ten) {
-				return result += `
-				<tr>
-					<th scope="row">${index + 1}</th>
-					<td>${item.ten}</td>
-					<td>${item.tai_khoan}</td>
-					<td>${item.mat_khau}</td>
-				</tr>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.tai_khoan}</td>
+							<td><input name="mat_khau" username="${item.tai_khoan}" value="${item.mat_khau}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
 			}
 			else {
-				return result += `
+				html = `<table class="table table-hover mt-4">
+				<thead class="table-primary">
 				<tr>
-					<th scope="row">${index + 1}</th>
-					<td>${item.tai_khoan}</td>
-					<td>${item.mat_khau}</td>
-				</tr>`
+					<th scope="col">#</th>
+					<th scope="col">Mã khu vực</th>
+					<th scope="col">Khu vực</th>
+				</tr>
+				</thead>
+				<tbody>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.id}</td>
+							<td><input name="ten" username="${item.id}" value="${item.ten}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
 			}
-		}, "")
-		html += `</tbody>
-		</table>`
-		tableContainer.innerHTML = html;
-	})
+			break;
+		}
+		case 'accountManager': {
+			if(cap == 'Admin') {
+				html = `<table class="table table-hover mt-4">
+				<thead class="table-primary">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Tài khoản</th>
+					<th scope="col">Mật khẩu</th>
+				</tr>
+				</thead>
+				<tbody>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.tai_khoan}</td>
+							<td><input name="mat_khau" username="${item.tai_khoan}" value="${item.mat_khau}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
+			}
+			else {
+				html = `<table class="table table-hover mt-4">
+				<thead class="table-primary">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Khu vực</th>
+					<th scope="col">Tài khoản</th>
+					<th scope="col">Mật khẩu</th>
+				</tr>
+				</thead>
+				<tbody>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.ten}</td>
+							<td>${item.id}</td>
+							<td><input name="mat_khau" username="${item.id}" value="${item.mat_khau}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
+			}
+			break;
+		}
+		case 'timeManager': {
+			if(cap == 'Admin') {
+				html = `<table class="table table-hover mt-4">
+				<thead class="table-primary">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Tài khoản</th>
+					<th scope="col">Thời hạn</th>
+				</tr>
+				</thead>
+				<tbody>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.tai_khoan}</td>
+							<td><input name="mat_khau" username="${item.tai_khoan}" value="${item.thoi_han}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
+			}
+			else {
+				html = `<table class="table table-hover mt-4">
+				<thead class="table-primary">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Khu vực</th>
+					<th scope="col">Thời hạn</th>
+				</tr>
+				</thead>
+				<tbody>`
+				html += res.reduce((result, item, index) => {
+					return result += `<tr>
+							<th scope="row">${index + 1}</th>
+							<td>${item.ten}</td>
+							<td><input name="mat_khau" username="${item.id}" value="${item.thoi_han}"></td>
+						</tr>`
+				}, "")
+				html += `</tbody> </table>`
+			}
+			break;
+		}
+		default: {
+			return;
+		}
+	}
+
+	return html
 }
 
-timeManager.onclick = function () {
-	document.querySelector('.active').classList.remove('active')
-	this.classList.add('active')
-
+function setPaging() {
+	currentPage = 1
+	let api = getAPI()
+	$('#paging').pagination({
+		dataSource: api + '?page=1',
+		locator: 'data',
+		totalNumberLocator: function(response) {
+			tong_so_page =  Math.floor(response.tong_so / 20)
+			return response.tong_so;
+		},
+		pageSize: 20,
+		// autoHidePrevious: true,
+		// autoHideNext: true,
 	
-	fetch('./capcon/account?page=1')
-	.then(response => response.json())
-	.then(data => {
-		data = data[1]
-		let html = `<table class="table table-hover mt-4">
-		<thead class="table-primary">
-		  <tr>
-			<th scope="col">#</th>
-			<th scope="col">Khu vực</th>
-			<th scope="col">Thời hạn</th>
-		  </tr>
-		</thead>
-		<tbody>`
-		if(!data[0].ten) {
-			html = `<table class="table table-hover mt-4">
-			<thead class="table-primary">
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">Tài khoản</th>
-				<th scope="col">Thời hạn</th>
-			</tr>
-			</thead>
-			<tbody>`
+		afterPageOnClick: function(event, pageNumber) {
+			currentPage = pageNumber
+			render(pageNumber)
+		},
+	
+		afterPreviousOnClick: function(event, pageNumber) {
+			if(currentPage > 1)
+			render(--currentPage)
+		},
+	
+		afterNextOnClick: function(event, pageNumber) {
+			if(currentPage <= tong_so_page)
+			render(++currentPage)
 		}
-		html += data.reduce((result, item, index) => {
-			if(item.ten) {
-				return result += `
-				<tr>
-					<th scope="row">${index + 1}</th>
-					<td>${item.ten}</td>
-					<td>${item.thoi_han}</td>
-				</tr>
-				`
-			}
-			else {
-				return result += `
-				<tr>
-					<th scope="row">${index + 1}</th>
-					<td>${item.tai_khoan}</td>
-					<td>${item.han_chot}</td>
-				</tr>
-				`
-			}
-		}, "")
-		html += `</tbody>
-		</table>`
-		tableContainer.innerHTML = html;
 	})
-
 }
 
-$('#paging').pagination({
-    dataSource: [1, 2, 3, 4, 5, 6, 7, 8],
-    callback: function(data, pagination) {
-        // template method of yourself
-        var html = template(data);
-        $('#paging').html(html);
-    }
-})
+function putChange(input) {
+	let api = ""
+	let payload = {}
+	let active = document.querySelector('.active').getAttribute('module')
+	switch (active) {
+		case 'areaManager': {
+			// api = "./capcon/area"
+			// payload.
+			break;
+		}
+		case 'accountManager': {
+			api = "./capcon/account"
+			payload.username = input.getAttribute('username')
+			payload.password = input.value
+			break;
+		}
+		case 'timeManager': {
+			api = "./capcon/deathline"
+			payload.username = input.getAttribute('username')
+			payload.deathline = input.value
+			break;
+		}
+		default: {
+			return;
+		}
+	}
+
+	fetch(api, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(payload)
+	})
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
-	accountManager.click()
- }, false);
+	areaManager.click()
+}, false);

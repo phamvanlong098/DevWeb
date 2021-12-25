@@ -20,13 +20,16 @@ class Query {
     phanTrang(condition, callback) {
         let pagesize = 20
         let start = (condition.page - 1) * pagesize
-        let sql1 = `SELECT COUNT(*) AS tong_so FROM ${condition.table};`
+        let sql1 = `SELECT COUNT(*) AS tong_so FROM ${condition.table} WHERE ${condition.where};`
         let sql2 = `SELECT * FROM ${condition.table} WHERE ${condition.where} LIMIT ${start}, ${pagesize};`
         let sql = sql1 + sql2
         db.query(sql, (err, results) => {
             if (err) throw err;
-            results[0] = results[0][0]
-            callback(results)
+            let ketqua = {
+                tong_so: results[0][0].tong_so,
+                data: results[1]
+            }
+            callback(ketqua)
         });
     }
 
@@ -93,14 +96,43 @@ class Query {
         });
     }
 
-    // // tai khoan
-    // getTaiKhoan(callback) {
-    //     let sql = `SELECT * FROM taiKhoan`
-    //     db.query(sql, (err, results) => {
-    //         if (err) throw err;
-    //         callback(results)
-    //     });
-    // }
+    // tai khoan
+    updateTaiKhoan(user, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan='${user.tai_khoan}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE taikhoan SET mat_khau='${user.mat_khau}', cap='${user.cap}' WHERE tai_khoan='${user.tai_khoan}'`
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO taikhoan SET mat_khau='${user.mat_khau}', cap='${user.cap}', tai_khoan='${user.tai_khoan}'`
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
+            callback(results)
+        });
+    }
+
+    // tai khoan
+    updateThoiHan(user, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan='${user.tai_khoan}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE taikhoan SET thoi_han='${user.thoi_han}', cap='${user.cap}' WHERE tai_khoan='${user.tai_khoan}'`
+
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO taikhoan SET thoi_han='${user.thoi_han}', cap='${user.cap}', tai_khoan='${user.tai_khoan}', mat_khau='null'`
+
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
+            callback(results)
+        });
+    }
 
     //  // thoi han
     //  getThoiHan(user, callback) {
