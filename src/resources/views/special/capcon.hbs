@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./css/sidebars.css">
+<link rel="stylesheet" href="./css/capcon.css">
 
 <div class="row g-0">
   <div class="col-md-3 col-lg-3 col-xl-2">
@@ -6,12 +6,21 @@
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
         <hr>
         <ul class="row g-0 nav nav-pills mb-auto">
-          <li class="col-6 col-md-12 nav-item">
-            <a href="#" class="nav-link active areaManager" aria-current="page">
+          {{#if (isAdmin user.cap)}}
+          <li class="col-6 col-md-12 nav-item" style="display: none;">
+            <a href="#" class="nav-link areaManager" aria-current="page">
               <i class="fas fa-map-marker-alt"></i>
               Khai báo khu vực
             </a>
           </li>
+          {{else}}
+          <li class="col-6 col-md-12 nav-item">
+            <a href="#" class="nav-link areaManager" aria-current="page">
+              <i class="fas fa-map-marker-alt"></i>
+              Khai báo khu vực
+            </a>
+          </li>
+          {{/if}}
           <li class="col-6 col-md-12 nav-item">
             <a href="#" class="nav-link active accountManager" aria-current="page">
               <i class="far fa-user"></i>
@@ -35,6 +44,90 @@
     <div class="table-responsive table-container">
     </div>
   </div>
+  <div id="paging">  
+  </div>
 </div>
 
-<script src="../js/capcon.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="http://localhost:3000/js/pagination.js"></script>
+<script>
+	var areaManager = document.querySelector('.areaManager')
+	var accountManager = document.querySelector('.accountManager')
+	var timeManager = document.querySelector('.timeManager')
+	var tableContainer = document.querySelector('.table-container')
+	var table = document.querySelector('.table')
+
+	accountManager.onclick = function () {
+		document.querySelector('.active').classList.remove('active')
+		this.classList.add('active')
+
+		render()
+	}
+
+	function render() {
+		fetch('./capcon/account?page=1')
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			data = data[1]
+			let html = `<table class="table table-hover mt-4">
+			<thead class="table-primary">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Khu vực</th>
+				<th scope="col">Tài khoản</th>
+				<th scope="col">Mật khẩu</th>
+			</tr>
+			</thead>
+			<tbody>`
+			if(!data[0].ten) {
+				html = `<table class="table table-hover mt-4">
+					<thead class="table-primary">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Tài khoản</th>
+						<th scope="col">Mật khẩu</th>
+					</tr>
+					</thead>
+					<tbody>`
+			}
+			html += data.reduce((result, item, index) => {
+				if(item.ten) {
+					return result += `
+					<tr>
+						<th scope="row">${index + 1}</th>
+						<td>${item.ten}</td>
+						<td>${item.tai_khoan}</td>
+						<td>${item.mat_khau}</td>
+					</tr>`
+				}
+				else {
+					return result += `
+					<tr>
+						<th scope="row">${index + 1}</th>
+						<td>${item.tai_khoan}</td>
+						<td>${item.mat_khau}</td>
+					</tr>`
+				}
+			}, "")
+			html += `</tbody>
+			</table>`
+			return html
+		})
+	}
+
+
+	$('#paging').pagination({
+		dataSource: [1, 2, 3, 4, 5, 6, 7, 8],
+		callback: function(data, pagination) {
+			// template method of yourself
+			var html = render();
+			$('.table-container').html(html);
+		}
+	})
+
+	document.addEventListener('DOMContentLoaded', function() {
+		accountManager.click()
+	}, false);
+
+</script>

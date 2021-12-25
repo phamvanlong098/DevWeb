@@ -93,61 +93,61 @@ class Query {
         });
     }
 
-    // tai khoan
-    getTaiKhoan(callback) {
-        let sql = `SELECT * FROM taiKhoan`
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            callback(results)
-        });
-    }
+    // // tai khoan
+    // getTaiKhoan(callback) {
+    //     let sql = `SELECT * FROM taiKhoan`
+    //     db.query(sql, (err, results) => {
+    //         if (err) throw err;
+    //         callback(results)
+    //     });
+    // }
 
-     // thoi han
-     getThoiHan(user, callback) {
-        let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
-        let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
-        let sql = sql1 + sql2
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            callback(results)
-        });
-    }
+    //  // thoi han
+    //  getThoiHan(user, callback) {
+    //     let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+    //     let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+    //     let sql = sql1 + sql2
+    //     db.query(sql, (err, results) => {
+    //         if (err) throw err;
+    //         callback(results)
+    //     });
+    // }
 
-    getTaiKhoanCon(user, callback) {
-        let sql = ``
-        let username = user.tai_khoan
-        switch(user.cap) {
-            case "Admin" : {
-                sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
-                break;
-            }
-            case "A1" : {
-                sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = tai_khoan WHERE cap = 'A2';`
-                break;
-            }
-            case "A2" : {
-                sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = tai_khoan WHERE cap = 'A3' AND tai_khoan LIKE '${username}%';`
-                break;
-            }
-            case "A3" : {
-                sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = tai_khoan WHERE cap = 'B1' AND tai_khoan LIKE '${username}%';`
-                break;
-            }
-            case "B1" : {
-                sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = tai_khoan WHERE cap = 'B2' AND tai_khoan LIKE '${username}%';`
-                break;
-            }
-            default: {
-                sql = ``
-                break;
-            }
-        }
+    // getTaiKhoanCon(user, callback) {
+    //     let sql = ``
+    //     let username = user.tai_khoan
+    //     switch(user.cap) {
+    //         case "Admin" : {
+    //             sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
+    //             break;
+    //         }
+    //         case "A1" : {
+    //             sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = tai_khoan WHERE cap = 'A2';`
+    //             break;
+    //         }
+    //         case "A2" : {
+    //             sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = tai_khoan WHERE cap = 'A3' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         case "A3" : {
+    //             sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = tai_khoan WHERE cap = 'B1' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         case "B1" : {
+    //             sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = tai_khoan WHERE cap = 'B2' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         default: {
+    //             sql = ``
+    //             break;
+    //         }
+    //     }
 
-        db.query(sql, (err, results) => {
-            if (err) throw err;
-            callback(results)
-        });
-    }
+    //     db.query(sql, (err, results) => {
+    //         if (err) throw err;
+    //         callback(results)
+    //     });
+    // }
 
     checkUP(username, password, callback) {
         let sql = `SELECT * FROM taiKhoan WHERE tai_khoan='${username}' AND mat_khau='${password}'`
