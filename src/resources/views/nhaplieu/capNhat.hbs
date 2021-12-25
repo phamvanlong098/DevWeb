@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-12">
         <label for="fullname" class="form-label">Họ và tên</label>
-        <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="{{result.hoTen}}" name="hoTen">
+        <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="{{result.ho_ten}}" name="hoTen">
       </div>
       <div class="col-lg-6 col-md-12">
         <label for="birthDay" class="form-label">Ngày sinh</label>
@@ -62,40 +62,97 @@
       <div class="row">
         <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
         
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
-          <select id="inputState" class="form-select" name="tinh">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <select id="tinh" class="form-select" name="tinh">
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="inputState" class="form-label">Huyện - Quận</label>
-          <select id="inputState" class="form-select" name="huyen">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <select id="huyen" class="form-select" name="huyen">
+
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="inputState" class="form-label">Xã - Phường</label>
-          <select id="inputState" class="form-select" name="xa">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <select id="xa" class="form-select" name="xa">
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="inputState" class="form-label">Xóm - Tổ</label>
+          <select id="xom" class="form-select" name="xa">
           </select>
         </div>
       </div>
-    
       <div class="col-12">
         <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
       </div>
     </form>
 </div>
-
-
 <script>
-  var khaibaoForm = document.querySelector('.khaibao-form')
-  khaibaoForm.onsubmit = function(event) {
-    
-    // event.preventDefault()
-  }
+  //load tỉnh
+  fetch('http://localhost:3000/data/tinh')
+  .then(respon=>respon.json())
+  .then(data=>{
+    data.forEach(item=>{
+      $('#tinh').append(`<option value="${item.id}">${item.ten}</option>`)
+    })
+  })
+  //select tỉnh
+  $('#tinh').change(function(){
+    var a=$(this).val()
+    load('#tinh',a)
+  })
+  //select huyen
+  $('#huyen').change(function(){
+    var a=$(this).val()
+    load('#huyen',a)
+  })
+  //select xa
+  $('#xa').change(function(){
+    var a=$(this).val()
+    load('#xa',a)
+  })
+  //select xom
+  $('#xom').change(function(){
+    var a=$(this).val()
+    load('#xom',a)
+  })
+</script>
+<script>
+    //  funtion chọn chung
+    function load(a,idSelect){
+      var choose=''
+      var id=''
+      if(a=='#tinh'){
+        choose='huyen'
+        id='#huyen'
+        $('#xa').html('')
+        $('#xom').html('')
+      }
+      else if(a=='#huyen'){
+        choose='xa'
+        id='#xa'
+        $('#xom').html('')
+      }
+      else if(a=='#xa'){
+        choose='xom'
+        id='#xom'
+      }
+      else{
+        choose=''
+        id=''
+      }
+      if(choose!==''){
+        fetch(`http://localhost:3000/data/${choose}/${idSelect}`)
+      .then(respon=>respon.json())
+      .then(data=>{
+        var content=``
+        data.forEach(item => {
+          content+=`<option value="${item.id}">${item.ten}</option>`
+        })
+        $(id).html(content)
+      })
+      }
+    }
 </script> 

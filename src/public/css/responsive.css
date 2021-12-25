@@ -1,0 +1,32 @@
+#ok tbody tr:hover{
+    background-color: cadetblue;
+  }
+  table,th, td {
+  border-style:solid;
+  border-color: #96D4D4;
+}
+  @media only screen  and (max-width: 700px){
+  #ok tbody,#ok tr,#ok td{
+    display: block;
+  }
+  #ok thead tr{
+   display: none;
+  }
+  #ok tbody td{
+    position: relative;
+   padding-left: 200px;
+  }
+  #ok tbody td:before{
+    content: attr(data-title);
+    position: absolute;
+   left: 5px;
+   font-weight: bold;
+  }
+  #ok tbody tr{
+border: 1px solid black;
+  }
+  #ok tbody td.ok1{
+    background-color: #121922;
+   color: white;
+  }
+}

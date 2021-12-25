@@ -1,89 +1,60 @@
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-<style>
-  @media only screen  and (max-width: 700px){
-  #ok tbody,#ok tr,#ok td{
-    display: block;
 
-  }
-  #ok thead tr{
-   display: none;
-  }
-  #ok tbody td{
-    position: relative;
-   padding-left: 200px;
-  }
-  #ok tbody td:before{
-    content: attr(data-title);
-    position: absolute;
-   left: 5px;
-   font-weight: bold;
-  }
-  #ok tbody tr{
-border: 1px solid black;
-  }
-  #ok tbody td.ok1{
-    background-color: #121922;
-   color: white;
-  }
-  /* #ok tbody button{ position: absolute;
-    top:2px;
-    right:5px;} */
-/* #ok tbody td.ok1:hover{
-background-color: red;
-} */
-}
-</style>
 <div class="container fuild">
-  <div class="table-responsive">
-    <h1 class="mt-4">Thống kê toàn quốc</h1>
-      <table class="table bg-white" id="ok" style="width: 100%;text-align: center;">
-          <thead class="bg-primary text-black">
-            <tr>
-              <!-- <th scope="col">#</th> -->
-              <th scope="col">CCCD</th>
-              <th scope="col">Họ và tên</th>
-              <th scope="col">Ngày sinh</th>
-              <th scope="col">Giới tính</th>
-              <th scope="col">Nhóm máu</th>
-              <th scope="col">Tình trạng hôn nhân</th>
-              <th scope="col">Nơi đăng ký khai sinh</th>
-              <th scope="col">Hộ khẩu thường trú</th>
-              <th scope="col">Nơi đăng ký tạm trú</th>
-              <th scope="col">Tôn giáo</th>
-              <th scope="col">Quốc tịch</th>
-              <th scope="col">CCCD Cha</th>
-              <th scope="col">CCCD Mẹ</th>
-              <th scope="col">sửa</th>
-              <th scope="col">xóa</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- {{#each result}}
-              <tr>
-               <td>{{sum @index 1}}</td> -->
-                <!-- <td data-title="CCCD" class="ok1">s{{this.id}}</td>
-                <td data-title="Họ và tên">{{this.ho_ten}}</td>
-                <td data-title="Ngày sinh">{{this.ngay_sinh}}</td>
-                <td data-title="Giới tính">{{this.gioi_tinh}}</td>
-                <td data-title="Nhóm máu">{{this.nhom_mau}}</td>
-                <td data-title="Tình trạng hôn nhân">{{this.tinh_trang_hon_nhan}}</td>
-                <td data-title="Nơi đăng ký khai sinh">{{this.noi_dang_ky_khai_sinh}}</td>
-                <td data-title="Hộ khẩu thường trú">{{this.ho_khau_thuong_tru}}</td>
-                <td data-title="Nơi đăng ký tạm trú">{{this.noi_dang_ky_tam_tru}}</td>
-                <td data-title="Tôn giáo">{{this.ton_giao}}</td>
-                <td data-title="Quốc tịch">{{this.quoc_tich}}</td>
-                <td data-title="CCCD Cha">{{this.id_cha}}</td>
-                <td data-title="CCCD Mẹ">{{this.id_me}}</td>
-                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
-              </tr>
-            {{/each}} --> -->
-          </tbody>
-      </table>
-  </div>
+    <h1 class="my-4">Dữ liệu dân cư</h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <label for="selectTinh" class="form-label">Tỉnh - Thành phố</label>
+            <select id="selectTinh" class="form-select">
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectHuyen" class="form-label">Huyện - Quận</label>
+            <select id="selectHuyen" class="form-select" name="huyen"></select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectXa" class="form-label">Xã - Phường</label>
+            <select id="selectXa" class="form-select"></select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectXom" class="form-label">Xóm - Tổ</label>
+            <select id="selectXom" class="form-select"></select>
+        </div>
+    </div>
+
+    <table class="table table-responsive mt-5" id="ok" style="width: 100%;text-align: center;">
+        <thead class="bg-blue text-danger">
+        <tr>
+            <th scope="col">CCCD</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Ngày sinh</th>
+            <th scope="col">Giới tính</th>
+            <th scope="col">Nhóm máu</th>
+            <th scope="col">Tình trạng hôn nhân</th>
+            <th scope="col">Nơi đăng ký khai sinh</th>
+            <th scope="col">Hộ khẩu thường trú</th>
+            <th scope="col">Nơi đăng ký tạm trú</th>
+            <th scope="col">Tôn giáo</th>
+            <th scope="col">Quốc tịch</th>
+            <th scope="col">CCCD Cha</th>
+            <th scope="col">CCCD Mẹ</th>
+
+            <th scope="col">sửa</th>
+            <th scope="col">xóa</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="phantrang"></div>
+    
+    <div id="loading" class="position-fixed d-none justify-content-center align-items-center" style="top:0;bottom: 0; left: 0; right: 0;background-color: rgba(0,0,0,0.5)">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    
+    </div>
 </div>
-
-
 <!-- Modal -->
 <div class="container">
   <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,100 +75,272 @@ background-color: red;
     </div>
   </div>
 </div>
-
 <form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
-  $(document).ready(function(){
-    let data=JSON.parse('{{{json result}}}')
-    var content1=``
-    data.forEach(element => {
-      content1+=`<tr>
-                <td data-title="CCCD" class="ok1">${element.id}</td>
-                <td data-title="Họ và tên">${element.ho_ten}</td>
-                <td data-title="Ngày sinh">${element.ngay_sinh}</td>
-                <td data-title="Giới tính">${element.gioi_tinh}</td>
-                <td data-title="Nhóm máu">${element.nhom_mau}</td>
-                <td data-title="Tình trạng hôn nhân">${element.tinh_trang_hon_nhan}</td>
-                <td data-title="Nơi đăng ký khai sinh">${element.noi_dang_ky_khai_sinh}</td>
-                <td data-title="Hộ khẩu thường trú">${element.ho_khau_thuong_tru}</td>
-                <td data-title="Nơi đăng ký tạm trú">${element.noi_dang_ky_tam_tru}</td>
-                <td data-title="Tôn giáo">${element.ton_giao}</td>
-                <td data-title="Quốc tịch">${element.quoc_tich}</td>
-                <td data-title="CCCD Cha">${element.id_cha}</td>
-                <td data-title="CCCD Mẹ">${element.id_me}</td>
-                <td ><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
-                <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
-        </tr>`
-    });
-    $("#ok tbody").html(content1)
-    $(window).on('resize', function(){
-    if($(this).width()<700 ){
-  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
-    $(`td:nth-child(${j})`).css("display","none");
-  }
-  for(let k=0;k<Object.keys(data).length;k++){
-   $(`tr:nth-child(${k+1}) td:eq(1)`).click(function(){
-//     if ($(`tr:nth-child(${k+1}) td:eq(5)`).css("visibility") == "hidden"||$(`tr:nth-child(${k+1}) td:eq(5)`).css("display")=="none" ){
-//       for(var i=2;i<Object.keys(data[0]).length+3;i++){   
-//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-// }
-//     }
-       
-          
-       
-          for(var i=2;i<Object.keys(data[0]).length+3;i++){
-          $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-         }
+    // Các biến lưu bộ lọc
+    var idTinh = 'all';
+    var idHuyen = 'all';
+    var idXa = 'all';
+    var idXom = 'all';
+    var search = '';
 
-     })
-  }
-}
-else if($(this).width()>700){
-  for(var j=3;j<=Object.keys(data[0]).length+3;j++){
-    $(`td:nth-child(${j})`).css({"display":"","transform":""}); 
-  }
-}
-  })
-   $('#ok').DataTable();
-  })
+    // Các biến lưu dữ liệu dân cư, phân trang
+    var dataDanCu = []; // set là mảng trống
+    var page = 1;
+    const perPage = 20;
+    var totalDanCu = 0;
 
-  //console.log(Object.keys(data[0]).length)
- //var idtable=document.getElementById('ok').getElementsByTagName(
-       // "tbody")[0];
-        //console.log(idtable.rows[0].cells.length)
-// $(document).ready(function(){
-//   if($(this).width()<700 ){
-//   for(var j=4;j<=Object.keys(data[0]).length+3;j++){
-//     $(`td:nth-child(${j})`).css("display","none");
-//   }
-//   for(let k=0;k<Object.keys(data).length;k++){
-//    $(`tr:nth-child(${k+1}) td:eq(2)`).click(function(){
-//         for(var i=3;i<Object.keys(data[0]).length+3;i++){
-//           $(`tr:nth-child(${k+1}) td:eq(${i})`).show(500);
-// }
-//      })
-//   }
-// }
+    var loading = 0;
 
-// });
+    // Các dom element jquery, lưu vào biến tránh phải tìm lại nhiều lần
+    var selectTinh = $('#selectTinh');
+    var selectHuyen = $('#selectHuyen');
+    var selectXa = $('#selectXa');
+    var selectXom = $('#selectXom');
+    var tableDataDanCu = $('#ok tbody');
+    var phanTrang = $('#phantrang');
+    var loadingView = $('#loading');
+    var phanTrangTest=$('#phantrangtest')
+    $(function () {
+        // xử lý các event, load data sau khi trang đã load xong.
 
- //
-  // document.addEventListener("DOMContentLoaded", function(){
-  //   let modelSubmitBtn = document.getElementById('submit-btn')
-  //   let deleteForm = document.getElementById('delete-form')
-  //   let id;
-  //   let exampleModal = document.getElementById('delete-human')
-  //     exampleModal.addEventListener('show.bs.modal', function (event) {
-  //     // Button that triggered the modal
-  //     var button = event.relatedTarget
-  //     // Extract info from data-bs-* attributes
-  //     id = button.getAttribute('data-id')
-  //   })
-  //   modelSubmitBtn.onclick = function() {
-  //     deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
-  //     deleteForm.submit();
-  //   }
-  // });
+        // Event chọn tỉnh
+        selectTinh.change(function () {
+            idTinh = $(this).val();
+
+            // reset page ve trang đầu
+            page = 1;
+            // reset cac du lieu địa chỉ
+            resetSelectOptions(idTinh);
+            // Load dât huyen cua tinh
+            loadHuyen()
+            // Load data dan cu
+            loadDataDanCu();
+        })
+
+        // Event chọn huyện
+        selectHuyen.change(function () {
+            idHuyen = $(this).val();
+            page = 1;
+            resetSelectOptions(idHuyen);
+            loadXa()
+            loadDataDanCu();
+        })
+
+        // event chọn xa
+        selectXa.change(function () {
+            idXa = $(this).val();
+            page = 1;
+            resetSelectOptions(idXa);
+            loadXom()
+            loadDataDanCu();
+        })
+        // event chọn xóm
+        selectXom.change(function () {
+            idXom = $(this).val();
+            page = 1;
+            resetSelectOptions(idXom);
+            loadDataDanCu();
+        })
+        // Event click trang
+        phanTrang.on('click', 'button', function () {
+            let newPage = $(this).data('page')
+            console.log(newPage)
+            // kiem tra page click vào có phải page hiện tại ko, nếu != page hiện tại thì mới load data
+            if(newPage=="next"||newPage=="come"){
+                if(newPage=="next"){
+                    page++
+                loadDataDanCu()
+                }
+                else{
+                    page--
+                    loadDataDanCu()
+                }
+            }
+            else{
+                if (newPage !== page){
+                page = newPage
+                loadDataDanCu();
+                }
+            }
+           
+        })
+
+        // Load các dữ liệu ban đầu
+        loadTinh();
+        loadDataDanCu();
+    })
+</script>
+<script>
+    // Define các function
+    function loadTinh() {
+        fetch("http://localhost:3000/data/tinh").then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectTinh, data)
+        })
+    }
+
+    function loadHuyen() {
+        selectHuyen.html('')
+        if (idTinh === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/huyen/${idTinh}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectHuyen, data)
+        })
+    }
+
+    function loadXa() {
+        selectXa.html('')
+        if (idHuyen === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/xa/${idHuyen}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectXa, data)
+        })
+    }
+
+    function loadXom() {
+        selectXom.html('')
+        if (idXa === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/xom/${idXa}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectXom, data)
+        })
+    }
+
+    function loadDataDanCu() {
+        let idThuongTru = ''
+        // ưu tien tu xom -> tinh
+        if (idXom !== 'all') idThuongTru = idXom
+        else if (idXa !== 'all') idThuongTru = idXa
+        else if (idHuyen !== 'all') idThuongTru = idHuyen
+        else if (idTinh !== 'all') idThuongTru = idTinh
+        else idThuongTru = 'all'
+
+        // set loading = 0 sẽ hiển thị loading view
+        loading = 0
+        updateLoadingView()
+
+        // Load du lieu dan cu
+        fetch(`http://localhost:3000/data/dancu/${idThuongTru}?page=${page}`).then(respon => respon.json()).then(data => {
+            dataDanCu = data
+            renderHtmlTableDataDanCu();
+            // Load xong 1 api sẽ + 1 vào loading, update lai trạng thái loading view, 
+            // nếu loading = 2 thì ẩn loaddingview
+            loading += 1
+            updateLoadingView()
+        })
+
+        // Load ton so dan cu de tinh phan trang
+        fetch(`http://localhost:3000/data/dancu/${idThuongTru}/len`).then(respon => respon.json()).then(data1 => {
+            totalDanCu = data1[0].tong_so
+            renderHtmlPhanTrang();
+            loading += 1
+            updateLoadingView();
+        })
+    }
+
+    function resetSelectOptions(id) {
+        if (idTinh === id) {
+            idHuyen = 'all'
+            idXa = 'all'
+            idXom = 'all'
+            // reset html
+            selectHuyen.html('')
+            selectXa.html('')
+            selectXom.html('')
+        }
+        if (idHuyen === id) {
+            idXa = 'all'
+            idXom = 'all'
+            selectXa.html('')
+            selectXom.html('')
+        }
+        if (idXa === id) {
+            idXom = 'all'
+            selectXom.html('')
+        }
+    }
+
+    function renderHtmlSelectOptions(select, data) {
+        console.log('renderSelectOptions', select, data)
+        let content = `<option value="all">Tất cả</option>`
+        data.forEach(item => {
+            content += `<option value="${item.id}">${item.ten}</option>`
+        })
+        select.html(content)
+    }
+
+    function renderHtmlTableDataDanCu() {
+        console.log('renderTableDataDanCu', dataDanCu)
+        var content = ``
+        //con day k anh
+        //chỗ này sao phải if anh
+        // kiểm tra trước dữ liệu có hợp lệ ko, phòng trường hợp api trả về data ko đúng
+        // dataDancu để k tức nó là true đúng k anh
+        // thế ở đây anh để nguyên nó nghĩa là gì
+        // à, đúng nếu đặt trong if thì nó là true
+        // tất cả các biến khi kiểm tra trong if, nó sẽ đc convert về true / false
+        // nếu = underfied / null / 0 / '' => false
+        //ok anh để e đọc cái load,cái đấy anh dùng gì nhỉ
+        if (dataDanCu && dataDanCu.length > 0) {
+            dataDanCu.forEach(item => {
+                content += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.ho_ten}</td>
+                    <td>${item.ngay_sinh}</td>
+                    <td>${item.gioi_tinh}</td>
+                    <td>${item.nhom_mau}</td>
+                    <td>${item.tinh_trang_hon_nhan}</td>
+                    <td>${item.noi_dang_ky_khai_sinh}</td>
+                    <td>${item.ho_khau_thuong_tru}</td>
+                    <td>${item.noi_dang_ky_tam_tru}</td>
+                    <td>${item.ton_giao}</td>
+                    <td>${item.quoc_tich}</td>
+                    <td>${item.id_cha}</td>
+                    <td>${item.id_me}</td>
+                    <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
+                    <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+                </tr>`
+            })
+        }
+        tableDataDanCu.html(content)
+    }
+
+    function renderHtmlPhanTrang() {
+        console.log('renderPhanTrang', totalDanCu)
+
+        // todo Cần tối ưu lại phân trang, chỉ hiện thị 6 - 10 button thôi
+        // https://getbootstrap.com/docs/5.0/components/pagination/
+
+        // tính tổng số trang
+        let totalPage = Math.floor(totalDanCu / perPage)
+        if ((totalDanCu % perPage) > 0) {
+            totalPage += 1
+        }
+
+        phanTrang.html('')
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="come">Previous</button>`)
+        for (let i = 1; i <=totalPage; i++) {
+            // đoạn code này để phân biệt page nào đang đc chọn
+            let activeClass = i === page ? 'btn-primary' : 'btn-secondary';
+            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1" data-page="${i}">${i}</button>`)
+        }
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="next">next</button>`)
+    }
+    function updateLoadingView() {
+        // đoạn code để show loading view khi load / ẩn khi đã load xong
+        if(loading === 2) {
+            // biến loading = 2 tức là đã load xong cả 2 api: load data dân cư và load tổng số dân cư ok anh
+            // ẩn loading đi, thì xóa cái class 'd-flex' trong div đi, thêm cái class 'd-none' vào
+            loadingView.removeClass('d-flex').addClass('d-none')
+        } else {
+            // hiện loading: xóa cái class d-none đi, thêm class d-flex vào
+            loadingView.removeClass('d-none').addClass('d-flex')
+        }
+    }
 </script>
