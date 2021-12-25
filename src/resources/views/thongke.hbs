@@ -1,54 +1,59 @@
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
 <div class="container fuild">
-  <div class="table-responsive">
+    <h1 class="my-4">Dữ liệu dân cư</h1>
+
     <div class="row">
-      <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
-
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
-        <select id="tinh" class="form-select">
-        </select>
-      </div>
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Huyện - Quận</label>
-        <select id="huyen" class="form-select" name="huyen"></select>
-      </div>
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Xã - Phường</label>
-        <select id="xa" class="form-select"></select>
-      </div>
-      <div class="col-md-3">
-        <label for="inputState" class="form-label">Xóm - Tổ</label>
-        <select id="xom" class="form-select"></select>
-      </div>
+        <div class="col-md-3">
+            <label for="selectTinh" class="form-label">Tỉnh - Thành phố</label>
+            <select id="selectTinh" class="form-select">
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectHuyen" class="form-label">Huyện - Quận</label>
+            <select id="selectHuyen" class="form-select" name="huyen"></select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectXa" class="form-label">Xã - Phường</label>
+            <select id="selectXa" class="form-select"></select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectXom" class="form-label">Xóm - Tổ</label>
+            <select id="selectXom" class="form-select"></select>
+        </div>
     </div>
-    <table class="table mt-5" id="ok" style="width: 100%;text-align: center;">
-      <thead class="bg-blue text-danger">
+
+    <table class="table table-responsive mt-5" id="ok" style="width: 100%;text-align: center;">
+        <thead class="bg-blue text-danger">
         <tr>
-          <th scope="col">CCCD</th>
-          <th scope="col">Họ và tên</th>
-          <th scope="col">Ngày sinh</th>
-          <th scope="col">Giới tính</th>
-          <th scope="col">Nhóm máu</th>
-          <th scope="col">Tình trạng hôn nhân</th>
-          <th scope="col">Nơi đăng ký khai sinh</th>
-          <th scope="col">Hộ khẩu thường trú</th>
-          <th scope="col">Nơi đăng ký tạm trú</th>
-          <th scope="col">Tôn giáo</th>
-          <th scope="col">Quốc tịch</th>
-          <th scope="col">CCCD Cha</th>
-          <th scope="col">CCCD Mẹ</th>
+            <th scope="col">CCCD</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Ngày sinh</th>
+            <th scope="col">Giới tính</th>
+            <th scope="col">Nhóm máu</th>
+            <th scope="col">Tình trạng hôn nhân</th>
+            <th scope="col">Nơi đăng ký khai sinh</th>
+            <th scope="col">Hộ khẩu thường trú</th>
+            <th scope="col">Nơi đăng ký tạm trú</th>
+            <th scope="col">Tôn giáo</th>
+            <th scope="col">Quốc tịch</th>
+            <th scope="col">CCCD Cha</th>
+            <th scope="col">CCCD Mẹ</th>
 
-          <th scope="col">sửa</th>
-          <th scope="col">xóa</th>
+            <th scope="col">sửa</th>
+            <th scope="col">xóa</th>
         </tr>
-      </thead>
-      <tbody>
-      </tbody>
+        </thead>
+        <tbody>
+        </tbody>
     </table>
-    <div id="phantrang">
+    <div id="phantrang"></div>
+    
+    <div id="loading" class="position-fixed d-none justify-content-center align-items-center" style="top:0;bottom: 0; left: 0; right: 0;background-color: rgba(0,0,0,0.5)">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    
     </div>
-  </div>
 </div>
 <!-- Modal -->
 <div class="container">
@@ -74,182 +79,268 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
+    // Các biến lưu bộ lọc
+    var idTinh = 'all';
+    var idHuyen = 'all';
+    var idXa = 'all';
+    var idXom = 'all';
+    var search = '';
 
-  function showtabletoanquoc() {
-    $("#huyen").html("")
-    $("#xa").html("")
-    $("#xom").html("")
-    
-    fetch("http://localhost:3000/data/dancu/all/len").then(respon => respon.json()).then(data => {
-      let a = data[0].tong_so % 20
-      let sotrangtinh
-      if (a == 0) {
-        sotrangtinh = Math.round(data[0].tong_so / 20)
-      }
-      else {
-        sotrangtinh = Math.floor(data[0].tong_so / 20) + 1
-      }
-      console.log(sotrangtinh)
-      $("#phantrang").html("")
-      for (let i = 1; i <= sotrangtinh; i++) {
-        $("#phantrang").append(`<button>${i}</button>`)
-      }
-    })
+    // Các biến lưu dữ liệu dân cư, phân trang
+    var dataDanCu = []; // set là mảng trống
+    var page = 1;
+    const perPage = 20;
+    var totalDanCu = 0;
 
-    fetch("http://localhost:3000/data/dancu/all?page=1").then(respon => respon.json()).then(data => {
-      showtable1(data)
-    })
-    $("#phantrang").on("click", "button", function () {
-      let page = Number($(this).text())
-      console.log(page)
-      fetch(`http://localhost:3000/data/dancu/all?page=${page}`).then(respon => respon.json()).then(data => {
-        showtable1(data)
-      })
-    })
-  }
-  // hàm showtable cho tỉnh,huyện,xã,xóm
-  function showtable1(url) {
-    fetch(url).then(respon=>respon.json()).then(data1=>{
-      var content = ``
-    data1.forEach(item => {
-      content += `<tr>
-             <td>${item.id}</td>
-             <td>${item.ho_ten}</td>
-             <td>${item.ngay_sinh}</td>
-             <td>${item.gioi_tinh}</td>
-             <td>${item.nhom_mau}</td>
-             <td>${item.tinh_trang_hon_nhan}</td>
-             <td>${item.noi_dang_ky_khai_sinh}</td>
-             <td>${item.ho_khau_thuong_tru}</td>
-             <td>${item.noi_dang_ky_tam_tru}</td>
-             <td>${item.ton_giao}</td>
-             <td>${item.quoc_tich}</td>
-             <td>${item.id_cha}</td>
-             <td>${item.id_me}</td>
-             <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
-             <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
-           </tr>`
-    })
-    // $("#ok tbody").html("")
-    $("#ok tbody").html(content)
-    })
-   
-  }
-  
-  // hàm chọn chung :ham 
-  function sotrang(key, a) {
-    if (a == "all") {
-      showtabletoanquoc()
-    }
-    else {
-      var choose = ""
-      var id = ""
-      if (key == "#tinh") {
-        choose = "huyen"
-        id = "#huyen"
-        $("#xa").html("")
-        $("#xom").html("")
-      }
-      else if (key == "#huyen") {
-        choose = "xa"
-        id = "#xa"
-        $("#xom").html("")
-      }
-      else if (key == "#xa") {
-        id = "#xom"
-        choose = "xom"
-      }
-      else {
-        id = ""
-        choose = ""
-      }
-      console.log(choose)
-      if (choose == "huyen" || choose == "xa" || choose == "xom") {
-        fetch(`http://localhost:3000/data/${choose}/${a}`).then(respon => respon.json()).then(data => {
-          var content = ``
-          content += `<option data-id="${a}">all</option>`
-          data.forEach(item => {
-            content += `<option data-id="${item.id}">${item.ten}</option>`
-          })
-          $(id).html(content)
+    var loading = 0;
+
+    // Các dom element jquery, lưu vào biến tránh phải tìm lại nhiều lần
+    var selectTinh = $('#selectTinh');
+    var selectHuyen = $('#selectHuyen');
+    var selectXa = $('#selectXa');
+    var selectXom = $('#selectXom');
+    var tableDataDanCu = $('#ok tbody');
+    var phanTrang = $('#phantrang');
+    var loadingView = $('#loading');
+    var phanTrangTest=$('#phantrangtest')
+    $(function () {
+        // xử lý các event, load data sau khi trang đã load xong.
+
+        // Event chọn tỉnh
+        selectTinh.change(function () {
+            idTinh = $(this).val();
+
+            // reset page ve trang đầu
+            page = 1;
+            // reset cac du lieu địa chỉ
+            resetSelectOptions(idTinh);
+            // Load dât huyen cua tinh
+            loadHuyen()
+            // Load data dan cu
+            loadDataDanCu();
         })
-      }
 
-      fetch(`http://localhost:3000/data/dancu/${a}/len`).then(respon => respon.json()).then(data1 => {
-        // tính số trang
-        let a = data1[0].tong_so % 20
-        let sotrangtinh
-        if (a == 0) {
-          sotrangtinh = Math.round(data1[0].tong_so / 20)
-        }
-        else {
-          sotrangtinh = Math.floor(data1[0].tong_so / 20) + 1
-        }
-        console.log(sotrangtinh)
-        $("#phantrang").html("")
-        for (let i = 1; i <= sotrangtinh; i++) {
-
-          $("#phantrang").append(`<button>${i}</button>`)
-        }
-      })
-
-      fetch(`http://localhost:3000/data/dancu/${a}?page=1`)
-        .then(respon => respon.json())
-        .then(data => {
-          showtable1(data)
+        // Event chọn huyện
+        selectHuyen.change(function () {
+            idHuyen = $(this).val();
+            page = 1;
+            resetSelectOptions(idHuyen);
+            loadXa()
+            loadDataDanCu();
         })
-      $("#phantrang").on("click", "button", function () {
-        let page = Number($(this).text())
-        var url=`http://localhost:3000/data/dancu/${a}?page=${page}`
-      
-          
-            showtable1(data)
+
+        // event chọn xa
+        selectXa.change(function () {
+            idXa = $(this).val();
+            page = 1;
+            resetSelectOptions(idXa);
+            loadXom()
+            loadDataDanCu();
+        })
+        // event chọn xóm
+        selectXom.change(function () {
+            idXom = $(this).val();
+            page = 1;
+            resetSelectOptions(idXom);
+            loadDataDanCu();
+        })
+        // Event click trang
+        phanTrang.on('click', 'button', function () {
+            let newPage = $(this).data('page')
+            console.log(newPage)
+            // kiem tra page click vào có phải page hiện tại ko, nếu != page hiện tại thì mới load data
+            if(newPage=="next"||newPage=="come"){
+                if(newPage=="next"){
+                    page++
+                loadDataDanCu()
+                }
+                else{
+                    page--
+                    loadDataDanCu()
+                }
+            }
+            else{
+                if (newPage !== page){
+                page = newPage
+                loadDataDanCu();
+                }
+            }
            
-          })
-      
-    }
-  }
+        })
 
-  fetch("http://localhost:3000/data/tinh").then(respon => respon.json()).then(data => {
-    $("#tinh").append(`<option data-id="all">Toàn quốc</option>`)
-    data.forEach(item => {
-      $("#tinh").append(`<option data-id="${item.id}">${item.ten}</option>`)
+        // Load các dữ liệu ban đầu
+        loadTinh();
+        loadDataDanCu();
     })
-  })
+</script>
+<script>
+    // Define các function
+    function loadTinh() {
+        fetch("http://localhost:3000/data/tinh").then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectTinh, data)
+        })
+    }
 
-  //  chọn tỉnh-thành phố
-  $("#tinh").change(function () {
-    let a = $("#tinh option:selected").first().data("id")
-    // console.log(a)
-    sotrang('#tinh', a)
+    function loadHuyen() {
+        selectHuyen.html('')
+        if (idTinh === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/huyen/${idTinh}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectHuyen, data)
+        })
+    }
 
-  })
+    function loadXa() {
+        selectXa.html('')
+        if (idHuyen === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/xa/${idHuyen}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectXa, data)
+        })
+    }
 
-  showtabletoanquoc()
-  //chọn huyện-quận
-  $("#huyen").change(function () {
-    var a = $("#huyen option:selected").first().data("id")
-    console.log(a)
-    sotrang('#huyen', a)
+    function loadXom() {
+        selectXom.html('')
+        if (idXa === 'all') {
+            return
+        }
+        fetch(`http://localhost:3000/data/xom/${idXa}`).then(respon => respon.json()).then(data => {
+            renderHtmlSelectOptions(selectXom, data)
+        })
+    }
 
-  })
+    function loadDataDanCu() {
+        let idThuongTru = ''
+        // ưu tien tu xom -> tinh
+        if (idXom !== 'all') idThuongTru = idXom
+        else if (idXa !== 'all') idThuongTru = idXa
+        else if (idHuyen !== 'all') idThuongTru = idHuyen
+        else if (idTinh !== 'all') idThuongTru = idTinh
+        else idThuongTru = 'all'
 
-  //chọn xã-phường
-  $("#xa").change(function () {
-    var a = $("#xa option:selected").first().data("id")
-    sotrang('#xa', a)
+        // set loading = 0 sẽ hiển thị loading view
+        loading = 0
+        updateLoadingView()
 
-  })
+        // Load du lieu dan cu
+        fetch(`http://localhost:3000/data/dancu/${idThuongTru}?page=${page}`).then(respon => respon.json()).then(data => {
+            dataDanCu = data
+            renderHtmlTableDataDanCu();
+            // Load xong 1 api sẽ + 1 vào loading, update lai trạng thái loading view, 
+            // nếu loading = 2 thì ẩn loaddingview
+            loading += 1
+            updateLoadingView()
+        })
 
-  // chọn xóm-tổ
-  $("#xom").change(function () {
-    var a = $("#xom option:selected").first().data("id")
-    sotrang('#xom', a)
-  })
+        // Load ton so dan cu de tinh phan trang
+        fetch(`http://localhost:3000/data/dancu/${idThuongTru}/len`).then(respon => respon.json()).then(data1 => {
+            totalDanCu = data1[0].tong_so
+            renderHtmlPhanTrang();
+            loading += 1
+            updateLoadingView();
+        })
+    }
 
+    function resetSelectOptions(id) {
+        if (idTinh === id) {
+            idHuyen = 'all'
+            idXa = 'all'
+            idXom = 'all'
+            // reset html
+            selectHuyen.html('')
+            selectXa.html('')
+            selectXom.html('')
+        }
+        if (idHuyen === id) {
+            idXa = 'all'
+            idXom = 'all'
+            selectXa.html('')
+            selectXom.html('')
+        }
+        if (idXa === id) {
+            idXom = 'all'
+            selectXom.html('')
+        }
+    }
 
+    function renderHtmlSelectOptions(select, data) {
+        console.log('renderSelectOptions', select, data)
+        let content = `<option value="all">Tất cả</option>`
+        data.forEach(item => {
+            content += `<option value="${item.id}">${item.ten}</option>`
+        })
+        select.html(content)
+    }
 
-  // $(document).ready(function () {
+    function renderHtmlTableDataDanCu() {
+        console.log('renderTableDataDanCu', dataDanCu)
+        var content = ``
+        //con day k anh
+        //chỗ này sao phải if anh
+        // kiểm tra trước dữ liệu có hợp lệ ko, phòng trường hợp api trả về data ko đúng
+        // dataDancu để k tức nó là true đúng k anh
+        // thế ở đây anh để nguyên nó nghĩa là gì
+        // à, đúng nếu đặt trong if thì nó là true
+        // tất cả các biến khi kiểm tra trong if, nó sẽ đc convert về true / false
+        // nếu = underfied / null / 0 / '' => false
+        //ok anh để e đọc cái load,cái đấy anh dùng gì nhỉ
+        if (dataDanCu && dataDanCu.length > 0) {
+            dataDanCu.forEach(item => {
+                content += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.ho_ten}</td>
+                    <td>${item.ngay_sinh}</td>
+                    <td>${item.gioi_tinh}</td>
+                    <td>${item.nhom_mau}</td>
+                    <td>${item.tinh_trang_hon_nhan}</td>
+                    <td>${item.noi_dang_ky_khai_sinh}</td>
+                    <td>${item.ho_khau_thuong_tru}</td>
+                    <td>${item.noi_dang_ky_tam_tru}</td>
+                    <td>${item.ton_giao}</td>
+                    <td>${item.quoc_tich}</td>
+                    <td>${item.id_cha}</td>
+                    <td>${item.id_me}</td>
+                    <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
+                    <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+                </tr>`
+            })
+        }
+        tableDataDanCu.html(content)
+    }
 
-  // })
+    function renderHtmlPhanTrang() {
+        console.log('renderPhanTrang', totalDanCu)
+
+        // todo Cần tối ưu lại phân trang, chỉ hiện thị 6 - 10 button thôi
+        // https://getbootstrap.com/docs/5.0/components/pagination/
+
+        // tính tổng số trang
+        let totalPage = Math.floor(totalDanCu / perPage)
+        if ((totalDanCu % perPage) > 0) {
+            totalPage += 1
+        }
+
+        phanTrang.html('')
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="come">Previous</button>`)
+        for (let i = 1; i <=totalPage; i++) {
+            // đoạn code này để phân biệt page nào đang đc chọn
+            let activeClass = i === page ? 'btn-primary' : 'btn-secondary';
+            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1" data-page="${i}">${i}</button>`)
+        }
+        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="next">next</button>`)
+    }
+    function updateLoadingView() {
+        // đoạn code để show loading view khi load / ẩn khi đã load xong
+        if(loading === 2) {
+            // biến loading = 2 tức là đã load xong cả 2 api: load data dân cư và load tổng số dân cư ok anh
+            // ẩn loading đi, thì xóa cái class 'd-flex' trong div đi, thêm cái class 'd-none' vào
+            loadingView.removeClass('d-flex').addClass('d-none')
+        } else {
+            // hiện loading: xóa cái class d-none đi, thêm class d-flex vào
+            loadingView.removeClass('d-none').addClass('d-flex')
+        }
+    }
 </script>
