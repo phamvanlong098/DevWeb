@@ -36,9 +36,7 @@ class Query {
     getDancuToanQuoc(page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
-        let sql1 = `SELECT COUNT(*) AS tong_so FROM dan_cu;`
-        let sql2 = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
-        let sql = sql1 + sql2
+        let sql = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -48,9 +46,23 @@ class Query {
     getDancuByDiaPhuong(diaPhuongID, page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
-        let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
-        let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
-        let sql = sql1 + sql2
+        let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getLengthDancuByDiaPhuong(diaPhuongID, callback){
+        let sql = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getDancuToanQuocLen(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so FROM dan_cu `
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)

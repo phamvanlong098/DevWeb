@@ -93,6 +93,22 @@ class DataController {
         })
     }
 
+     // data/dancu/all/len
+     getDancuToanQuocLen(req, res) {
+        mysqlModel.getDancuToanQuocLen( (result) =>{
+            res.json(result)
+        })
+    }
+
+     // data/dancu/:idDiaPhuong/len
+     getLengthDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
+            res.json(result)
+        })
+    }
+
+
 }
 
 module.exports = new DataController

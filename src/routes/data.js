@@ -13,9 +13,10 @@ router.get('/huyen/:idTinh', authenAuthor.checkLogin, dataController.getHuyenByT
 router.get('/xa/:idHuyen', authenAuthor.checkLogin, dataController.getXaByHuyenID)
 router.get('/xom/:idXa', authenAuthor.checkLogin, dataController.getXomByXaID)
 
-router.get('/dancu/all', authenAuthor.checkLogin, dataController.getDancuToanQuoc)
-router.get('/dancu/:idDiaPhuong', authenAuthor.checkLogin, dataController.getDancuByDiaPhuong)
-router.get('/search', authenAuthor.checkLogin, dataController.searchDancu)
+router.get('/dancu/all', dataController.getDancuToanQuoc)
+router.get('/dancu/all/len', dataController.getDancuToanQuocLen)
+router.get('/dancu/:idDiaPhuong', dataController.getDancuByDiaPhuong)
+router.get('/dancu/:idDiaPhuong/len', dataController.getLengthDancuByDiaPhuong)
 
 router.get('/bieudo/soDanTheoTinh/:soLuong', dataController.soDanTheoTinh)
 router.get('/bieudo/tyLeGioiTinh', dataController.tyLeGioiTinh)
