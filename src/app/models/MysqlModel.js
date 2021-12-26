@@ -61,6 +61,22 @@ class Query {
         });
     }
 
+    phanTrangSearch(condition, callback) {
+        let pagesize = 20
+        let start = (condition.page - 1) * pagesize
+        let sql1 = `SELECT COUNT(*) AS tong_so FROM dan_cu WHERE MATCH (ho_ten) AGAINST('${condition.key}');`
+        let sql2 = `SELECT * FROM dan_cu WHERE MATCH (ho_ten) AGAINST('${condition.key}') LIMIT ${start}, ${pagesize};`
+        let sql = sql1 + sql2
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            let ketqua = {
+                tong_so: results[0][0].tong_so,
+                data: results[1]
+            }
+            callback(ketqua)
+        });
+    }
+
     searchDancu(key, callback) {
         let sql = `SELECT * FROM dan_cu WHERE MATCH (ho_ten) AGAINST('${key}');`
         db.query(sql, (err, results) => {

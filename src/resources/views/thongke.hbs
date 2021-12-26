@@ -1,4 +1,13 @@
-
+<style>
+    table {
+  border-collapse: collapse;
+  width: 100%;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover{
+    background-color: rgb(158, 196, 197);
+}
+</style>
 <div class="container fuild">
     <h1 class="my-4">Dữ liệu dân cư</h1>
 
@@ -21,7 +30,13 @@
             <select id="selectXom" class="form-select"></select>
         </div>
     </div>
-
+    <br>
+    <form>
+        searching
+        <br>
+        <input id="nhaptu" value="" placeholder="nhập tên cần tìm"> 
+        <button id="searchnguoidan" class="btn btn-danger">click</button>
+    </form>
     <table class="table table-responsive mt-5" id="ok" style="width: 100%;text-align: center;">
         <thead class="bg-blue text-danger">
         <tr>
@@ -38,7 +53,6 @@
             <th scope="col">Quốc tịch</th>
             <th scope="col">CCCD Cha</th>
             <th scope="col">CCCD Mẹ</th>
-
             <th scope="col">sửa</th>
             <th scope="col">xóa</th>
         </tr>
@@ -51,8 +65,7 @@
     <div id="loading" class="position-fixed d-none justify-content-center align-items-center" style="top:0;bottom: 0; left: 0; right: 0;background-color: rgba(0,0,0,0.5)">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
-        </div>
-    
+        </div>   
     </div>
 </div>
 <!-- Modal -->
@@ -76,8 +89,8 @@
   </div>
 </div>
 <form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/botmonster/jquery-bootpag@master/lib/jquery.bootpag.min.js"></script>
 <script>
     // Các biến lưu bộ lọc
     var idTinh = 'all';
@@ -85,7 +98,6 @@
     var idXa = 'all';
     var idXom = 'all';
     var search = '';
-
     // Các biến lưu dữ liệu dân cư, phân trang
     var dataDanCu = []; // set là mảng trống
     var page = 1;
@@ -102,7 +114,9 @@
     var tableDataDanCu = $('#ok tbody');
     var phanTrang = $('#phantrang');
     var loadingView = $('#loading');
-    var phanTrangTest=$('#phantrangtest')
+    var phanTrangTest=$('#phantrangtest');
+    var selectsearch = $('#searchnguoidan')
+    var tutimkiem = $('#nhaptu')
     $(function () {
         // xử lý các event, load data sau khi trang đã load xong.
 
@@ -112,6 +126,7 @@
 
             // reset page ve trang đầu
             page = 1;
+            tutimkiem.val('')
             // reset cac du lieu địa chỉ
             resetSelectOptions(idTinh);
             // Load dât huyen cua tinh
@@ -124,6 +139,7 @@
         selectHuyen.change(function () {
             idHuyen = $(this).val();
             page = 1;
+            tutimkiem.val('')
             resetSelectOptions(idHuyen);
             loadXa()
             loadDataDanCu();
@@ -133,6 +149,7 @@
         selectXa.change(function () {
             idXa = $(this).val();
             page = 1;
+            tutimkiem.val('')
             resetSelectOptions(idXa);
             loadXom()
             loadDataDanCu();
@@ -141,37 +158,49 @@
         selectXom.change(function () {
             idXom = $(this).val();
             page = 1;
+            tutimkiem.val('')
             resetSelectOptions(idXom);
             loadDataDanCu();
         })
-        // Event click trang
-        phanTrang.on('click', 'button', function () {
-            let newPage = $(this).data('page')
-            console.log(newPage)
-            // kiem tra page click vào có phải page hiện tại ko, nếu != page hiện tại thì mới load data
-            if(newPage=="next"||newPage=="come"){
-                if(newPage=="next"){
-                    page++
-                loadDataDanCu()
-                }
-                else{
-                    page--
-                    loadDataDanCu()
-                }
-            }
-            else{
-                if (newPage !== page){
-                page = newPage
-                loadDataDanCu();
-                }
-            }
-           
+        //even chọn tìm kiếm
+        selectsearch.click(function(){
+           search=tutimkiem.val();
+           console.log(search)
+           page=1;
+          // console.log(search)
+          loadDataDanCuSearch()
         })
+        // Event click trang
+        phanTrang.on("page", function(event, num){
+            console.log(search)
+            page = num;
+            if(search=='')
+            loadDataDanCu();
+            else loadDataDanCuSearch();
+            
+        });
 
         // Load các dữ liệu ban đầu
         loadTinh();
         loadDataDanCu();
     })
+    
+    document.addEventListener("DOMContentLoaded", function(){
+    let modelSubmitBtn = document.getElementById('submit-btn')
+    let deleteForm = document.getElementById('delete-form')
+    let id;
+    let exampleModal = document.getElementById('delete-human')
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      id = button.getAttribute('data-id')
+    })
+    modelSubmitBtn.onclick = function() {
+      deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
+      deleteForm.submit();
+    }
+  });
 </script>
 <script>
     // Define các function
@@ -210,7 +239,20 @@
             renderHtmlSelectOptions(selectXom, data)
         })
     }
-
+    function loadDataDanCuSearch(){
+        loading = 0
+        updateLoadingView()
+        fetch(`http://localhost:3000/data/search?key=${search}&page=${page}`).then(respon=>respon.json()).then(data=>{
+            dataDanCu=data['data']
+            renderHtmlTableDataDanCu();
+            loading += 1
+            updateLoadingView()
+            totalDanCu = data['tong_so']
+            renderHtmlPhanTrang();
+            loading += 1
+            updateLoadingView();
+        })
+    }
     function loadDataDanCu() {
         let idThuongTru = ''
         // ưu tien tu xom -> tinh
@@ -277,15 +319,6 @@
     function renderHtmlTableDataDanCu() {
         console.log('renderTableDataDanCu', dataDanCu)
         var content = ``
-        //con day k anh
-        //chỗ này sao phải if anh
-        // kiểm tra trước dữ liệu có hợp lệ ko, phòng trường hợp api trả về data ko đúng
-        // dataDancu để k tức nó là true đúng k anh
-        // thế ở đây anh để nguyên nó nghĩa là gì
-        // à, đúng nếu đặt trong if thì nó là true
-        // tất cả các biến khi kiểm tra trong if, nó sẽ đc convert về true / false
-        // nếu = underfied / null / 0 / '' => false
-        //ok anh để e đọc cái load,cái đấy anh dùng gì nhỉ
         if (dataDanCu && dataDanCu.length > 0) {
             dataDanCu.forEach(item => {
                 content += `
@@ -323,14 +356,15 @@
             totalPage += 1
         }
 
-        phanTrang.html('')
-        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="come">Previous</button>`)
-        for (let i = 1; i <=totalPage; i++) {
-            // đoạn code này để phân biệt page nào đang đc chọn
-            let activeClass = i === page ? 'btn-primary' : 'btn-secondary';
-            phanTrang.append(`<button class="btn btn-sm ${activeClass} mx-1" data-page="${i}">${i}</button>`)
-        }
-        phanTrang.append(`<button class="btn btn-sm mx-1 btn-danger" data-page="next">next</button>`)
+        phanTrang.bootpag({
+            total: totalPage,          
+            page: page,     
+            maxVisible: 6,
+            leaps: true,
+            href: "#result-page-{{number}}",
+            wrapClass: 'pagination',
+
+        })
     }
     function updateLoadingView() {
         // đoạn code để show loading view khi load / ẩn khi đã load xong
@@ -344,3 +378,17 @@
         }
     }
 </script>
+<style>
+    #phantrang .pagination li > a {
+        padding: 5px 10px;
+        margin: 0 2px;
+        background: #e0e0e0;
+        color: #111;
+        border: 1px solid #999;
+        text-decoration: none;
+    }
+    #phantrang .pagination li > a:hover,
+    #phantrang .pagination li.active > a {
+        background: #3494ee;
+    }
+</style>
