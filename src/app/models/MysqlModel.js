@@ -103,7 +103,7 @@ class Query {
 
     // notwork ultil update nhaplieu
     insertDancu(human) {
-        let sql = `INSERT INTO dan_cu SET gioi_tinh = '${human.gioi_tinh}', id = '${human.cccd}', cccd = '${human.cccd}',ho_ten = '${human.ho_ten}', ngay_sinh = '${human.ngay_sinh}', ho_khau_thuong_tru = '${human.ho_khau_thuong_tru}', noi_dang_ky_tam_tru = '${human.noi_dang_ky_tam_tru}', ton_giao = '${human.ton_giao}', nhom_mau = '${human.nhom_mau}', tinh_trang_hon_nhan = '${human.tinh_trang_hon_nhan}', noi_dang_ky_khai_sinh = '${human.noi_dang_ky_khai_sinh}', quoc_tich = '${human.quoc_tich}', id_cha = '${human.id_cha}', id_me = '${human.id_me}'`
+        let sql = `INSERT INTO dan_cu SET gioi_tinh = '${human.gioi_tinh}', cccd = '${human.cccd}',ho_ten = '${human.ho_ten}', ngay_sinh = '${human.ngay_sinh}', ho_khau_thuong_tru = '${human.ho_khau_thuong_tru}', noi_dang_ky_tam_tru = '${human.noi_dang_ky_tam_tru}', ton_giao = '${human.ton_giao}', nhom_mau = '${human.nhom_mau}', tinh_trang_hon_nhan = '${human.tinh_trang_hon_nhan}', noi_dang_ky_khai_sinh = '${human.noi_dang_ky_khai_sinh}', quoc_tich = '${human.quoc_tich}', id_cha = '${human.id_cha}', id_me = '${human.id_me}'`
         db.query(sql, (err) => {
             if (err) throw err;
         });
