@@ -108,6 +108,33 @@ class Query {
         });
     }
 
+    // quanly/area
+    updateArea(condition, callback) {
+        let sql = `SELECT * FROM ${condition.table} WHERE id='${condition.id}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE ${condition.table} SET ten='${condition.ten}' WHERE id='${condition.id}'`
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO ${condition.table} SET ten='${condition.ten}', id='${condition.id}' `
+                if(condition.parent_id) insert += `, parent_id = '${condition.parent_id}'`
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
+            callback(results)
+        });
+    }
+
+    // quanly/area
+    deleteArea(condition, callback) {
+        let sql = `DELETE FROM  ${condition.table} WHERE id= ${condition.id}`
+        db.query(sql, (err) => {
+            if (err) throw err;
+        });
+    }
+
     // tai khoan
     updateTaiKhoan(user, callback) {
         let sql = `SELECT * FROM taikhoan WHERE tai_khoan='${user.tai_khoan}'`
@@ -143,6 +170,14 @@ class Query {
             }
 
             callback(results)
+        });
+    }
+
+    // delete taikhoan
+    deleteTaikhoan(id) {
+        let sql = `DELETE FROM taikhoan WHERE tai_khoan= ${id}`
+        db.query(sql, (err) => {
+            if (err) throw err;
         });
     }
 

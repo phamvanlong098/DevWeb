@@ -39,7 +39,7 @@ function render(pageNumber) {
 		html = getHTML(res)
 		tableContainer.innerHTML = html;
 
-		inputs = document.querySelectorAll('input')
+		inputs = document.querySelectorAll('td input')
 		Array.from(inputs).forEach((input) => {
 			input.onchange = function() {
 				putChange(this)
@@ -90,6 +90,7 @@ function getHTML(res) {
 					<th scope="col">#</th>
 					<th scope="col">Tài khoản</th>
 					<th scope="col">Mật khẩu</th>
+					<th scope="col">Xóa</th>
 				</tr>
 				</thead>
 				<tbody>`
@@ -98,6 +99,7 @@ function getHTML(res) {
 							<th scope="row">${index + 1}</th>
 							<td>${item.tai_khoan}</td>
 							<td><input name="mat_khau" username="${item.tai_khoan}" value="${item.mat_khau}"></td>
+							<td><a href="#" data-id="${item.tai_khoan}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
 						</tr>`
 				}, "")
 				html += `</tbody> </table>`
@@ -119,6 +121,7 @@ function getHTML(res) {
 					<th scope="col">#</th>
 					<th scope="col">Mã khu vực</th>
 					<th scope="col">Khu vực</th>
+					<th scope="col">Xóa</th>
 				</tr>
 				</thead>
 				<tbody>`
@@ -127,6 +130,7 @@ function getHTML(res) {
 							<th scope="row">${index + 1}</th>
 							<td>${item.id}</td>
 							<td><input name="ten" username="${item.id}" value="${item.ten}"></td>
+							<td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
 						</tr>`
 				}, "")
 				html += `</tbody> </table>`
@@ -272,8 +276,9 @@ function putChange(input) {
 	let active = document.querySelector('.active').getAttribute('module')
 	switch (active) {
 		case 'areaManager': {
-			// api = "./capcon/area"
-			// payload.
+			api = "./capcon/area"
+			payload.id = input.getAttribute('username')
+			payload.ten = input.value
 			break;
 		}
 		case 'accountManager': {
@@ -292,6 +297,7 @@ function putChange(input) {
 			return;
 		}
 	}
+	console.log(payload)
 
 	fetch(api, {
 		method: 'PUT',
@@ -305,14 +311,62 @@ function putChange(input) {
 function createArea(event) {
 	event.preventDefault()
 	let formArea = document.querySelector('.createArea')
+	let payload = {}
 	if(isAdmin) {
-		let tai_khoan = formArea.querySelector(".input[name='tai_khoan']")
-		let mat_khau = formArea.querySelector(".input[name='mat_khau']")
+		let id = formArea.querySelector("input[name='tai_khoan']").value
+		let ten = formArea.querySelector("input[name='mat_khau']").value
+		payload = {id, ten}
 	}
-	formArea.submit()
+	else {
+		let id = formArea.querySelector("input[name='id']").value
+		let ten = formArea.querySelector("input[name='ten']").value
+		payload = {id, ten}
+	}
+	console.log(payload)
+
+
+	fetch('./capcon/area', {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(payload)
+	})
+	.then(res => {
+		render(currentPage)
+	})
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
 	areaManager.click()
 	
 }, false);
+
+// delete manage
+var modalSubmitBtn = document.getElementById('submit-btn')
+var modalDismissBtn = document.getElementById('dismiss-btn')
+var deleteForm = document.getElementById('delete-form')
+var id;
+var exampleModal = document.getElementById('delete-human')
+exampleModal.addEventListener('show.bs.modal', function (event) {
+// Button that triggered the modal
+var button = event.relatedTarget
+// Extract info from data-bs-* attributes
+id = button.getAttribute('data-id')
+})
+
+modalSubmitBtn.onclick = function() {
+	let payload = {id}
+	fetch('./capcon/area', {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(payload)
+	})
+	.then(res => {
+	})
+	render(currentPage)
+	modalDismissBtn.click()
+}

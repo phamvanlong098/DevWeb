@@ -9,21 +9,36 @@
           <li class="col-6 col-md-12 nav-item">
             <a href="#" class="nav-link areaManager"  module="areaManager" aria-current="page">
               <i class="fas fa-map-marker-alt"></i>
-              Khai báo khu vực
+              Khai báo
             </a>
           </li>
-          <li class="col-6 col-md-12 nav-item">
-            <a href="#" class="nav-link active accountManager" module="accountManager" aria-current="page">
-              <i class="far fa-user"></i>
-              Quản lý tài khoản
-            </a>
-          </li>
-          <li class="col-6 col-md-12 nav-item">
-            <a href="#" class="nav-link timeManager" module="timeManager" aria-current="page">
-              <i class="far fa-clock"></i>
-              Quản lý thời hạn khai báo
-            </a>
-          </li>
+          {{#if (isAdmin user.cap)}}
+            <li class="col-6 col-md-12 nav-item" style="display: none;">
+              <a href="#" class="nav-link active accountManager" module="accountManager" aria-current="page">
+                <i class="far fa-user"></i>
+                Tài khoản
+              </a>
+            </li>
+            <li class="col-6 col-md-12 nav-item" style="display: none;">
+              <a href="#" class="nav-link timeManager" module="timeManager" aria-current="page">
+                <i class="far fa-clock"></i>
+                Thời hạn
+              </a>
+            </li>
+          {{else}}
+            <li class="col-6 col-md-12 nav-item">
+              <a href="#" class="nav-link active accountManager" module="accountManager" aria-current="page">
+                <i class="far fa-user"></i>
+                Tài khoản
+              </a>
+            </li>
+            <li class="col-6 col-md-12 nav-item">
+              <a href="#" class="nav-link timeManager" module="timeManager" aria-current="page">
+                <i class="far fa-clock"></i>
+                Thời hạn
+              </a>
+            </li>
+          {{/if}}
         </ul>
         <hr>
   
@@ -36,6 +51,27 @@
   </div>
   <div id="paging">  </div>
  
+</div>
+
+<!-- Modal -->
+<div class="container">
+  <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa bản ghi này?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Dữ liệu của bạn sẽ <strong>không</strong> thể khôi phục!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="submit-btn">Xóa</button>
+          <button type="button" class="btn btn-primary" id="dismiss-btn" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

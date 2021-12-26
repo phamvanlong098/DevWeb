@@ -147,4 +147,91 @@ router.get('/capcon/area', authenAuthor.checkManager, (req, res, next) => {
     })
 })
 
+// [PUT] capcon/area
+router.put('/capcon/area', authenAuthor.checkManager, (req, res, next) => {
+    let user = req.session.user;
+    let username = req.session.user.tai_khoan;
+    let table = ""
+    let ten = req.body.ten
+    let id = req.body.id
+    let parent_id = ""
+    switch(user.cap) {
+        case "Admin" : {
+            table = `taikhoan`
+            mysqlModel.updateTaiKhoan({cap: 'A1', tai_khoan: id, mat_khau: ten}, (result) => {
+                res.json(result)
+            })
+            return;
+            break;
+        }
+        case "A1" : {
+            table = `tinh_thanhpho`
+            break;
+        }
+        case "A2" : {
+            table = `huyen_quan`
+            parent_id = username
+            break;
+        }
+        case "A3" : {
+            table = `xa_phuong`
+            parent_id = username
+            break;
+        }
+        case "B1" : {
+            table = `xom_thonto`
+            parent_id = username
+            break;
+        }
+        default: {
+            throw new Error("phan trang that bai!")
+            break;
+        }
+    }
+    mysqlModel.updateArea({table, ten, id, parent_id}, (result) => {
+        res.json(result)
+    })
+})
+
+// [delete] capcon/area
+router.delete('/capcon/area', authenAuthor.checkManager, (req, res, next) => {
+    let user = req.session.user;
+    let username = req.session.user.tai_khoan;
+    let table = ""
+    let id = req.body.id
+    switch(user.cap) {
+        case "Admin" : {
+            table = `taikhoan`
+            mysqlModel.deleteTaikhoan(id, (result) => {
+                res.json(result)
+            })
+            return;
+            break;
+        }
+        case "A1" : {
+            table = `tinh_thanhpho`
+            break;
+        }
+        case "A2" : {
+            table = `huyen_quan`
+            break;
+        }
+        case "A3" : {
+            table = `xa_phuong`
+            break;
+        }
+        case "B1" : {
+            table = `xom_thonto`
+            break;
+        }
+        default: {
+            throw new Error("phan trang that bai!")
+            break;
+        }
+    }
+    mysqlModel.deleteArea({table, id}, (result) => {
+        res.json(result)
+    })
+})
+
 module.exports = router
