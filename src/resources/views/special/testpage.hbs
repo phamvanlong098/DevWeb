@@ -1,0 +1,67 @@
+<style>
+    .active {
+        color: red;
+    }
+    #a, #b {
+      padding: 50px;
+    }
+
+    #a:hover, #b:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+
+<div id="a" class="active">a</div>
+<div id="b">b</div>
+<div id="paging"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="http://localhost:3000/js/pagination.js"></script>
+<script>
+    var a = document.querySelector('#a')
+    var b = document.querySelector('#b')
+
+    a.onclick = function() {
+        document.querySelector('.active').classList.remove('active')
+        this.classList.add('active')
+        setPaging("dan_cu")
+
+    }
+
+    b.onclick = function() {
+        document.querySelector('.active').classList.remove('active')
+        this.classList.add('active')
+        setPaging("taikhoan")
+    }
+
+    function setPaging(table) {
+        $('#paging').pagination({
+        dataSource: `http://localhost:3000/data/pagin/${table}?page=1`,
+        locator: 'data',
+        totalNumberLocator: function(response) {
+            tong_so_page =  Math.floor(response.tong_so / 20)
+            return response.tong_so;
+        },
+        pageSize: 20,
+        // autoHidePrevious: true,
+        // autoHideNext: true,
+
+        // afterPageOnClick: function(event, pageNumber) {
+        //     currentPage = pageNumber
+        //     render(pageNumber)
+        // },
+
+        // afterPreviousOnClick: function(event, pageNumber) {
+        //     if(currentPage > 1)
+        //     render(--currentPage)
+        // },
+
+        // afterNextOnClick: function(event, pageNumber) {
+        //     if(currentPage <= tong_so_page)
+        //     render(++currentPage)
+        // }
+    })
+    }
+</script>

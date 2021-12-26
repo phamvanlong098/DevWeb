@@ -43,6 +43,9 @@ const hbs = exphbs.create({
 		sum: (a, b) => (a + b),
 		json: (context) => {
 			return JSON.stringify(context);
+		},
+		isAdmin: (role) => {
+			return role == 'Admin'
 		}
 	}
 })
