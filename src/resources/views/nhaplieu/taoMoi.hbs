@@ -16,7 +16,7 @@
 
         <div class="col-lg-3 col-md-12" style="margin-right: 180px">
             <label for="birthDay" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="birthDay" name="ngaySinh" placeholder="dd/mm/yyyy">
+            <input type="text" class="form-control" id="birthDay" name="ngaySinh" placeholder="dd/mm/yyyy">
             <span class="error" id="errdob"></span>
         </div>
         <div class="col-md-6 col-lg-2" style="margin-right: 200px">
@@ -77,7 +77,6 @@
             <label for="inputBirthPlace" class="form-label">Nơi đăng ký khai sinh</label>
             <select id="inputBirthPlace" class="form-select" name="tinh">
                 <option selected>Choose...</option>
-                <option>...</option>
             </select>
             <span class="error" id="errBP"></span>
         </div>
@@ -91,68 +90,77 @@
             <input class="form-control" id="motherID" name="motherID">
             <span class="error" id="errmid"></span>
         </div>
-        <div class="row">
+        <div class="row" id="hktt">
             <label class="form-label" style="font-size: 17px;font-weight: bold">Hộ khẩu thường trú</label>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputCity" class="form-label">Tỉnh - Thành phố</label>
                 <select id="inputCity" class="form-select" name="tinh">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                    <option selected></option>
                 </select>
                 <span class="error" id="errcity"></span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputDistrict" class="form-label">Huyện - Quận</label>
                 <select id="inputDistrict" class="form-select" name="huyen">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                    <option selected></option>
                 </select>
                 <span class="error" id="errdistrict"></span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputVillage" class="form-label">Xã - Phường</label>
                 <select id="inputVillage" class="form-select" name="xa">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                    <option selected></option>
                 </select>
                 <span class="error" id="errvillage"></span>
             </div>
-
+            <div class="col-md-3">
+                <label for="inputGroup" class="form-label">Thôn - Tổ</label>
+                <select id="inputGroup" class="form-select" name="to">
+                    <option selected></option>
+                </select>
+                <span class="error" id="errgroup"></span>
+            </div>
         </div>
-        <div class="row">
+        <div class="row" id="noioht">
             <label class="form-label" style="font-size: 17px;font-weight: bold">Nơi ở hiện tại</label>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputCity1" class="form-label">Tỉnh - Thành phố</label>
-                <select id="inputCity1" class="form-select" name="tinh">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select id="inputCity1" class="form-select" name="tinh1">
+                    <option selected></option>
                 </select>
                 <span class="error" id="errcity1"></span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputDistrict1" class="form-label">Huyện - Quận</label>
-                <select id="inputDistrict1" class="form-select" name="huyen">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select id="inputDistrict1" class="form-select" name="huyen1">
+                    <option selected></option>
                 </select>
                 <span class="error" id="errdistrict1"></span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="inputVillage1" class="form-label">Xã - Phường</label>
-                <select id="inputVillage1" class="form-select" name="xa">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select id="inputVillage1" class="form-select" name="xa1">
+                    <option selected></option>
                 </select>
                 <span class="error" id="errvillage1"></span>
+            </div>
+            <div class="col-md-3">
+                <label for="inputGroup1" class="form-label">Thôn - Tổ</label>
+                <select id="inputGroup1" class="form-select" name="to1">
+                    <option selected></option>
+                </select>
+                <span class="error" id="errgroup1"></span>
             </div>
 
         </div>
 
         <div class="col-12">
-            <button type="button" class="btn btn-primary w-100" id="submitButton" onclick="submitForm()">Thêm dân cư</button>
+            <button type="submit" class="btn btn-primary w-100" id="submitButton" onclick="return submitForm()">Thêm dân cư</button>
         </div>
     </form>
 </div>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://localhost:3000/js/nhap_lieu.js"></script>
+<script></script>
+
