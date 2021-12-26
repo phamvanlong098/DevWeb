@@ -1,7 +1,10 @@
+console.log(window.innerWidth);
+if (window.innerWidth < 1500)
+    document.getElementById('divmarry').classList.add('div_marry') ;
 //thêm nơi đăng ký khai sinh
 fetch('http://localhost:3000/data/tinh').then(respon=>respon.json()).then(data=>{
     data.forEach(item=>{
-        $('#inputBirthPlace').append(`<option value="${item.id}">${item.ten}</option>`)
+        $('#inputBirthPlace').append(`<option value="${item.ten}">${item.ten}</option>`)
     })
 })
 function loadselect(iddiv,tenselect,idselect){
@@ -202,17 +205,6 @@ document.getElementById('fullname').onblur = function () {
 
 }
 
-document.getElementById('CCCD').onblur = function () {
-    var cccd = document.getElementById('CCCD').value;
-    if (cccd == "") {
-        document.getElementById('errcccd').innerHTML = "Xin mời nhập CCCD";
-        document.getElementById('CCCD').classList.add('red_border');
-    } else {
-        document.getElementById('errcccd').innerHTML = "";
-        document.getElementById('CCCD').classList.remove('red_border');
-    }
-}
-
 document.getElementById('birthDay').onblur = function () {
     var dob = document.getElementById('birthDay').value;
     if (dob == "") {
@@ -261,6 +253,28 @@ document.getElementById('inputBirthPlace').onblur = function () {
     } else {
         document.getElementById('errBP').innerHTML = "";
         document.getElementById('inputBirthPlace').classList.remove('red_border');
+    }
+}
+
+document.getElementById('culture').onblur = function () {
+    var cu = document.getElementById('culture').value;
+    if (cu == "Choose...") {
+        document.getElementById('errculture').innerHTML = "Xin mời chọn trình độ văn hóa";
+        document.getElementById('culture').classList.add('red_border');
+    } else {
+        document.getElementById('errculture').innerHTML = "";
+        document.getElementById('culture').classList.remove('red_border');
+    }
+}
+
+document.getElementById('job').onblur = function () {
+    var job = document.getElementById('job').value;
+    if (job == "") {
+        document.getElementById('errjob').innerHTML = "Xin mời nhập nghề nghiệp";
+        document.getElementById('job').classList.add('red_border');
+    } else {
+        document.getElementById('errjob').innerHTML = "";
+        document.getElementById('job').classList.remove('red_border');
     }
 }
 
@@ -438,16 +452,6 @@ function submitForm() {
         document.getElementById('fullname').classList.remove('red_border');
     }
 
-    var cccd = document.getElementById('CCCD').value;
-    if (cccd == "") {
-        document.getElementById('errcccd').innerHTML = "Xin moi nhap CCCD";
-        document.getElementById('CCCD').classList.add('red_border');
-        return false;
-    } else {
-        document.getElementById('errcccd').innerHTML = "";
-        document.getElementById('CCCD').classList.remove('red_border');
-    }
-
     var dob = document.getElementById('birthDay').value;
     if (dob == "") {
         document.getElementById('errdob').innerHTML = "Xin mời nhập ngày sinh";
@@ -486,6 +490,16 @@ function submitForm() {
     } else {
         document.getElementById('errBP').innerHTML = "";
         document.getElementById('inputBirthPlace').classList.remove('red_border');
+    }
+
+    var rl = document.getElementById('religion').value;
+    if (rl == "") {
+        document.getElementById('errreligion').innerHTML = "Xin mời nhập tôn giáo";
+        document.getElementById('religion').classList.add('red_border');
+        return false;
+    } else {
+        document.getElementById('errreligion').innerHTML = "";
+        document.getElementById('religion').classList.remove('red_border');
     }
 
     var fID = document.getElementById('fatherID').value;

@@ -47,6 +47,7 @@ class NhaplieuController {
     update(req, res) {
         let body = req.body;
         let human = {
+            "id" : body.id,
             "ho_ten" : body.hoTen,
             "cccd" : body.cccd,
             "ngay_sinh" : body.ngaySinh,
@@ -62,9 +63,9 @@ class NhaplieuController {
             "ton_giao" : body.ton_giao,
         }
         mysqlModel.updateDancu(human)
-        res.json({body, human})
+        // res.json({body, human})
 
-        // res.redirect('/thongke')
+        res.redirect('/thongke')
     }
 
     //[DELETE] nhaplieu/:id

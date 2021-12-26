@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="http://localhost:3000/css/nhap_lieu.css">
 
+<h1 class="mt-4">Thêm dân cư vào cơ sở dữ liệu</h1>
 <div class="container">
-    <h1 class="mt-4">Thêm dân cư vào cơ sở dữ liệu</h1>
     <form class="khaibao-form row g-3 mt-4" method="POST">
         <div class="col-md-6">
             <label for="fullname" class="form-label">Họ và tên</label>
@@ -38,7 +38,7 @@
                 </div>
             </fieldset>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-3" id="divmarry">
             <fieldset class="row mb-3 mt-4">
                 <legend class="col-form-label col-sm-6 pt-0">Tình trạng hôn nhân</legend>
                 <div class="col-sm-6">
@@ -74,7 +74,7 @@
             <span class="error" id="errbloodtype"></span>
         </div>
         <div class="col-md-4" style="width: 420px">
-            <label for="inputBirthPlace" class="form-label">Nơi đăng ký khai sinh</label>
+            <label for="inputBirthPlace" class="form-label">Quê quán</label>
             <select id="inputBirthPlace" class="form-select" name="noi_dang_ky_khai_sinh">
                 <option selected>Choose...</option>
             </select>
@@ -85,7 +85,7 @@
             <input class="form-control" id="religion" name="ton_giao">
             <span class="error" id="errreligion"></span>
         </div>
-        <div class="col-md-4" style="width: 425px;margin-right: 10px">
+        <div class="col-md-4" style="width: 420px;margin-right: 10px">
             <label for="fatherID" class="form-label">CCCD cha</label>
             <input class="form-control" id="fatherID" name="fatherID">
             <span class="error" id="errfid"></span>

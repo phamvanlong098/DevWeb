@@ -36,7 +36,7 @@ class Query {
     getDancuToanQuoc(page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
-        let sql = `SELECT * FROM dan_cu limit ${start}, ${pagesize};`
+        let sql = `SELECT id, cccd, gioi_tinh, ho_ten, ngay_sinh, ton_giao, nhom_mau, tinh_trang_hon_nhan, noi_dang_ky_khai_sinh, quoc_tich, id_cha, id_me, tenXa(ho_khau_thuong_tru) AS ho_khau_thuong_tru, tenXa(noi_dang_ky_tam_tru) AS noi_dang_ky_tam_tru FROM dan_cu limit ${start}, ${pagesize};`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -46,7 +46,7 @@ class Query {
     getDancuByDiaPhuong(diaPhuongID, page, callback) {
         let pagesize = 20
         let start = (page - 1) * pagesize
-        let sql = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
+        let sql = `SELECT id, cccd, gioi_tinh, ho_ten, ngay_sinh, ton_giao, nhom_mau, tinh_trang_hon_nhan, noi_dang_ky_khai_sinh, quoc_tich, id_cha, id_me, tenXa(ho_khau_thuong_tru) AS ho_khau_thuong_tru, tenXa(noi_dang_ky_tam_tru) AS noi_dang_ky_tam_tru FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%' limit ${start}, ${pagesize};`
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
