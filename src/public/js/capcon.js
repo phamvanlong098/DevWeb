@@ -85,7 +85,7 @@ function getHTML(res) {
 		case 'areaManager': {
 			if(cap == 'Admin') {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Tài khoản</th>
@@ -116,7 +116,7 @@ function getHTML(res) {
 			}
 			else {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Mã khu vực</th>
@@ -149,7 +149,7 @@ function getHTML(res) {
 		case 'accountManager': {
 			if(cap == 'Admin') {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Tài khoản</th>
@@ -168,7 +168,7 @@ function getHTML(res) {
 			}
 			else {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Khu vực</th>
@@ -192,7 +192,7 @@ function getHTML(res) {
 		case 'timeManager': {
 			if(cap == 'Admin') {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Tài khoản</th>
@@ -211,7 +211,7 @@ function getHTML(res) {
 			}
 			else {
 				html = `<table class="table table-hover mt-4">
-				<thead class="table-primary">
+				<thead class="bg-blue text-danger">
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Khu vực</th>

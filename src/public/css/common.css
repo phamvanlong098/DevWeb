@@ -8,3 +8,7 @@
     min-height: 100vh;
 }
 
+.main-container h1 {
+    color: #2980b9;
+    margin-top: 32px;
+}
