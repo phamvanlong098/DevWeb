@@ -3,10 +3,42 @@
   border-collapse: collapse;
   width: 100%;
 }
-tr:nth-child(even) {background-color: #f2f2f2;}
+tr:nth-child(even) {background-color: #f5e2e2;}
 tr:hover{
     background-color: rgb(158, 196, 197);
 }
+@media only screen  and (max-width: 700px){
+  #ok tbody,#ok tr,#ok td{
+    display: block;
+  }
+  #ok thead tr{
+   display: none;
+  }
+  #ok tbody td{
+    position: relative;
+   padding-left: 200px;
+  }
+  #ok tbody td:before{
+    content: attr(data-title);
+    position: absolute;
+   left: 5px;
+   font-weight: bold;
+  }
+  #ok tbody tr{
+      background-color: #ffffff;
+    border: 1px solid black;
+  }
+  #ok tbody tr:hover{
+    background-color: rgb(0, 222, 230)
+    }
+
+/* #ok tbody td.ok1{
+    background-color: #121922;
+   color: white;
+  } */
+  }
+  
+
 </style>
 <div class="container fuild">
     <h1 class="my-4">Dữ liệu dân cư</h1>
@@ -31,12 +63,13 @@ tr:hover{
         </div>
     </div>
     <br>
-    <form>
+    <div>
         searching
         <br>
         <input id="nhaptu" value="" placeholder="nhập tên cần tìm"> 
         <button id="searchnguoidan" class="btn btn-danger">click</button>
-    </form>
+        <span id=kiemtra></span>
+    </div>
     <table class="table table-responsive mt-5" id="ok" style="width: 100%;text-align: center;">
         <thead class="bg-blue text-danger">
         <tr>
@@ -103,7 +136,7 @@ tr:hover{
     var page = 1;
     const perPage = 20;
     var totalDanCu = 0;
-
+    var kt=0
     var loading = 0;
 
     // Các dom element jquery, lưu vào biến tránh phải tìm lại nhiều lần
@@ -165,26 +198,47 @@ tr:hover{
         //even chọn tìm kiếm
         selectsearch.click(function(){
            search=tutimkiem.val();
-           console.log(search)
            page=1;
-          // console.log(search)
-          loadDataDanCuSearch()
+           if(search=='')
+           {
+               loadDataDanCu()
+               $('#kiemtra').html('')
+           }
+           else{
+            fetch(`http://localhost:3000/data/search?key=${search}&page=${page}`).then(respon=>respon.json()).then(data=>{
+               if(data['tong_so']==0){
+                $('#kiemtra').html('vui long nhap lai')
+                loadDataDanCu()
+                   //return
+               }
+               else{
+                loadDataDanCuSearch()
+                $('#kiemtra').html('')
+               }
+           })
+           }        
         })
         // Event click trang
         phanTrang.on("page", function(event, num){
             console.log(search)
             page = num;
-            if(search=='')
+           if(search=='')
             loadDataDanCu();
-            else loadDataDanCuSearch();
-            
+          else{
+            fetch(`http://localhost:3000/data/search?key=${search}&page=${page}`).then(respon=>respon.json()).then(data=>{
+                if(data['tong_so']==0){  
+                        loadDataDanCu()     
+                }
+                else{
+                    loadDataDanCuSearch()
+                }     
+          })
+        }      
         });
-
         // Load các dữ liệu ban đầu
         loadTinh();
         loadDataDanCu();
     })
-    
     document.addEventListener("DOMContentLoaded", function(){
     let modelSubmitBtn = document.getElementById('submit-btn')
     let deleteForm = document.getElementById('delete-form')
@@ -240,17 +294,18 @@ tr:hover{
         })
     }
     function loadDataDanCuSearch(){
-        loading = 0
-        updateLoadingView()
+        // loading = 0
+        // updateLoadingView()
+        kt=1
         fetch(`http://localhost:3000/data/search?key=${search}&page=${page}`).then(respon=>respon.json()).then(data=>{
             dataDanCu=data['data']
             renderHtmlTableDataDanCu();
-            loading += 1
+            // loading += 1
             updateLoadingView()
             totalDanCu = data['tong_so']
             renderHtmlPhanTrang();
-            loading += 1
-            updateLoadingView();
+            // loading += 1
+            // updateLoadingView();
         })
     }
     function loadDataDanCu() {
@@ -261,7 +316,7 @@ tr:hover{
         else if (idHuyen !== 'all') idThuongTru = idHuyen
         else if (idTinh !== 'all') idThuongTru = idTinh
         else idThuongTru = 'all'
-
+        kt=0
         // set loading = 0 sẽ hiển thị loading view
         loading = 0
         updateLoadingView()
@@ -320,24 +375,24 @@ tr:hover{
         console.log('renderTableDataDanCu', dataDanCu)
         var content = ``
         if (dataDanCu && dataDanCu.length > 0) {
-            dataDanCu.forEach(item => {
+            dataDanCu.forEach(element => {
                 content += `
                 <tr>
-                    <td>${item.id}</td>
-                    <td>${item.ho_ten}</td>
-                    <td>${item.ngay_sinh}</td>
-                    <td>${item.gioi_tinh}</td>
-                    <td>${item.nhom_mau}</td>
-                    <td>${item.tinh_trang_hon_nhan}</td>
-                    <td>${item.noi_dang_ky_khai_sinh}</td>
-                    <td>${item.ho_khau_thuong_tru}</td>
-                    <td>${item.noi_dang_ky_tam_tru}</td>
-                    <td>${item.ton_giao}</td>
-                    <td>${item.quoc_tich}</td>
-                    <td>${item.id_cha}</td>
-                    <td>${item.id_me}</td>
-                    <td><a href="/nhaplieu/${item.id}/edit"><i class="far fa-edit"></i></a></td>
-                    <td><a href="#" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+                    <td data-title="CCCD" class="ok1">${element.id}</td>
+                    <td data-title="Họ và tên">${element.ho_ten}</td>
+                    <td data-title="Ngày sinh">${element.ngay_sinh}</td>
+                    <td data-title="Giới tính">${element.gioi_tinh}</td>
+                    <td data-title="Nhóm máu">${element.nhom_mau}</td>
+                    <td data-title="Tình trạng hôn nhân">${element.tinh_trang_hon_nhan}</td>
+                    <td data-title="Nơi đăng ký khai sinh">${element.noi_dang_ky_khai_sinh}</td>
+                    <td data-title="Hộ khẩu thường trú">${element.ho_khau_thuong_tru}</td>
+                    <td data-title="Nơi đăng ký tạm trú">${element.noi_dang_ky_tam_tru}</td>
+                    <td data-title="Tôn giáo">${element.ton_giao}</td>
+                    <td data-title="Quốc tịch">${element.quoc_tich}</td>
+                    <td data-title="CCCD Cha">${element.id_cha}</td>
+                    <td data-title="CCCD Mẹ">${element.id_me}</td>
+                    <td><a href="/nhaplieu/${element.id}/edit"><i class="far fa-edit"></i></a></td>
+                    <td><a href="#" data-id="${element.id}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
                 </tr>`
             })
         }
