@@ -25,8 +25,9 @@ class NhaplieuController {
             "quoc_tich" : body.nationality,
             "id_cha" : body.fatherID,
             "id_me" : body.motherID,
+            "hoc_van" : body.hoc_van,
+            "nghe_nghiep" : body.nghe_nghiep,
         }
-        console.log(human)
 
         mysqlModel.insertDancu(human)
         // res.json({body, human})
@@ -46,19 +47,19 @@ class NhaplieuController {
     update(req, res) {
         let body = req.body;
         let human = {
-            "gioi_tinh" : body.gioiTinh,
             "ho_ten" : body.hoTen,
             "cccd" : body.cccd,
             "ngay_sinh" : body.ngaySinh,
+            "gioi_tinh" : body.gioiTinh,
+            "tinh_trang_hon_nhan" : body.ketHon,
+            "quoc_tich" : body.nationality,
+            "nhom_mau" : body.bloodType,
+            "noi_dang_ky_khai_sinh" : body.birthPlace,
+            "id_cha" : body.fatherID,
+            "id_me" : body.motherID,
             "ho_khau_thuong_tru" : body.to,
             "noi_dang_ky_tam_tru" : body.to1,
             "ton_giao" : body.ton_giao,
-            "nhom_mau" : body.bloodType,
-            "tinh_trang_hon_nhan" : body.ketHon,
-            "noi_dang_ky_khai_sinh" : body.tinh,
-            "quoc_tich" : body.nationality,
-            "id_cha" : body.fatherID,
-            "id_me" : body.motherID,
         }
         mysqlModel.updateDancu(human)
         res.json({body, human})
