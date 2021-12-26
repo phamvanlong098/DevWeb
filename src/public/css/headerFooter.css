@@ -7,15 +7,14 @@
     color: white!important;
 }
 
+
 .homeImgs img{
-    height: 650px;
+    height: 60vw;
 }
 
 .header {
     position: sticky!important;
     top: 0!important;
-    left: 0;
-    right: 0;
     z-index: 1000;
 }
 
