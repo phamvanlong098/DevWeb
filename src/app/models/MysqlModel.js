@@ -170,10 +170,10 @@ class Query {
     }
 
     getThoiHan(username, callback) {
-        for(let i = 2; i < username.length; i += 2) {
-            let id = username.substring(0, username.length - i)
-            console.log(id)
-        }
+        let sql = `SELECT * FROM taikhoan WHERE thoi_han > NOW() AND tai_khoan = '${username}';`
+        db.query(sql, (err) => {
+            if (err) throw err;
+        });
     }
 
     // tai khoan

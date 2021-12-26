@@ -1,3 +1,4 @@
+const mysqlModel = require('../app/models/MysqlModel')
 
 class AuthenAuthor{
 	checkLogin(req, res, next) {
@@ -12,7 +13,9 @@ class AuthenAuthor{
 	checkCreate(req, res, next) {
 		let roles = req.session.roles;
 		if(roles){
-			if(roles.includes('Create') || roles.includes('Full')) next()
+			if(roles.includes('Create') || roles.includes('Full')) {
+				next()
+			}
 			else res.render('error/403', {layout: 'onlybody'})
 		}
 		else {
