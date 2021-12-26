@@ -184,7 +184,7 @@ function checkdob(dob) {
 
 	if (dob.length != 8)
 		return -1;
-	dob = dob.substring(0,2) + '/' + dob.substring(2,4) + '/' + dob.substring(4);
+	dob = dob.substring(0,4) + '/' + dob.substring(4,6) + '/' + dob.substring(6);
 	return dob;
 }
 
@@ -224,6 +224,8 @@ document.getElementById('birthDay').onblur = function () {
         document.getElementById('birthDay').classList.add('red_border');
     }
     else {
+        var newDob = checkdob(dob);
+        document.getElementById('birthDay').value = newDob;
         document.getElementById('errdob').innerHTML = "";
         document.getElementById('birthDay').classList.remove('red_border');
     }
@@ -259,6 +261,17 @@ document.getElementById('inputBirthPlace').onblur = function () {
     } else {
         document.getElementById('errBP').innerHTML = "";
         document.getElementById('inputBirthPlace').classList.remove('red_border');
+    }
+}
+
+document.getElementById('religion').onblur = function () {
+    var rl = document.getElementById('religion').value;
+    if (rl == "") {
+        document.getElementById('errreligion').innerHTML = "Xin mời nhập tôn giáo";
+        document.getElementById('religion').classList.add('red_border');
+    } else {
+        document.getElementById('errreligion').innerHTML = "";
+        document.getElementById('religion').classList.remove('red_border');
     }
 }
 

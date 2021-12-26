@@ -3,6 +3,7 @@ const nhaplieuRouter = require('./nhaplieu')
 const dataRouter = require('./data')
 const thongkeRouter = require('./thongke')
 const taikhoanRoute = require('./taikhoan')
+const quanlyRoute = require('./quanly')
 const mysqlModel = require('../app/models/MysqlModel')
 
 function route(app) {
@@ -53,16 +54,23 @@ function route(app) {
     )
 
 // check dangNhap = on/off
-app.use('/', authenAuthor.checklogin)
+app.use('/', authenAuthor.checkLogin)
 
     // data
     app.use('/data', dataRouter)
+
+    // check dangNhap = on/off
+    app.use('/', authenAuthor.checkLogin)
+
     
     // thongke
     app.use('/thongke', thongkeRouter)
    
     // nhaplieu
     app.use('/nhaplieu', authenAuthor.checkCreate, nhaplieuRouter)
+    
+    // capcon
+    app.use('/quanly', authenAuthor.checkManager, quanlyRoute)
 
     // taikhoan
     app.use('/taikhoan/', taikhoanRoute)

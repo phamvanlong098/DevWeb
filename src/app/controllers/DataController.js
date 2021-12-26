@@ -47,27 +47,12 @@ class DataController {
         })
     }
 
-    // data/dancu/all/len
-    getDancuToanQuocLen(req, res) {
-        mysqlModel.getDancuToanQuocLen( (result) =>{
-            res.json(result)
-        })
-    }
-
     // data/dancu/:idDiaPhuong
     getDancuByDiaPhuong(req, res) {
         let id = req.params.idDiaPhuong;
         let page = parseInt(req.query.page);
         if(!page || page < 1) page = 1;
         mysqlModel.getDancuByDiaPhuong(id, page, (result) =>{
-            res.json(result)
-        })
-    }
-
-    // data/dancu/:idDiaPhuong/len
-    getLengthDancuByDiaPhuong(req, res) {
-        let id = req.params.idDiaPhuong;
-        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
             res.json(result)
         })
     }
@@ -111,6 +96,21 @@ class DataController {
     // /bieudo/soDanTheoDoTuoi
     soDanTheoDoTuoi(req, res) {
         mysqlModel.soDanTheoDoTuoi( (result) =>{
+            res.json(result)
+        })
+    }
+
+     // data/dancu/all/len
+     getDancuToanQuocLen(req, res) {
+        mysqlModel.getDancuToanQuocLen( (result) =>{
+            res.json(result)
+        })
+    }
+
+     // data/dancu/:idDiaPhuong/len
+     getLengthDancuByDiaPhuong(req, res) {
+        let id = req.params.idDiaPhuong;
+        mysqlModel.getLengthDancuByDiaPhuong(id, (result) =>{
             res.json(result)
         })
     }

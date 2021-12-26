@@ -1,0 +1,61 @@
+
+#paging ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 40px;
+}
+
+#paging ul li{
+  display: flex;
+  justify-content: center;
+}
+
+#paging ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1.2rem;
+}
+
+#paging .paginationjs-page,
+#paging .paginationjs-prev,
+#paging .paginationjs-next {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #1A8B1A;
+  line-height: 34px;
+}
+
+#paging .paginationjs-page:hover ,
+#paging .paginationjs-prev:hover ,
+#paging .paginationjs-next:hover {
+  background-color: rgba(26, 139, 26, 0.5);
+  cursor: pointer;
+}
+
+#paging .active {
+  background-color: #1A8B1A !important;
+}
+
+#paging .active a {
+  color: #fff !important;
+}
+
+input {
+  border: none;
+  padding-left: 4px;
+  /* width: 30vw; */
+}
+
+.createArea {
+  margin: 16px;
+  display: flex;
+
+}
+
+.createArea input {
+  border: 1px solid #000;
+  border-radius: 4px;
+  margin-right: 16px;
+}

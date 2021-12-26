@@ -17,11 +17,19 @@ class Query {
         });
     }
 
-    getDancuToanQuocLen(callback) {
-        let sql = `SELECT COUNT(*) AS tong_so FROM dan_cu `
+    phanTrang(condition, callback) {
+        let pagesize = 20
+        let start = (condition.page - 1) * pagesize
+        let sql1 = `SELECT COUNT(*) AS tong_so FROM ${condition.table} WHERE ${condition.where};`
+        let sql2 = `SELECT * FROM ${condition.table} WHERE ${condition.where} LIMIT ${start}, ${pagesize};`
+        let sql = sql1 + sql2
         db.query(sql, (err, results) => {
             if (err) throw err;
-            callback(results)
+            let ketqua = {
+                tong_so: results[0][0].tong_so,
+                data: results[1]
+            }
+            callback(ketqua)
         });
     }
 
@@ -47,6 +55,14 @@ class Query {
 
     getLengthDancuByDiaPhuong(diaPhuongID, callback){
         let sql = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '${diaPhuongID}%';`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            callback(results)
+        });
+    }
+
+    getDancuToanQuocLen(callback) {
+        let sql = `SELECT COUNT(*) AS tong_so FROM dan_cu `
         db.query(sql, (err, results) => {
             if (err) throw err;
             callback(results)
@@ -87,7 +103,7 @@ class Query {
 
     // notwork ultil update nhaplieu
     insertDancu(human) {
-        let sql = `INSERT INTO dancu(cccd, hoTen, ngaySinh, gioiTinh, ketHon, queQuan) VALUES ('${human.cccd}', '${human.hoTen}', '${human.ngaySinh}', '${human.gioiTinh}', '${human.ketHon}', '${human.queQuan}' )`
+        let sql = `INSERT INTO dan_cu SET gioi_tinh = '${human.gioi_tinh}', cccd = '${human.cccd}',ho_ten = '${human.ho_ten}', ngay_sinh = '${human.ngay_sinh}', ho_khau_thuong_tru = '${human.ho_khau_thuong_tru}', noi_dang_ky_tam_tru = '${human.noi_dang_ky_tam_tru}', ton_giao = '${human.ton_giao}', nhom_mau = '${human.nhom_mau}', tinh_trang_hon_nhan = '${human.tinh_trang_hon_nhan}', noi_dang_ky_khai_sinh = '${human.noi_dang_ky_khai_sinh}', quoc_tich = '${human.quoc_tich}', id_cha = '${human.id_cha}', id_me = '${human.id_me}'`
         db.query(sql, (err) => {
             if (err) throw err;
         });
@@ -95,7 +111,7 @@ class Query {
 
     // notwork ultil update nhaplieu
     updateDancu(human) {
-        let sql = `UPDATE dancu SET cccd='${human.cccd}', hoTen='${human.hoTen}', ngaySinh='${human.ngaySinh}', gioiTinh='${human.gioiTinh}', ketHon='${human.ketHon}', queQuan='${human.queQuan}' WHERE id= ${human.id}`
+        let sql = `UPDATE dan_cu SET gioi_tinh = '${human.gioi_tinh}', cccd = '${human.cccd}', ho_ten = '${human.ho_ten}', ngay_sinh = '${human.ngay_sinh}', ho_khau_thuong_tru = '${human.ho_khau_thuong_tru}', noi_dang_ky_tam_tru = '${human.noi_dang_ky_tam_tru}', ton_giao = '${human.ton_giao}', nhom_mau = '${human.nhom_mau}', tinh_trang_hon_nhan = '${human.tinh_trang_hon_nhan}', noi_dang_ky_khai_sinh = '${human.noi_dang_ky_khai_sinh}', quoc_tich = '${human.quoc_tich}', id_cha = '${human.id_cha}', id_me = '${human.id_me}' WHERE id = '${human.id}'`
         db.query(sql, (err) => {
             if (err) throw err;
         });
@@ -108,37 +124,125 @@ class Query {
         });
     }
 
+    // quanly/area
+    updateArea(condition, callback) {
+        let sql = `SELECT * FROM ${condition.table} WHERE id='${condition.id}'`
+        db.query(sql, (err, results) => {
+            if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE ${condition.table} SET ten='${condition.ten}' WHERE id='${condition.id}'`
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO ${condition.table} SET ten='${condition.ten}', id='${condition.id}' `
+                if(condition.parent_id) insert += `, parent_id = '${condition.parent_id}'`
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
+            callback(results)
+        });
+    }
+
+    // quanly/area
+    deleteArea(condition, callback) {
+        let sql = `DELETE FROM  ${condition.table} WHERE id= ${condition.id}`
+        db.query(sql, (err) => {
+            if (err) throw err;
+        });
+    }
+
     // tai khoan
-    getTaiKhoan(callback) {
-        let sql = `SELECT * FROM taiKhoan`
+    updateTaiKhoan(user, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan='${user.tai_khoan}'`
         db.query(sql, (err, results) => {
             if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE taikhoan SET mat_khau='${user.mat_khau}', cap='${user.cap}' WHERE tai_khoan='${user.tai_khoan}'`
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO taikhoan SET mat_khau='${user.mat_khau}', cap='${user.cap}', tai_khoan='${user.tai_khoan}'`
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
             callback(results)
         });
     }
 
-    getTaiKhoanCon(user, callback) {
-        let sql = `SELECT * FROM taiKhoan`
-        switch(user.cap) {
-            case "Admin" : {
-                sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
-                break;
-            }
-            case "A1" : {
-                sql = `SELECT * FROM taikhoan WHERE cap = 'A2';`
-                break;
-            }
-            default: {
-                sql = `SELECT * FROM taikhoan WHERE tai_khoan LIKE '${user.tai_khoan}__';`
-                break;
-            }
-        }
-
+    // tai khoan
+    updateThoiHan(user, callback) {
+        let sql = `SELECT * FROM taikhoan WHERE tai_khoan='${user.tai_khoan}'`
         db.query(sql, (err, results) => {
             if (err) throw err;
+            if(results[0]) {
+                let update = `UPDATE taikhoan SET thoi_han='${user.thoi_han}', cap='${user.cap}' WHERE tai_khoan='${user.tai_khoan}'`
+
+                db.query(update, (err) => { if(err) throw err})
+            }
+            else {
+                let insert = `INSERT INTO taikhoan SET thoi_han='${user.thoi_han}', cap='${user.cap}', tai_khoan='${user.tai_khoan}', mat_khau='null'`
+
+                db.query(insert, (err) => { if(err) throw err})
+            }
+
             callback(results)
         });
     }
+
+    // delete taikhoan
+    deleteTaikhoan(id) {
+        let sql = `DELETE FROM taikhoan WHERE tai_khoan= '${id}'`
+        db.query(sql, (err) => {
+            if (err) throw err;
+        });
+    }
+
+    //  // thoi han
+    //  getThoiHan(user, callback) {
+    //     let sql1 = `SELECT COUNT(*) as tong_so FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+    //     let sql2 = `SELECT * FROM dan_cu WHERE ho_khau_thuong_tru LIKE '01%';`
+    //     let sql = sql1 + sql2
+    //     db.query(sql, (err, results) => {
+    //         if (err) throw err;
+    //         callback(results)
+    //     });
+    // }
+
+    // getTaiKhoanCon(user, callback) {
+    //     let sql = ``
+    //     let username = user.tai_khoan
+    //     switch(user.cap) {
+    //         case "Admin" : {
+    //             sql = `SELECT * FROM taiKhoan WHERE cap != 'Admin' ORDER BY cap`
+    //             break;
+    //         }
+    //         case "A1" : {
+    //             sql = `SELECT * FROM taikhoan JOIN tinh_thanhpho ON tinh_thanhpho.id = tai_khoan WHERE cap = 'A2';`
+    //             break;
+    //         }
+    //         case "A2" : {
+    //             sql = `SELECT * FROM taikhoan JOIN huyen_quan ON huyen_quan.id = tai_khoan WHERE cap = 'A3' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         case "A3" : {
+    //             sql = `SELECT * FROM taikhoan JOIN xa_phuong ON xa_phuong.id = tai_khoan WHERE cap = 'B1' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         case "B1" : {
+    //             sql = `SELECT * FROM taikhoan JOIN xom_thonto ON xom_thonto.id = tai_khoan WHERE cap = 'B2' AND tai_khoan LIKE '${username}%';`
+    //             break;
+    //         }
+    //         default: {
+    //             sql = ``
+    //             break;
+    //         }
+    //     }
+
+    //     db.query(sql, (err, results) => {
+    //         if (err) throw err;
+    //         callback(results)
+    //     });
+    // }
 
     checkUP(username, password, callback) {
         let sql = `SELECT * FROM taiKhoan WHERE tai_khoan='${username}' AND mat_khau='${password}'`
@@ -163,6 +267,8 @@ class Query {
             callback(results)
         });
     }
+
+
 
     // khu vuc
     getTinh(callback) {

@@ -152,3 +152,68 @@ $('#xa1').change(function(){
     var a = $(this).val()
     loadselect('noioht','xa',a)
 })
+function upperTheFirst(val) {
+    return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+}
+
+function titleCase(str) {
+    var convertToArray = str.toLowerCase().split(' ');
+    var upperFirst = convertToArray.map(upperTheFirst);
+    var result = upperFirst.join(' ');
+    while (result.indexOf("  ") != -1) {
+        result = result.replace(/  /g, " ");
+    }
+    return result;
+}
+
+function checkdob(dob) {
+	while (dob.includes('/')) {
+		dob = dob.replace('/', '');
+	}
+
+	while (dob.includes('-')) {
+		dob = dob.replace('-', '');
+	}
+
+	for (i = 0; i < dob.length; i++) {
+		if (!(dob.charAt(i) >= 0 && dob.charAt(i) <=9)) {
+			return -1;
+		}
+	}
+
+	if (dob.length != 8)
+		return -1;
+	dob = dob.substring(0,4) + '/' + dob.substring(4,6) + '/' + dob.substring(6);
+	return dob;
+}
+
+document.getElementById('fullname').onblur = function () {
+    var name = document.getElementById('fullname').value;
+    var newName = titleCase(name);
+    document.getElementById('fullname').value = newName;
+    if (name == "") {
+        document.getElementById('errname').innerHTML = "Xin mời nhập họ tên";
+        document.getElementById('fullname').classList.add('red_border');
+    } else {
+        document.getElementById('errname').innerHTML = "";
+        document.getElementById('fullname').classList.remove('red_border');
+    }
+}
+
+document.getElementById('birthDay').onblur = function () {
+    var dob = document.getElementById('birthDay').value;
+    if (dob == "") {
+        document.getElementById('errdob').innerHTML = "Xin mời nhập ngày sinh";
+        document.getElementById('birthDay').classList.add('red_border');
+    }
+    else if(checkdob(dob) == -1){
+        document.getElementById('errdob').innerHTML = "Ngày sinh không hợp lệ";
+        document.getElementById('birthDay').classList.add('red_border');
+    }
+    else {
+        var newDob = checkdob(dob);
+        document.getElementById('birthDay').value = newDob;
+        document.getElementById('errdob').innerHTML = "";
+        document.getElementById('birthDay').classList.remove('red_border');
+    }
+}

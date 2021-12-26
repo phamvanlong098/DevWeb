@@ -7,6 +7,7 @@
       <div class="col-md-5">
         <label for="fullname" class="form-label">Họ và tên</label>
         <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="{{result.ho_ten}}" name="hoTen">
+        <span class="error" id="errname"></span>
       </div>
       <div class="col-md-5">
         <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
@@ -23,6 +24,7 @@
       <div class="col-lg-5 col-md-12" >
         <label for="birthDay" class="form-label">Ngày sinh</label>
         <input type="text" class="form-control" id="birthDay" name="ngaySinh" value="{{result.ngay_sinh}}">
+        <span class="error" id="errdob"></span>
       </div>
       <div class="col-md-6 col-lg-2" >
         <fieldset class="row mb-3 mt-4 ms-auto">
@@ -78,14 +80,15 @@
     </div>
     <div class="col-md-4" >
       <label for="bloodType" class="form-label">Nơi đăng ký khai sinh</label>
-      <input class="form-control" id="bloodType" name="bloodType" value="{{result.noi_dang_ky_khai_sinh}}">
+      <input class="form-control" id="bloodType" name="birthPlace" value="{{result.noi_dang_ky_khai_sinh}}">
+      <span class="error" id="errbloodtype"></span>
   </div>
   <div class="col-md-4" >
-    <label for="fatherID" class="form-label">ID cha</label>
+    <label for="fatherID" class="form-label">CCCD cha</label>
     <input class="form-control" id="fatherID" name="fatherID" value="{{result.id_cha}}">
 </div>
 <div class="col-md-4" >
-    <label for="motherID" class="form-label">ID mẹ</label>
+    <label for="motherID" class="form-label">CCCD mẹ</label>
     <input class="form-control" id="motherID" name="motherID" value="{{result.id_me}}">
 </div>
       <div class="row mt-3" id="hktt">
@@ -144,5 +147,8 @@
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://localhost:3000/js/capnhap.js"></script>
+ 
 
+
+    
 
