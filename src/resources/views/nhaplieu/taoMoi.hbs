@@ -16,7 +16,7 @@
 
         <div class="col-lg-3 col-md-12" style="margin-right: 180px">
             <label for="birthDay" class="form-label">Ngày sinh</label>
-            <input type="text" class="form-control" id="birthDay" name="ngaySinh" placeholder="dd/mm/yyyy">
+            <input type="text" class="form-control" id="birthDay" name="ngaySinh" placeholder="yyyy/mm/dd">
             <span class="error" id="errdob"></span>
         </div>
         <div class="col-md-6 col-lg-2" style="margin-right: 200px">
@@ -75,18 +75,23 @@
         </div>
         <div class="col-md-4" style="width: 420px">
             <label for="inputBirthPlace" class="form-label">Nơi đăng ký khai sinh</label>
-            <select id="inputBirthPlace" class="form-select" name="tinh">
+            <select id="inputBirthPlace" class="form-select" name="noi_dang_ky_khai_sinh">
                 <option selected>Choose...</option>
             </select>
             <span class="error" id="errBP"></span>
         </div>
         <div class="col-md-4" style="width: 425px;margin-right: 10px">
-            <label for="fatherID" class="form-label">ID cha</label>
+            <label for="religion" class="form-label">Tôn giáo</label>
+            <input class="form-control" id="religion" name="ton_giao">
+            <span class="error" id="errreligion"></span>
+        </div>
+        <div class="col-md-4" style="width: 425px;margin-right: 10px">
+            <label for="fatherID" class="form-label">CCCD cha</label>
             <input class="form-control" id="fatherID" name="fatherID">
             <span class="error" id="errfid"></span>
         </div>
         <div class="col-md-4" style="width: 420px;margin-right: 10px">
-            <label for="motherID" class="form-label">ID mẹ</label>
+            <label for="motherID" class="form-label">CCCD mẹ</label>
             <input class="form-control" id="motherID" name="motherID">
             <span class="error" id="errmid"></span>
         </div>
