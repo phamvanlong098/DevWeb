@@ -5,29 +5,29 @@ var tableContainer = document.querySelector('.table-container')
 var table = document.querySelector('.table')
 var inputs;
 var currentPage = 1;
-var tong_so_page = 1;
+var tong_so = 1;
 let isAdmin = false;
 
 areaManager.onclick = function() {
 	document.querySelector('.active').classList.remove('active')
 	this.classList.add('active')
-	render(1)
 	setPaging()
+	render(1)
 
 }
 
 accountManager.onclick = function() {
 	document.querySelector('.active').classList.remove('active')
 	this.classList.add('active')
-	render(1)
 	setPaging()
+	render(1)
 }
 
 timeManager.onclick = function() {
 	document.querySelector('.active').classList.remove('active')
 	this.classList.add('active')
-	render(1)
 	setPaging()
+	render(1)
 }
 
 function render(pageNumber) {
@@ -101,6 +101,16 @@ function getHTML(res) {
 						</tr>`
 				}, "")
 				html += `</tbody> </table>`
+				if(currentPage == tong_so_page) {
+					html += `
+							<form class="createArea" method="POST" action="./capcon/area?_method=PUT/">
+								<input name="tai_khoan" placeholder="Tên đăng nhập">
+								<input name="mat_khau" placeholder="Mật khẩu">
+								<button type="submit" class="btn btn-primary btn-sm" onclick="createArea(event)" >Tạo mới</button>
+
+							</form>`
+				}
+
 			}
 			else {
 				html = `<table class="table table-hover mt-4">
@@ -120,6 +130,15 @@ function getHTML(res) {
 						</tr>`
 				}, "")
 				html += `</tbody> </table>`
+				if(currentPage == tong_so_page) {
+					html += `
+					<form class="createArea" method="POST" action="./capcon/area?_method=PUT/">
+						<input name="id" placeholder="Mã khu vực">
+						<input name="ten" placeholder="Tên khu vực">
+						<button type="submit" class="btn btn-primary btn-sm" onclick="createArea(event)" >Tạo mới</button>
+					</form>`
+				}
+			
 			}
 			break;
 		}
@@ -222,7 +241,8 @@ function setPaging() {
 		dataSource: api + '?page=1',
 		locator: 'data',
 		totalNumberLocator: function(response) {
-			tong_so_page =  Math.floor(response.tong_so / 20)
+			tong_so_page =  Math.ceil(response.tong_so / 20)
+			tong_so = response.tong_so
 			return response.tong_so;
 		},
 		pageSize: 20,
@@ -240,7 +260,7 @@ function setPaging() {
 		},
 	
 		afterNextOnClick: function(event, pageNumber) {
-			if(currentPage <= tong_so_page)
+			if(currentPage < tong_so_page)
 			render(++currentPage)
 		}
 	})
@@ -282,7 +302,17 @@ function putChange(input) {
 	})
 }
 
+function createArea(event) {
+	event.preventDefault()
+	let formArea = document.querySelector('.createArea')
+	if(isAdmin) {
+		let tai_khoan = formArea.querySelector(".input[name='tai_khoan']")
+		let mat_khau = formArea.querySelector(".input[name='mat_khau']")
+	}
+	formArea.submit()
+}
 
 document.addEventListener('DOMContentLoaded', function() {
 	areaManager.click()
+	
 }, false);
