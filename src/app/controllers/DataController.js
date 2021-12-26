@@ -74,8 +74,15 @@ class DataController {
     
     // data/search?key=
     searchDancu(req, res) {
+        // let key = req.query.key;
+        // mysqlModel.searchDancu(key, (result) =>{
+        //     res.json(result)
+        // })
+
         let key = req.query.key;
-        mysqlModel.searchDancu(key, (result) =>{
+        let page = parseInt( req.query.page);
+        if(!page || page < 1) page = 1;
+        mysqlModel.phanTrangSearch({key, page}, (result) =>{
             res.json(result)
         })
     }

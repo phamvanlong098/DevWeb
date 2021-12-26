@@ -1,21 +1,27 @@
-<h1 class="mt-4">Cập nhật dữ liệu dân cư</h1>
+
  <div class="container">
   <h1 class="mt-4">Cập nhật dữ liệu dân cư</h1>
     <form class="khaibao-form row g-3 mt-4" method="POST" action="/nhaplieu/{{result.id}}?_method=PUT">
+     
       <input type="text" class="form-control" id="id" placeholder="036200001111" value="{{result.id}}" name="id" style="display: none;">
-      <div class="col-md-6">
-        <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
-        <input type="text" class="form-control" id="CCCD" placeholder="036200001111" value="{{result.cccd}}" name="cccd">
-      </div>
-      <div class="col-md-12">
+      <div class="col-md-5">
         <label for="fullname" class="form-label">Họ và tên</label>
         <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" value="{{result.ho_ten}}" name="hoTen">
       </div>
-      <div class="col-lg-6 col-md-12">
+      <div class="col-md-5">
+        <label for="CCCD" class="form-label">Căn Cước Công Dân</label>
+        <input type="text" class="form-control" id="CCCD" placeholder="036200001111" value="{{result.id}}" name="cccd">
+      </div>
+      <div class="col-md-6" style="display:none">
+        <label for="CCCD" class="form-label">Hộ khẩu thường trú</label>
+        <input type="text" class="form-control" id="HKTT" placeholder="01234567" value="{{result.ho_khau_thuong_tru}}" name="httt">
+      </div>
+      
+      <div class="col-lg-5 col-md-12" >
         <label for="birthDay" class="form-label">Ngày sinh</label>
         <input type="date" class="form-control" id="birthDay" name="ngaySinh">
       </div>
-      <div class="col-md-6 col-lg-2">
+      <div class="col-md-6 col-lg-2" >
         <fieldset class="row mb-3 mt-4 ms-auto">
           <legend class="col-form-label col-sm-6 pt-0">Giới tính</legend>
           <div class="col-sm-6">
@@ -59,8 +65,33 @@
           </div>
         </fieldset>
       </div>
-      <div class="row">
-        <label for="inputCity" class="form-label">Hộ khẩu thường trú</label>
+      <div class="col-md-4">
+        <label for="nationality" class="form-label">Quốc tịch</label>
+        <input class="form-control" id="nationality" name="nationality" value="{{result.quoc_tich}}">
+        <span class="error" id="errnation"></span>
+    </div>
+    <div class="col-md-4" >
+        <label for="bloodType" class="form-label">Nhóm máu</label>
+        <input class="form-control" id="bloodType" name="bloodType" value="{{result.nhom_mau}}">
+        <span class="error" id="errbloodtype"></span>
+    </div>
+    <div class="col-md-4" >
+      <label for="bloodType" class="form-label">Nơi đăng ký khai sinh</label>
+      <input class="form-control" id="bloodType" name="bloodType" value="{{result.noi_dang_ky_khai_sinh}}">
+      <span class="error" id="errbloodtype"></span>
+  </div>
+  <div class="col-md-4" >
+    <label for="fatherID" class="form-label">ID cha</label>
+    <input class="form-control" id="fatherID" name="fatherID" value="{{result.id_cha}}">
+    <span class="error" id="errfid"></span>
+</div>
+<div class="col-md-4" >
+    <label for="motherID" class="form-label">ID mẹ</label>
+    <input class="form-control" id="motherID" name="motherID" value="{{result.id_me}}">
+    <span class="error" id="errmid"></span>
+</div>
+      <div class="row mt-3">
+        <label for="inputCity" class="form-label" style="font-size: 17px;font-weight: bold">Hộ khẩu thường trú</label>
         
         <div class="col-md-3">
           <label for="inputState" class="form-label">Tỉnh - Thành phố</label>
@@ -84,75 +115,68 @@
           </select>
         </div>
       </div>
+     
+      <div class="row mt-3">
+        <label class="form-label" style="font-size: 17px;font-weight: bold">Nơi ở hiện tại</label>
+        <div class="col-md-4">
+            <label for="inputCity1" class="form-label">Tỉnh - Thành phố</label>
+            <select id="inputCity1" class="form-select" name="tinh">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+            <span class="error" id="errcity1"></span>
+        </div>
+        <div class="col-md-4">
+            <label for="inputDistrict1" class="form-label">Huyện - Quận</label>
+            <select id="inputDistrict1" class="form-select" name="huyen">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+            <span class="error" id="errdistrict1"></span>
+        </div>
+        <div class="col-md-4">
+            <label for="inputVillage1" class="form-label">Xã - Phường</label>
+            <select id="inputVillage1" class="form-select" name="xa">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+            <span class="error" id="errvillage1"></span>
+        </div>
+
+    </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
       </div>
     </form>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  //load tỉnh
-  fetch('http://localhost:3000/data/tinh')
-  .then(respon=>respon.json())
-  .then(data=>{
-    data.forEach(item=>{
-      $('#tinh').append(`<option value="${item.id}">${item.ten}</option>`)
+  var hktt=$('#HKTT').val()
+  var idTinhPerson=hktt.substr(0,2)
+  var idHuyenPerson=hktt.substr(0,4)
+  var idXaPerson=hktt.substr(0,6)
+  var idXomPerson=hktt.substr(0,8)
+  function loadInfor(address,key,key1){
+    var id=''
+    if(address=='tinh') id='#tinh'
+    else if(address=='huyen') id='#huyen'
+    else if(address=='xa') id='#xa'
+    else id='#xom'
+    var url=`http://localhost:3000/data/${address}/${key}`
+    if(address=='tinh') {
+      url='http://localhost:3000/data/tinh'
+    } 
+    fetch(url).then(respon=>respon.json()).then(data=>{
+    data.forEach(element => {
+      if(element.id==key1){
+        $(id).append(`<option value="${element.id}">${element.ten}</option>`)
+      }
     })
   })
-  //select tỉnh
-  $('#tinh').change(function(){
-    var a=$(this).val()
-    load('#tinh',a)
-  })
-  //select huyen
-  $('#huyen').change(function(){
-    var a=$(this).val()
-    load('#huyen',a)
-  })
-  //select xa
-  $('#xa').change(function(){
-    var a=$(this).val()
-    load('#xa',a)
-  })
-  //select xom
-  $('#xom').change(function(){
-    var a=$(this).val()
-    load('#xom',a)
-  })
+  }
+loadInfor('tinh',idTinhPerson,idTinhPerson) 
+loadInfor('huyen',idTinhPerson,idHuyenPerson)
+loadInfor('xa',idHuyenPerson,idXaPerson)
+loadInfor('xom',idXaPerson,idXomPerson)
 </script>
-<script>
-    //  funtion chọn chung
-    function load(a,idSelect){
-      var choose=''
-      var id=''
-      if(a=='#tinh'){
-        choose='huyen'
-        id='#huyen'
-        $('#xa').html('')
-        $('#xom').html('')
-      }
-      else if(a=='#huyen'){
-        choose='xa'
-        id='#xa'
-        $('#xom').html('')
-      }
-      else if(a=='#xa'){
-        choose='xom'
-        id='#xom'
-      }
-      else{
-        choose=''
-        id=''
-      }
-      if(choose!==''){
-        fetch(`http://localhost:3000/data/${choose}/${idSelect}`)
-      .then(respon=>respon.json())
-      .then(data=>{
-        var content=``
-        data.forEach(item => {
-          content+=`<option value="${item.id}">${item.ten}</option>`
-        })
-        $(id).html(content)
-      })
-      }
-    }
-</script> 
+
